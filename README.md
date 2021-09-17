@@ -48,3 +48,12 @@ _las herramientas usadas para crear el proyecto_
 ## Licencia 📄
 
 Este proyecto está bajo la Licencia (MIT LICENSE) - mira el archivo [LICENSE.md](https://github.com/hubotio/hubot/blob/master/LICENSE.md) para detalles
+
+- ## Diagrama de funcionamiento de un sitio Web 🛠️👩‍💻👨‍💻
+
+![Diagrama de funcionamiento de un sitio Web](./Imagenes/2.jpg)
+
+- ## Arquitectura final del proyecto 🛠️
+
+![Arquitectura final del proyecto](./Imagenes/1.jpg)
+
