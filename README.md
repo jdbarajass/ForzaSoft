@@ -51,9 +51,10 @@ Este proyecto está bajo la Licencia (MIT LICENSE) - mira el archivo [LICENSE.md
 
 - ## Diagrama de funcionamiento de un sitio Web 🛠️👩‍💻👨‍💻
 
-![Diagrama de funcionamiento de un sitio Web](./Imagenes/2.jpg)
+![Diagrama de funcionamiento de un sitio Web](./Imagenes/1.jpg)
 
 - ## Arquitectura final del proyecto 🛠️
+![Arquitectura final del proyecto](./Imagenes/2.jpg)
 
-![Arquitectura final del proyecto](./Imagenes/1.jpg)
+
 
