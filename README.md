@@ -27,15 +27,15 @@ _las herramientas usadas para crear el proyecto_
 - [Lenguaje TypeScript ](https://www.typescriptlang.org/)
 - [Java ](https://www.java.com/es/)
 - [Node Js](https://nodejs.org/es/)
-- [Plataformas de desarrollo para Backend (Node JS)]()
-- [Stack MEAN / MERN]()
+- [Plataformas de desarrollo para Backend (Node JS)](https://nodejs.org/en/)
+- [Stack MEAN / MERN](https://en.wikipedia.org/wiki/MEAN_(solution_stack))
 - [JWT / Oatuh 2]()
-- [Heroku]()
-- [Git / GitHub]()
+- [Heroku](https://www.heroku.com/)
+- [Git / GitHub](https://github.com/)
 
 # Descripción desarrolladores 📑:
 
-- **Cristian Alberto Ariza Garcia**:
+- **Cristian Alberto Ariza Garcia**: Soy ingeniero de petróleos con experiencia en levantamiento artificial y producción de hidrocarburos, en búsqueda de dominar habilidades que me permitan desenvolverme en esta incipiente cuarta revolución industrial.
 
 - **James Nebardo Mosquera Narvaez**:
 
