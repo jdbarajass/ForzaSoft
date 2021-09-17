@@ -21,7 +21,7 @@ _ScrumTeam_
 _las herramientas usadas para crear el proyecto_
 
 - [React JS]()
-- [HTML 5 ]()
+- [HTML 5 ](http://html5.com/)
 - [CSS3 ]()
 - [Lenguaje JavaScript ]()
 - [Lenguaje TypeScript ]()
