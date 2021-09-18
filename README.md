@@ -7,6 +7,8 @@ Esta rama contendrá el historial completo del proyecto, mientras que main conte
 
 Cada nueva característica debe residir en su propia rama, que puede ser empujado al repositorio central para la copia de seguridad / colaboración. Pero, en lugar de derivar de la rama principal, las ramas de las características utilizan la rama de desarrollo como su rama principal. Cuando una característica está completa, se fusiona de nuevo en el desarrollo o development. Las características nunca deben interactuar directamente con la rama principal.
 
+[más información](https://www.atlassian.com/es/git/tutorials/comparing-workflows/gitflow-workflow) @icn-f5ac
+
 
 
 ## Autores ✒️
@@ -18,5 +20,3 @@ _ScrumTeam_
 - **José De Jesús Barajas Sotelo**: - _Product Owner_ - [jdbarajass](https://github.com/jdbarajass)
 - **Jairo Enrique Aquite Ramirez**: - _Administrador BD_ - [jaquite](https://github.com/jaquite)
 - **Luis Fernando Yepes Molina**: - _Scrum Master_ - [luisfer-2019](https://github.com/luisfer-2019)
-
-Traducción realizada con la versión gratuita del traductor www.DeepL.com/Translator
