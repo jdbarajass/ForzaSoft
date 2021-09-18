@@ -8,3 +8,5 @@ Cuando el código fuente en la rama de desarrollo (develop) alcanza un punto est
 Las ramas de lanzamiento (Release) apoyan la preparación de una nueva versión de producción. Permiten poner los puntos sobre las íes a última hora. Además, permiten corregir errores menores y preparar los metadatos de una versión (número de versión, fechas de compilación, etc.). Al hacer todo este trabajo en una rama de lanzamiento, la rama de desarrollo queda libre para recibir las características de la siguiente gran versión.
 
 El momento clave para bifurcar una nueva rama de lanzamiento desde develop es cuando develop (casi) refleja el estado deseado de la nueva versión. Al menos todas las características que están destinadas a la versión que se va a construir deben ser fusionadas en develop en este momento. Todas las características dirigidas a futuras versiones no pueden, deben esperar hasta después de que la rama de lanzamiento se ramifique.
+
+[más información sobre el git-flow](https://nvie.com/posts/a-successful-git-branching-model/)
