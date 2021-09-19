@@ -41,7 +41,7 @@ _las herramientas usadas para crear el proyecto_
 
 - **José De Jesús Barajas Sotelo**: ¡Hola! Soy estudiante desarrollador joven colombiano. Decidí involucrarme en el mundo de la tecnología con mi carrera como Ing. en control y automatización, ya que me fascina y es la trayectoria que sigue el mundo. Tengo conocimientos en electrónica, instrumentación, automatización y control; manejo lenguajes de programación como C++, Java, Labview, JavaScript, Python, Matlab, R studio, entre otros.
 
-- **Jairo Enrique Aquite Ramirez**:
+- **Jairo Enrique Aquite Ramirez**: Soy Ingeniero Electronico y Telecomunicaciones , Especialista en Gestion energetica, Auditor de la norma Iso 5001 , Master en ingenieria electronica y Estudiante de Master en administracion , busco montar una plataforma digitial como emprendimiento que permita desarrollar un nuevo mercado.
 
 - **Luis Fernando Yepes Molina**:
 
