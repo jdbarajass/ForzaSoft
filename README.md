@@ -43,7 +43,7 @@ _las herramientas usadas para crear el proyecto_
 
 - **Jairo Enrique Aquite Ramirez**: Soy Ingeniero Electronico y Telecomunicaciones , Especialista en Gestion energetica, Auditor de la norma Iso 5001 , Master en ingenieria electronica y Estudiante de Master en administracion , busco montar una plataforma digitial como emprendimiento que permita desarrollar un nuevo mercado.
 
-- **Luis Fernando Yepes Molina**:
+- **Luis Fernando Yepes Molina**: Soy tecnólogo en sistemas, actualmente en proceso de obtener el titulo de ingeniero, me gusta el mundo de la programación ya que me gusta resolver problemas, tengo conocimientos en lenguajes como Java, C++, Python, Cobol, entre otros. Mi objetivo es poder especializarme en los lenguajes de programación más eficientes y más robustos.
 
 ## Licencia 📄
 
