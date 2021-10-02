@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Google from "media/LogoGoogle.png";
 
 const Login = () => {
   return (
@@ -10,37 +11,56 @@ const Login = () => {
       <form className="mt-8 max-w-md">
         <div>
           <input
-            className="appearence-none px-3 py-2 border border-gray-300 text-gray-900 rounded-none relative blobk w-full focus:outline-none focus:ring-indigo-500"
+            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="email"
-            placeholder="dsl@c.com"
+            placeholder="Correo electrónico"
             required
           />
           <input
-            className="appearence-none px-3 py-2 border border-gray-300 text-gray-900 rounded-none relative blobk w-full focus:outline-none focus:ring-indigo-500"
-            type="email"
-            requiredtype="password"
+            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            type="password"
+            placeholder="Contraseña"
             required
           />
         </div>
         <div className="flex justify-between">
-          <div>
-            <label htmlFor="recuerdame">
+          <div className="p-6">
+            <label
+              className="ml-2 block text-sm text-gray-900"
+              htmlFor="recuerdame"
+            >
               <input type="checkbox" name="recuerdame" />
               Recuérdame
             </label>
           </div>
-          <div>
+          <div className="p-6 text-indigo-700 font-medium text-indigo-6 hover:text-indigo-500">
             <Link to="/">¿Olvidaste tu contraseña?</Link>
           </div>
         </div>
-        <div>
+        <div className="flex justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700">
           <Link to="/admin">
             <button type="submit">Iniciar Sesión</button>
           </Link>
         </div>
-        <div>O</div>
-        <div>
-          <button>Inicia Sesión Con Google</button>
+        <div className="flex justify-between">
+          <div className="p-2">
+            <label htmlFor="recuerdame">¿No tienes cuenta?</label>
+          </div>
+          <div className="p-2 text-indigo-700 font-medium text-indigo-6 hover:text-indigo-500">
+            <Link to="/">Regístrate</Link>
+          </div>
+        </div>
+        <div className="flex justify-center">
+          ------------------------O-------------------------{" "}
+        </div>
+        <div className=" flex justify-center bg-gray-200 p-2 text-black rounded-lg shadow-md hover:bg-blue-100">
+          <img
+            className="w-full"
+            src={Google}
+            alt="Logo Google"
+            class="h-6 w-6"
+          />
+          <button className="p-2">Inicia Sesión Con Google</button>
         </div>
       </form>
     </div>
