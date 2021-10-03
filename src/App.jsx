@@ -8,7 +8,7 @@ import Clientes from "pages/admin/Clientes";
 import PagIndex from "pages/auth/PagIndex";
 import Login from "pages/auth/Login";
 import Registro from "pages/auth/Registro";
-import GestionUsuarios from "pages/admin/GestionUsuarios";
+import Usuarios from "pages/admin/Usuarios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "Styles/styles.css";
 import { DarkModeContext } from "context/darkMode";
@@ -24,7 +24,7 @@ function App() {
       <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
         <Router>
           <Switch>
-            <Route path={["/admin", "/admin/Diseno3D", "/admin/Clientes", "admin/GestionUsuarios"]}>
+            <Route path={["/admin", "/admin/Diseno3D", "/admin/Clientes", "admin/Usuarios"]}>
               <PrivateLayout>
                 <Switch>
                   <Route path="/admin/Diseno3D">
@@ -33,6 +33,9 @@ function App() {
                   <Route path="/admin/Clientes">
                     <Clientes />
                   </Route>
+                  <Route path="/admin/Usuarios">
+                    <Usuarios />
+                  </Route>                  
                   <Route path="/admin">
                     <Admin />
                   </Route>

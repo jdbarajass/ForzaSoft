@@ -1,11 +1,12 @@
 import React from 'react'
 
-const GestionUsuarios = () => {
+function Usuarios() {
     return (
+             
         <div>
             Gestion de usuarios 
         </div>
     )
 }
 
-export default GestionUsuarios
+export default Usuarios
