@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <nav className="hidden sm:flex sm:w-72 border border-gray-300 h-full flex-col bg-gray-200 p-4 sidebar">
+    <nav className="hidden sm:flex sm:w-72 border border-gray-300 h-full flex-col bg-gray-200       p-4 sidebar">
       <Link to="/admin">
         <ImagenLogo />
       </Link>
 
       <div className="my-4">
         <Ruta icono="fas fa-user" ruta="/admin/perfil" nombre="Perfil" />
-        <Ruta icono="fas fa-car" ruta="/admin/vehiculos" nombre="Diseño 3D" />
+        <Ruta icono="fas fa-car" ruta="/admin/Diseno3D" nombre="Diseño 3D" />
         <Ruta
           icono="fas fa-cash-register"
           ruta="/admin/ventas"
