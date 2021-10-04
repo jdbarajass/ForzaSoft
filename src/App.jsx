@@ -5,6 +5,8 @@ import PublicLayout from "layouts/PublicLayout";
 import Admin from "pages/admin/PagIndexAdmin";
 import Diseno3D from "pages/admin/Diseno3D";
 import Clientes from "pages/admin/Clientes";
+import Usuario from "pages/admin/Usuario";
+import Ventas from "pages/admin/Ventas";
 import PagIndex from "pages/auth/PagIndex";
 import Login from "pages/auth/Login";
 import Registro from "pages/auth/Registro";
@@ -29,8 +31,14 @@ function App() {
                   <Route path="/admin/Diseno3D">
                     <Diseno3D />
                   </Route>
+                  <Route path="/admin/Usuarios">
+                    <Usuario />
+                  </Route>
                   <Route path="/admin/Clientes">
                     <Clientes />
+                  </Route>
+                  <Route path="/admin/Ventas">
+                    <Ventas />
                   </Route>
                   <Route path="/admin">
                     <Admin />
