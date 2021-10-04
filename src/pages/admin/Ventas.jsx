@@ -44,6 +44,7 @@ const Ventas = () => {
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col">Subtotal</th>
+                            <th scope="col">Accion</th>
                         </tr>
 
                         <tr>
@@ -55,6 +56,7 @@ const Ventas = () => {
                             <td>1</td>
                             <th scope="col"></th>
                             <td>192.02</td>
+                            <td><button className="button">Agregar</button></td>
                         </tr>
 
                         <tr>
@@ -66,6 +68,7 @@ const Ventas = () => {
                             <td>1</td>
                             <th scope="col"></th>
                             <td>199.99</td>
+                            <td><button className="button">Agregar</button></td>
                         </tr>
 
                         <tr>
@@ -77,6 +80,7 @@ const Ventas = () => {
                             <td>2</td>
                             <th scope="col"></th>
                             <td>250.10</td>
+                            <td><button className="button">Agregar</button></td>
                         </tr>
 
                         <tr>
@@ -88,7 +92,9 @@ const Ventas = () => {
                             <td>4</td>
                             <th scope="col"></th>
                             <td><strong>517.06</strong></td>
+                           
                         </tr>
+
                     </table>
                 </div>
 
