@@ -58,7 +58,14 @@ const Usuario = () => {
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
                     <div className="">
                         <Link to="/admin/GestionarUsuarios">
-                            <button type="button" class="px-3 btn btn-primary">Gestionar Usuarios</button>   
+                            <button type="button" class="px-3 btn btn-primary">Gestionar usuarios</button>   
+                        </Link>
+                    </div>
+                </div>
+                <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
+                    <div className="">
+                        <Link to="/admin/GestionarUsuarios">
+                            <button type="button" class="px-3 btn btn-primary">Listar usuarios</button>   
                         </Link>
                     </div>
                 </div>
