@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.button {
+    display: inline-block;
+    padding: 5px 5px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #2393be;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px #999;
+  }
+  
+  .button:hover {
+    background-color: #007CCA;
+    color: white;
+  }
+  .button:active {
+    background-color: #3da2dd;
+    box-shadow: 0 5px #666;
+    transform: translateY(3px);
+  }
+  
+  .espacios{
+    margin: 10px;
+    padding: 30px;
+  }
