@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div className="App">
-      <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+      <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>{/* El estado que quiero que se transmita a lo largo del resto de la aplicacion*/}
         <Router>
           <Switch>
             <Route path={["/admin", "/admin/Diseno3D", "/admin/Clientes"]}>

@@ -17,7 +17,7 @@ const Registro = () => {
               autoComplete="email"
               required
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Jose"
+              placeholder="e.j. Jose"
             />
           </label>
           <label htmlFor="apellido">
@@ -27,7 +27,7 @@ const Registro = () => {
               type="text"
               required
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Barajas"
+              placeholder="e.j. Barajas"
             />
           </label>
           <label htmlFor="telefono">
@@ -37,7 +37,7 @@ const Registro = () => {
               type="tel"
               required
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="3144065520"
+              placeholder="e.j. 3144065520"
             />
           </label>
           <label htmlFor="nacimiento">

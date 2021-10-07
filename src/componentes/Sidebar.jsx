@@ -11,12 +11,8 @@ const Sidebar = () => {
 
       <div className="my-4">
         <Ruta icono="fas fa-user" ruta="/admin/perfil" nombre="Perfil" />
-        <Ruta icono="fas fa-car" ruta="/admin/Diseno3D" nombre="Diseño 3D" />
-        <Ruta
-          icono="fas fa-cash-register"
-          ruta="/admin/ventas"
-          nombre="Ventas"
-        />
+        <Ruta icono="fas fa-cubes" ruta="/admin/Diseno3D" nombre="Diseño 3D" />
+        <Ruta icono="fas fa-cash-register" ruta="/admin/ventas" nombre="Ventas"/>
         <Ruta icono="fas fa-users" ruta="/admin/usuarios" nombre="Usuarios" />
       </div>
       <button className="button">Cerrar Sesión</button>
@@ -29,6 +25,7 @@ const Ruta = ({ icono, ruta, nombre }) => {
     <Link to={ruta}>
       <button className="p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
         <i className={`${icono} w-10`} />
+        {/*i className={`${icono} es un icono que se trae de la web de la pág fantawesone */}
         {nombre}
       </button>
     </Link>
