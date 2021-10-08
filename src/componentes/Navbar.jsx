@@ -31,3 +31,4 @@ export default Navbar;
 // text-white rounded-lg = adentro del boton el text cambia el color del texto y el rounded lo que hace es redondear los bordes del boton
 // shadow-md = lo que hace es ponerle sombra al boton
 // hover: bg-indigo-700 = cuando me posicione en el boton cambie el color a un poquito más oscuro
+  /* La funcion Link a diferencia de la etiqueda a que lleva <a ref=...> es que la etiqueta a hace nuevas peticiones, la funcion Link no, solo navega entre las mismas paginas del HTML y es mucho más rapido */

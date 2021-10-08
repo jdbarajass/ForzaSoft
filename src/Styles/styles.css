@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @media (max-width: 600px) {
+  .sidebar{
+    display:none
+  }
+} Este codigo lo que me permite si lo exporto en el proyecto es que para pantallas menores a la resolución de 600px no va a mostrar el sidebar es reponsive*/
 
 .button {
     display: inline-block;

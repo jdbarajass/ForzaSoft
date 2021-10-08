@@ -23,7 +23,8 @@ function App() {
 
   return (
     <div className="App">
-      <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>{/* El estado que quiero que se transmita a lo largo del resto de la aplicacion*/}
+      <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+        {/* El estado que quiero que se transmita a lo largo del resto de la aplicacion*/}
         <Router>
           <Switch>
             <Route path={["/admin", "/admin/Diseno3D", "/admin/Clientes"]}>
@@ -39,6 +40,7 @@ function App() {
                     <GestionarUsuarios />
                   </Route>
                   <Route path="/admin/Clientes">
+                    {/* Nombre de la ruta a la que quiero llegar */}
                     <Clientes />
                   </Route>
                   <Route path="/admin/Ventas">
@@ -63,6 +65,7 @@ function App() {
               </AuthLayout>
             </Route>
             <Route path={["/"]}>
+              {/* Esto quiere decir que es la ruta principal */}
               <PublicLayout>
                 <Switch>
                   <Route path="/">
@@ -82,3 +85,6 @@ export default App;
 
 //<Route path="/"> Ruta base index pagina principal
 // El switch sirve para que el navegador pueda escoger solo una ruta de todas las que hay
+/* Al archivo App.js que es este en donde estamos ubicados le colocamos al final App.jsx
+y esto se hace para que el mismo archivo me autocomplete código de HTML  */
+  /* El 100% de los HTML de react deben estar en el return de una función */
