@@ -3,30 +3,41 @@ import axios from "axios";
 //Estos import que siguen son de reac-toastify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { nanoid } from "nanoid"; //esta libreria es para manejar los key... yarn add nanoid
 
 const Diseno3D = () => {
   const [MostrarTabla, setMostrarTabla] = useState(true); //Rendedirazion Condicional
   const [diseno3D, setdiseno3D] = useState([]);
   const [TextoBoton, setTextoBoton] = useState("Crear nuevo diseño 3D");
   const [ColorBoton, setColorBoton] = useState("indigo"); //Variable para cambiar el valor del color del boton const [ColorBoton, setColorBoton] La variable es ColorBoton y la que actualiza el estado es setColorBoton y el useState ("indigo") es el estado en el que empieza mi variable
+  const [ejecutarConsulta, setEjecutarConsulta] = useState(true)
   useEffect(() => {
-    const obtenerdiseno3D = async () => {
-      // Se creo una variable para poder sincronizar los datos que entrega el Backend
-      const options = {
-        method: "GET",
-        url: "https://vast-waters-45728.herokuapp.com/vehicle/",
-      };
-      await axios
-        .request(options)
-        .then(function (response) {
-          setdiseno3D(response.data);
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
-    };
-    if (MostrarTabla) {
+
+            const obtenerdiseno3D = async () => {
+              // Se creo una variable para poder sincronizar los datos que entrega el Backend
+              const options = {
+                method: "GET",
+                url: "https://vast-waters-45728.herokuapp.com/vehicle/",
+              };
+              await axios
+                .request(options)
+                .then(function (response) {
+                  setdiseno3D(response.data);
+                })
+                .catch(function (error) {
+                  console.error(error);
+                });
+            };
+
+    if (ejecutarConsulta) {
       obtenerdiseno3D();
+      setEjecutarConsulta(false)
+    }
+  }, [ejecutarConsulta]);
+  
+  useEffect(() => {
+    if (MostrarTabla) {
+    setEjecutarConsulta(true)
     }
   }, [MostrarTabla]);
 
@@ -41,9 +52,9 @@ const Diseno3D = () => {
   }, [MostrarTabla]);
   return (
     <div className="flex h-full w-full flex-col items-center justify-start p-8">
-      {" "}
       {/* justify-start es para que se vayan para arriba  y el p-8 es el padding que sirve para separarse del top*/}
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full">
+        {/* el w-full me ayuda a que la tabla tome todo el tamaño completo de la pagina*/}
         <h2 className="text-3xl font-extrabold text-gray-900 ">
           Página de administracion de diseños 3D
         </h2>
@@ -57,7 +68,7 @@ const Diseno3D = () => {
         </button>
       </div>
       {MostrarTabla ? (
-        <Tabladiseno3D listadiseno3D={diseno3D} />
+        <Tabladiseno3D listadiseno3D={diseno3D} setEjecutarConsulta={setEjecutarConsulta } />
       ) : (
         <FormularioCreaciondiseno3D
           setMostrarTabla={setMostrarTabla}
@@ -71,40 +82,141 @@ const Diseno3D = () => {
   );
 };
 
-const Tabladiseno3D = ({ listadiseno3D }) => {
+const Tabladiseno3D = ({ listadiseno3D, setEjecutarConsulta }) => {
   useEffect(() => {
     console.log(
       "este es el listado de vehiculos en el componente de tabla",
       listadiseno3D
     );
   }, [listadiseno3D]);
+
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h2 className="text-2xl font-extrabold text-gray-800">
-        Todos los diseños 3D
-      </h2>
-      <table /* className="flex flex-col justify-center flex-root" */>
+    <div className="flex flex-col items-center justify-center w-full">
+      <h2 className="text-2xl font-extrabold text-gray-800">Todos los diseños 3D</h2>
+      <table className="tabla">
         <thead>
+          {/* los th son los headers de la tabla es decir los que estarán arriba de la misma */}
           <tr>
             <th>Nombre del diseño 3D</th>
             <th>Nombre del material</th>
             <th>Tamaño de la pieza</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {listadiseno3D.map((diseno3D) => {
-            return (
-              <tr>
-                <td>{diseno3D.name}</td>
-                <td>{diseno3D.brand}</td>
-                <td>{diseno3D.model}</td>
-              </tr>
-            );
+            /* siempre que pongamos un .map y en el haya un HTML el primer elemento padre de ese .map tiene que llevar si o  un prop que se llama key. Debo garantizar que el key sea unico dentro del parent de ese .map */
+            return <Filadiseno3D key={nanoid()} diseno3D={diseno3D} setEjecutarConsulta={setEjecutarConsulta} />;
           })}
         </tbody>
       </table>
     </div>
   ); /* La etiqueta de tabla siempre tiene 2 etiquetas un thead y un body */
+};
+
+const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
+  /* Cuando necesite modificar algo que esta dentro de un .map necesito otro componente para poder modificar estas cosas porque sino se complica el code */
+  const [edit, setEdit] = useState(false);
+  const [infoNuevodiseno3D, setinfoNuevodiseno3D] = useState({// se coloca asi porque vamos a manejar un solo estado en todo el formulario
+    name: diseno3D.name,
+    brand: diseno3D.brand,
+    model: diseno3D.model,
+  })
+  const actualizardiseno3D = async() => {
+    console.log(infoNuevodiseno3D)
+    // Con el siguiente codigo lo que me permite es enviar la informacion al backend actulizarla despues de que ya la he editado
+    const options = {
+      method: "PATCH",
+      url: "https://vast-waters-45728.herokuapp.com/vehicle/update", // debe tener al final el update
+      headers: { "Content-Type": "application/json" },
+      data: {...infoNuevodiseno3D, id:diseno3D._id},// debo enviarle el _id y es con diseno3D._id con el guion al piso bajo
+    };
+
+    await axios.request(options).then(function (response) { console.log(response.data); toast.success("Diseno modificado con éxito"); setEdit(false); setEjecutarConsulta(true)}).catch(function (error) { toast.error("Error al modificar el vehiculo"); console.error(error)})
+    // setEdit(false)= lo que hace es que cuando oprima el icono del check vuelve al estado anterior que es el lapiz de modificar
+  }
+
+  const eliminarDiseno3D = async() => {// Esta funcion hace que se elimine el registro que seleccione
+    const options = {
+      method: "DELETE",
+      url: "https://vast-waters-45728.herokuapp.com/vehicle/delete/",
+      headers: { "Content-Type": "application/json" },
+      data: { id: diseno3D._id },
+    };
+    await axios.request(options).then(function (response) { console.log(response.data); toast.success("Diseño 3D eliminado con éxito"); setEjecutarConsulta=(true) }).catch(function (error) { console.error(error); toast.error("Error al eliminar el diseño 3D")})
+  }
+  return (
+    <tr>
+      {
+        // Renderizacion condicional
+        edit ? (
+          <>
+            <td>
+              <input
+                className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
+                type="text"
+                value={infoNuevodiseno3D.name}
+                onChange={(e) =>
+                  setinfoNuevodiseno3D({
+                    ...infoNuevodiseno3D,
+                    name: e.target.value,
+                  })
+                }
+              />
+            </td>
+            <td>
+              <input
+                className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
+                type="text"
+                value={infoNuevodiseno3D.brand}
+                onChange={(e) =>
+                  setinfoNuevodiseno3D({
+                    ...infoNuevodiseno3D,
+                    brand: e.target.value,
+                  })
+                }
+              />
+            </td>
+            <td>
+              <input
+                className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
+                type="text"
+                value={infoNuevodiseno3D.model}
+                onChange={(e) =>
+                  setinfoNuevodiseno3D({
+                    ...infoNuevodiseno3D,
+                    model: e.target.value,
+                  })
+                }
+              />
+            </td>
+          </>
+        ) : (
+          <>
+            <td>{diseno3D.name}</td>
+            <td>{diseno3D.brand}</td>
+            <td>{diseno3D.model}</td>
+          </>
+        )
+      }
+      <td>
+        <div className="flex w-full justify-around">
+          {edit ? (
+            <i
+              onClick={() => actualizardiseno3D()}
+              className="far fa-check-square text-green-700 hover:text-green-500"
+            />
+          ) : (
+            <i
+              onClick={() => setEdit(!edit)} // setEdit(!edit)} se setea el edit en el estado anterior
+              className="fas fa-edit text-yellow-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onclick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
+            />
+          )}
+          <i onclick={() => eliminarDiseno3D() } class="far fa-trash-alt text-red-700 hover:text-red-400"></i>
+        </div>
+      </td>
+    </tr>
+  );
 };
 
 const FormularioCreaciondiseno3D = ({
