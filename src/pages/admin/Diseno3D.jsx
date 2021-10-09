@@ -92,21 +92,29 @@ const Tabladiseno3D = ({ listadiseno3D, setEjecutarConsulta }) => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <h2 className="text-2xl font-extrabold text-gray-800">Todos los diseños 3D</h2>
+      <h2 className="text-2xl font-extrabold text-gray-800">
+        Todos los diseños 3D
+      </h2>
       <table className="tabla">
         <thead>
           {/* los th son los headers de la tabla es decir los que estarán arriba de la misma */}
           <tr>
             <th>Nombre del diseño 3D</th>
-            <th>Nombre del material</th>
-            <th>Tamaño de la pieza</th>
+            <th>Color del materia</th>
+            <th>Material del diseño</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {listadiseno3D.map((diseno3D) => {
             /* siempre que pongamos un .map y en el haya un HTML el primer elemento padre de ese .map tiene que llevar si o  un prop que se llama key. Debo garantizar que el key sea unico dentro del parent de ese .map */
-            return <Filadiseno3D key={nanoid()} diseno3D={diseno3D} setEjecutarConsulta={setEjecutarConsulta} />;
+            return (
+              <Filadiseno3D
+                key={nanoid()}
+                diseno3D={diseno3D}
+                setEjecutarConsulta={setEjecutarConsulta}
+              />
+            );
           })}
         </tbody>
       </table>
