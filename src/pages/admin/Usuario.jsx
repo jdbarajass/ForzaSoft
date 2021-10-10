@@ -1,19 +1,61 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 
+const usersBackend = [
+    {
+        nombres:"Cristian",
+        apellidos:"Ariza",
+        direccion:"12456",
+        telefono:"1234567",
+        correoE:"ca@correo.com",
+        contrasena:"1234"
+    },
+    {
+        nombres:"Usuario2",
+        apellidos:"Surname2",
+        direccion:"12456",
+        telefono:"1234567",
+        correoE:"u2@correo.com",
+        contrasena:"1234"
+    },
+    {
+        nombres:"Usuario3",
+        apellidos:"Surname3",
+        direccion:"12456",
+        telefono:"1234567",
+        correoE:"u3@correo.com",
+        contrasena:"1234"
+    },
+    {
+        nombres:"Usuario4",
+        apellidos:"Surname4",
+        direccion:"12456",
+        telefono:"1234567",
+        correoE:"u4@correo.com",
+        contrasena:"1234"
+    }
+]
 const Usuario = () => {
-
+    
     const [nombres, setNombres] = useState('');
     const [apellidos, setApellidos] = useState('');
     const [direccion, setDireccion] = useState('');
     const [telefono, setTelefono] = useState('');
     const [correoE, setCorreoE] = useState('');
     const [contrasena, setContrasena] = useState('');
+    
     const [mostrarCamposAdicionales, setMostrarCamposAdicionales] = useState(false);
+    
+    const [users, setUsers] = useState([]);
 
     // useEffect(() => {
-    //     return console.log("hola, soy un useEffect que se ejecuta solo una vez cuando la pagina se renderiza, porque tiene el array de dependencias vacío")
+    //     return console.lmog("hola, soy un useEffect que se ejecuta solo una vez cuando la pagina se renderiza, porque tiene el array de dependencias vacío")
     // }, []);
+
+    useEffect(() => {
+        //obtener lista de usuarios desde el front end
+        setUsers(usersBackend);
+    }, []);
 
     useEffect(() => {
         console.log("este es un useEffect que se ejecuta cada vez que cambia la variable nombres")
@@ -105,6 +147,7 @@ const Usuario = () => {
                             <button onClick={() => setMostrarCamposAdicionales(!mostrarCamposAdicionales)} type="button" className="px-3 btn btn-primary">Listar Usuarios</button>   
                     </div>
                 </div>
+                {mostrarCamposAdicionales && <TablaUsuarios listaUsuarios={users}/>}
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
                     <div className="">
                         <Link to="/admin/GestionarUsuarios">
@@ -112,13 +155,15 @@ const Usuario = () => {
                         </Link>
                     </div>
                 </div>
-                {mostrarCamposAdicionales && <TablaUsuarios/>}
             </form>
         </div>
     );
 };
 
-const TablaUsuarios = () =>{
+const TablaUsuarios = ({ listaUsuarios }) =>{
+    useEffect(() => {
+        console.log("este el el listado de usuarios en el componente de tabla", listaUsuarios);
+    }, [listaUsuarios])
     return(
         <div className="flex flex-col items-center justify-center">
             <h2 className = "text-2xl font-extrabold text-gray-800">Todos los usuarios</h2>
@@ -134,35 +179,24 @@ const TablaUsuarios = () =>{
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Cristian</td>
-                        <td>Ariza</td>
-                        <td>abc1</td>
-                        <td>123456</td>
-                        <td>ca@correo.com</td>
-                        <td>1234</td>
-                    </tr>
-                    <tr>
-                        <td>User2</td>
-                        <td>SurnameU2</td>
-                        <td>abc1</td>
-                        <td>123456</td>
-                        <td>u2@correo.com</td>
-                        <td>1234</td>                        
-                    </tr>
-                    <tr>
-                        <td>User3</td>
-                        <td>SurnameU3</td>
-                        <td>abc1</td>
-                        <td>123456</td>
-                        <td>u3@correo.com</td>
-                        <td>1234</td>                        
-                    </tr>
+                    {listaUsuarios.map((user)=>{
+                        return(
+                            <tr>
+                                <td>{user.nombres}</td>
+                                <td>{user.apellidos}</td>
+                                <td>{user.direccion}</td>
+                                <td>{user.telefono}</td>
+                                <td>{user.correoE}</td>
+                                <td>{user.contrasena}</td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         </div>
     );
 }
+
 
 export default Usuario;
 
