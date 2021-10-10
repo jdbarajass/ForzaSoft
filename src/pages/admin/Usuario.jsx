@@ -1,12 +1,34 @@
 import { Link } from "react-router-dom";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Usuario = () => {
 
+    const [nombres, setNombres] = useState('');
+    const [apellidos, setApellidos] = useState('');
+    const [direccion, setDireccion] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [correoE, setCorreoE] = useState('');
+    const [contrasena, setContrasena] = useState('');
 
     useEffect(() => {
             return console.log("hola, soy un useEffect")
-    }, [])
+    }, []);
+
+    const enviarDatosAlBackend = () => {
+        console.log("El valor de la variable Nombres es ", nombres);
+        console.log("El valor de la variable Apellidos es ", apellidos);
+        console.log("El valor de la variable dirección es ", direccion);
+        console.log("El valor de la variable teléfono es ", telefono);
+        console.log("El valor de la variable correo electrónico es ", correoE);
+        console.log("El valor de la variable contraseña es ", contrasena);
+    };
+
+    const cambioDeNombres = (e) => {
+        setNombres(e.target.value);
+    };
+    const cambioDeApellidos = (e) => {
+        setApellidos("apellidos:", e.target.value);
+    };
 
     return (
         <div className="flex flex-col w-full justify-center items-center">
@@ -15,38 +37,50 @@ const Usuario = () => {
             </h2>
             <form className="mt-8 w-3/4">
                 <div>
-                    <input
+                    <input onChange={cambioDeNombres}
                         className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         type="text"
                         placeholder="Nombres"
                         required
                     />
 
-                    <input
+                    <input onChange={cambioDeApellidos}
                         className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         type="text"
                         placeholder="Apellidos"
                         required
                     />
                     <input
+                        onChange = {(e) => {
+                            setDireccion(e.target.value);
+                        }}                    
                         className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         type="text"
                         placeholder="Dirección"
                         required
                     />
                     <input
+                        onChange = {(e) => {
+                            setTelefono(e.target.value);
+                        }}                      
                         className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         type="text"
                         placeholder="Teléfono"
                         required
                     />
                     <input
+                        onChange = {(e) => {
+                            setCorreoE(e.target.value);
+                        }}                      
                         className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         type="email"
                         placeholder="Correo electrónico"
                         required
                     />
                     <input
+                        onChange = {(e) => {
+                            setContrasena(e.target.value);
+                        }}                      
                         className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         type="password"
                         placeholder="Contraseña"
@@ -57,9 +91,7 @@ const Usuario = () => {
 
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
                     <div className="">
-                        <Link to="/admin">
-                            <button type="button" className="px-3 btn btn-primary">Guardar</button>   
-                        </Link>
+                        <button onClick={enviarDatosAlBackend} type="button" className="px-3 btn btn-primary">Guardar</button>   
                     </div>
                 </div>
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
