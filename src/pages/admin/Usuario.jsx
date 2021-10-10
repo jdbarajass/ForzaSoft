@@ -9,10 +9,16 @@ const Usuario = () => {
     const [telefono, setTelefono] = useState('');
     const [correoE, setCorreoE] = useState('');
     const [contrasena, setContrasena] = useState('');
+    const [mostrarCamposAdicionales, setMostrarCamposAdicionales] = useState(false);
+
+    // useEffect(() => {
+    //     return console.log("hola, soy un useEffect que se ejecuta solo una vez cuando la pagina se renderiza, porque tiene el array de dependencias vacío")
+    // }, []);
 
     useEffect(() => {
-            return console.log("hola, soy un useEffect")
-    }, []);
+        console.log("este es un useEffect que se ejecuta cada vez que cambia la variable nombres")
+        console.log("el valor de la variable nombre es ", nombres);
+    }, [nombres]);
 
     const enviarDatosAlBackend = () => {
         console.log("El valor de la variable Nombres es ", nombres);
@@ -96,9 +102,7 @@ const Usuario = () => {
                 </div>
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
                     <div className="">
-                        <Link to="/admin/GestionarUsuarios">
-                            <button type="button" className="px-3 btn btn-primary">Listar Usuarios</button>   
-                        </Link>
+                            <button onClick={() => setMostrarCamposAdicionales(!mostrarCamposAdicionales)} type="button" className="px-3 btn btn-primary">Listar Usuarios</button>   
                     </div>
                 </div>
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
@@ -108,7 +112,7 @@ const Usuario = () => {
                         </Link>
                     </div>
                 </div>
-                <TablaUsuarios/>
+                {mostrarCamposAdicionales && <TablaUsuarios/>}
             </form>
         </div>
     );

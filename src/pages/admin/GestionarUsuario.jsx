@@ -15,7 +15,7 @@ const Usuarios = () => {
                         placeholder="Ingresar ID del usuario"
                         required
                     />                    
-                    <div className className = "mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                    <div className  = "mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
                         <select name="Roles">
                             <option value="">Establezca rol del usuario</option>
                             <option value="Vendedor">Vendedor</option>
@@ -26,7 +26,7 @@ const Usuarios = () => {
                             <option value="Gerente comercial">Gerente comercial</option>
                         </select>
                     </div>
-                    <div className className = "mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                    <div className  = "mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
                         <select name="Estado">
                             <option value="">Establezca estado del usuario</option>
                             <option value="Aprobado">Aprobado</option>
