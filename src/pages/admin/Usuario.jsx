@@ -11,6 +11,7 @@ const Usuario = () => {
     const [contrasena, setContrasena] = useState('');
     const [estado, setEstado] = useState('');
     const [rol, setRol] = useState('');
+    const [ID, setID] = useState('');
     
     const [mostrarCamposAdicionales, setMostrarCamposAdicionales] = useState(false);
     
@@ -87,6 +88,7 @@ const Usuario = () => {
                         required
                     />
                     <input
+                        type="email" required
                         onChange = {(e) => {
                             setCorreoE(e.target.value);
                         }}                      
@@ -96,6 +98,7 @@ const Usuario = () => {
                         required
                     />
                     <input
+                        type="password" required
                         onChange = {(e) => {
                             setContrasena(e.target.value);
                         }}                      
@@ -104,7 +107,7 @@ const Usuario = () => {
                         placeholder="Contraseña"
                         required
                         />
-                    <input
+                    {/* <input
                         onChange = {(e) => {
                             setRol(e.target.value);
                         }}                      
@@ -112,16 +115,37 @@ const Usuario = () => {
                         type="text"
                         placeholder="Rol"
                         required
-                    />
-                    <input
+                    /> */}
+                    <select
+                        onChange = {(e) => {
+                            setRol(e.target.value);
+                        }}
+                        type="text"
+                        required                      
+                        className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        //name="Rol"
+                        >
+                        <option disabled selected hidden>Establezca el rol del usuario</option>
+                        <option value="Vendedor">Vendedor</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Ejecutivo">Ejecutivo</option>
+                        <option value="Operativo">Operativo</option>
+                        <option value="Director">Director</option>
+                        <option value="Gerente comercial">Gerente comercial</option>
+                    </select>                      
+                    <select
                         onChange = {(e) => {
                             setEstado(e.target.value);
-                        }}                      
-                        className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        }}
                         type="text"
-                        placeholder="Estado"
-                        required
-                    />
+                        required                      
+                        className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        //name="Rol"
+                        >
+                        <option disabled selected hidden>Establezca el estado del rol del usuario</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Aprobado">Aprobado</option>
+                    </select>
                 </div>
 
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
@@ -157,24 +181,30 @@ const TablaUsuarios = ({ listaUsuarios }) =>{
             <table cellPadding="10" cellSpacing="10">
                 <thead className="font-extrabold">
                     <tr>
+                        <td>ID</td>
                         <td>Nombres</td>
                         <td>Apellidos</td>
                         <td>Dirección</td>
                         <td>Teléfono</td>
                         <td>Correo electrónico</td>
                         <td>Contraseña</td>
+                        <td>Rol</td>
+                        <td>Estado</td>
                     </tr>
                 </thead>
                 <tbody>
                     {listaUsuarios.map((user)=>{
                         return(
                             <tr>
+                                <td>{user.id}</td>
                                 <td>{user.nombres}</td>
                                 <td>{user.apellidos}</td>
                                 <td>{user.direccion}</td>
                                 <td>{user.telefono}</td>
                                 <td>{user.correoE}</td>
                                 <td>{user.contrasena}</td>
+                                <td>{user.rol}</td>
+                                <td>{user.estado}</td>
                             </tr>
                         );
                     })}
@@ -190,35 +220,47 @@ export default Usuario;
 
 const usersBackend = [
             {
+                id: 1,
                 nombres:"Cristian",
                 apellidos:"Ariza",
                 direccion:"12456",
                 telefono:"1234567",
                 correoE:"ca@correo.com",
-                contrasena:"1234"
+                contrasena:"1234",
+                rol:"ventas",
+                estado:"aprobado"
             },
             {
+                id: 2,
                 nombres:"Usuario2",
                 apellidos:"Surname2",
                 direccion:"12456",
                 telefono:"1234567",
                 correoE:"u2@correo.com",
-                contrasena:"1234"
+                contrasena:"1234",
+                rol:"ventas",
+                estado:"aprobado"                
             },
             {
+                id: 3,
                 nombres:"Usuario3",
                 apellidos:"Surname3",
                 direccion:"12456",
                 telefono:"1234567",
                 correoE:"u3@correo.com",
-                contrasena:"1234"
+                contrasena:"1234",
+                rol:"ventas",
+                estado:"aprobado"                
             },
             {
+                id: 4,
                 nombres:"Usuario4",
                 apellidos:"Surname4",
                 direccion:"12456",
                 telefono:"1234567",
                 correoE:"u4@correo.com",
-                contrasena:"1234"
+                contrasena:"1234",
+                rol:"ventas",
+                estado:"aprobado",                
             }
         ]
