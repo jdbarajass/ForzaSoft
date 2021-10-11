@@ -43,6 +43,8 @@ const Usuario = () => {
     const [telefono, setTelefono] = useState('');
     const [correoE, setCorreoE] = useState('');
     const [contrasena, setContrasena] = useState('');
+    const [estado, setEstado] = useState('');
+    const [rol, setRol] = useState('');
     
     const [mostrarCamposAdicionales, setMostrarCamposAdicionales] = useState(false);
     
@@ -69,6 +71,8 @@ const Usuario = () => {
         console.log("El valor de la variable teléfono es ", telefono);
         console.log("El valor de la variable correo electrónico es ", correoE);
         console.log("El valor de la variable contraseña es ", contrasena);
+        console.log("El valor de la variable estado es ", estado);
+        console.log("El valor de la variable rol es ", rol);
     };
 
     const cambioDeNombres = (e) => {
@@ -132,6 +136,24 @@ const Usuario = () => {
                         className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         type="password"
                         placeholder="Contraseña"
+                        required
+                    />
+                    <input
+                        onChange = {(e) => {
+                            setRol(e.target.value);
+                        }}                      
+                        className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        type="text"
+                        placeholder="Rol"
+                        required
+                    />
+                    <input
+                        onChange = {(e) => {
+                            setEstado(e.target.value);
+                        }}                      
+                        className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        type="text"
+                        placeholder="Estado"
                         required
                     />
 

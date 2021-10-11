@@ -19,7 +19,7 @@ const Usuarios = () => {
                         <select name="Roles">
                             <option value="">Establezca rol del usuario</option>
                             <option value="Vendedor">Vendedor</option>
-                            <option value="Administrador">Admin</option>
+                            <option value="Administrador">Administrador</option>
                             <option value="Ejecutivo">Ejecutivo</option>
                             <option value="Operativo">Operativo</option>
                             <option value="Director">Director</option>
