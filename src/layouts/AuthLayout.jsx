@@ -11,7 +11,9 @@ const AuthLayout = ({ children }) => {
         </Link>
       </div>
       <div className="max-w-md w-full">
+        <Link to="/pagIndex">
         <ImagenLogo />
+        </Link>
         {children}
       </div>
     </div>

@@ -22,3 +22,4 @@ export default PrivateLayout;
 // <main className="flex w-full bg-blue-400">{children}</main>; = este codigo es para que  /// todo el contenido de la pagina ocupe toda la pantalla y ademas tenga ese color azul
 // Y esta plantilla del PribeteLayout lo que hace es que tenga mi sidebar a un lado y mi    //contenido al otro lado
 // overflow-y-scroll =Este codigo sirve para que el sidebar se quede quieto y mi contenido  //sea el que se mueva de lado a lado
+// md:flex-row = Lo que hace es que ubica el icono de hamburger en la parte superior cuando es menor a una pantalla mediana

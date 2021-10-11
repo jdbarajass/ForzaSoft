@@ -15,6 +15,7 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <script src="https://kit.fontawesome.com/d4cd33a1a3.js" crossorigin="anonymous"></script> <!--<script src="https://kit.fontawesome.com/d4cd33a1a3.js" crossorigin="anonymous"></script> = Para lo que sirve esta linea de codigo, es para poder halar iconos de la pagina fonawesome -->
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -29,6 +30,7 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <!-- A acá es en donde va a ir todo mi programa -->
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -41,3 +43,167 @@
     -->
   </body>
 </html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="shortcut icon" href="./icon/ForzaSoft.ico" type="image/x-icon" />
+     FAvicon icono de la página -->
+<!-- Para colocar el icono en la pestaña al lado del nombre de la página web  y shortcut icon se debe usar para los iconos-->
+<!-- Font Awesome es para buscar iconos en internet y obtener su link -
+    <script
+      src="https://kit.fontawesome.com/d4cd33a1a3.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>ForzaSoft</title>
+     Titulo de la pestaña de la página web 
+  </head>
+  <body>
+    <header>
+      <ul class="navbar">
+        <li>
+          Cuando quiero repetir contenido es una buena practica poner eso dentro de listas 
+          <img src="./icon/LOGO.png" alt="imagen" class="logo" />
+        </li>
+        <li>
+          <button class="botonGenerico mainButton">Nuevo post</button>
+        </li>
+        <li>
+          <div class="buscar">
+            <input placeholder="Buscar Componente electronico" />
+            /> Este codigo sirve para que el usuario digite algo es entrada de texto y crea un recuadro y deja adentro el textoBuscar Componente electronico 
+            <i class="fas fa-search botonGenerico iconoBusqueda"></i>
+          </div>
+        </li>
+        <li><button class="botonGenerico secondaryButton">Login</button></li>
+        <li><button class="botonGenerico mainButton">Registro</button></li>
+      </ul>
+    </header>
+    <main>
+      <section>
+        <h1>Componentes eléctronicos </h1>
+        <ul class="breedCardContainer">
+          <li class="breedCard">
+            <div class="contenedorImagen">
+               Contenedores 
+              <img src="./icon/Capacitores.jpg" alt="Capacitores" />
+            </div>
+            <span class="breedTitle">Capacitores </span>
+          </li>
+          <li class="breedCard">
+            <div class="contenedorImagen">
+              <img src="./icon/sensoresyactuadores.jpg" alt="Sensores" />
+            </div>
+            <span class="breedTitle">Sensores</span>
+          </li>
+        </ul>
+      </section>
+      <section></section>
+    </main>
+    <footer></footer>
+  </body>
+</html>
+
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./icon/ForzaSoft.ico" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>ForzaSoft</title>
+    <style>
+      button {
+        background-color: green;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <ul class="navbar">
+        <li>
+          <button class="mainbutton">crear nuevo post</button>
+        </li>
+        <li>
+          <img class="logo" src="./icon/LOGO.png" alt="Logo de la página" />
+        </li>
+        <li>nuevo post</li>
+
+        <li class="buscar">
+          <div>
+            
+            <input
+              placeholder="Buscar algo"
+            />
+            <img class="logo" src="./icon/lupa.png" alt="Logo de la página" />
+          </div>
+        </li>
+
+        <li class="mainbutton">iniciar sesion</li>
+      </ul>
+    </header>
+
+    <main>
+      <section>
+        <h1>Electronica</h1>
+        <ul class="justificarimagenes">
+          <div class="contenedorImagen">
+            <img src="./icon/Capacitores.jpg" alt="Diodo" />
+          </div>
+          <li class="separarimagenes">
+            <div class="contenedorImagen">
+              <img src="./icon/sensoresyactuadores.jpg" alt="Diodo" />
+            </div>
+            Componente 1
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <a href="./index2.html">Regresar a rama Scrum</a>
+    <form>
+      <label for="nombre">
+        ingrese su nombre por favor
+        <input name="nombre" placeholder="Ej: José De Jesús" />
+      </label>
+      <label for="Apellido">
+        ingrese su nombre
+        <input name="Apellido" placeholder="Ej: Barajas Sotelo" />
+      </label>
+      <input type="number" />
+      <input type="date" />
+      <input type="email" />
+      <input type="password" />
+      <input type="checkbox" />
+      <input type="radio" />
+      <input type="file" />
+      <button type="submit">Enviar Datos</button>
+      <button type="submit">Reiniciar</button>
+      <p class="fondoAzul">Esto es un primer parrafo</p>
+      <p class="textonaranja">Esto es un segundo parrafo fgh</p>
+      <p class="textonaranja fondoAzul">Esto es un tercer parrafo</p>
+      <p id="Parrafo4">Esto es un cuarto parrafo</p>
+      <p class="fondoAzul">Pruebas</p>
+      <img class="imagenPequena1" src="./images/1.jpg" alt="imagen 1" />
+      <img src="./images/2.jpg" alt="imagen 1" class="imagenPequena1" />
+      <img
+        class="imagenPequena1"
+        src="./images/create-octocat.png"
+        alt="gato"
+      />
+      <div class="cambiarBordeyMargen">esto es el primer div</div>
+      <div>esto es el segundo div</div>
+      <div>esto es el tercer div</div>
+      <div>esto es el cuarto div</div>
+    </form>
+  </body>
+</html>
+ -->
+
