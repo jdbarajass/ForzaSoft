@@ -1,40 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 
-const usersBackend = [
-    {
-        nombres:"Cristian",
-        apellidos:"Ariza",
-        direccion:"12456",
-        telefono:"1234567",
-        correoE:"ca@correo.com",
-        contrasena:"1234"
-    },
-    {
-        nombres:"Usuario2",
-        apellidos:"Surname2",
-        direccion:"12456",
-        telefono:"1234567",
-        correoE:"u2@correo.com",
-        contrasena:"1234"
-    },
-    {
-        nombres:"Usuario3",
-        apellidos:"Surname3",
-        direccion:"12456",
-        telefono:"1234567",
-        correoE:"u3@correo.com",
-        contrasena:"1234"
-    },
-    {
-        nombres:"Usuario4",
-        apellidos:"Surname4",
-        direccion:"12456",
-        telefono:"1234567",
-        correoE:"u4@correo.com",
-        contrasena:"1234"
-    }
-]
 const Usuario = () => {
     
     const [nombres, setNombres] = useState('');
@@ -81,7 +47,7 @@ const Usuario = () => {
     const cambioDeApellidos = (e) => {
         setApellidos("apellidos:", e.target.value);
     };
-
+    
     return (
         <div className="flex flex-col w-full justify-center items-center">
             <h2 className="m-3 text-center text-3xl font-extrabold text-gray-900">
@@ -137,7 +103,7 @@ const Usuario = () => {
                         type="password"
                         placeholder="Contraseña"
                         required
-                    />
+                        />
                     <input
                         onChange = {(e) => {
                             setRol(e.target.value);
@@ -156,7 +122,6 @@ const Usuario = () => {
                         placeholder="Estado"
                         required
                     />
-
                 </div>
 
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
@@ -222,3 +187,38 @@ const TablaUsuarios = ({ listaUsuarios }) =>{
 
 export default Usuario;
 
+
+const usersBackend = [
+            {
+                nombres:"Cristian",
+                apellidos:"Ariza",
+                direccion:"12456",
+                telefono:"1234567",
+                correoE:"ca@correo.com",
+                contrasena:"1234"
+            },
+            {
+                nombres:"Usuario2",
+                apellidos:"Surname2",
+                direccion:"12456",
+                telefono:"1234567",
+                correoE:"u2@correo.com",
+                contrasena:"1234"
+            },
+            {
+                nombres:"Usuario3",
+                apellidos:"Surname3",
+                direccion:"12456",
+                telefono:"1234567",
+                correoE:"u3@correo.com",
+                contrasena:"1234"
+            },
+            {
+                nombres:"Usuario4",
+                apellidos:"Surname4",
+                direccion:"12456",
+                telefono:"1234567",
+                correoE:"u4@correo.com",
+                contrasena:"1234"
+            }
+        ]
