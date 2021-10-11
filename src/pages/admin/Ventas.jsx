@@ -8,7 +8,7 @@ import { nanoid } from "nanoid"; //esta libreria es para manejar los key... yarn
 const Ventas = () => {
   const [MostrarTabla, setMostrarTabla] = useState(true); //Rendedirazion Condicional
   const [venta, setventa] = useState([]);
-  const [TextoBoton, setTextoBoton] = useState("Crear nuevo diseño 3D");
+  const [TextoBoton, setTextoBoton] = useState("Crear Venta");
   const [ColorBoton, setColorBoton] = useState("indigo"); //Variable para cambiar el valor del color del boton const [ColorBoton, setColorBoton] La variable es ColorBoton y la que actualiza el estado es setColorBoton y el useState ("indigo") es el estado en el que empieza mi variable
   const [ejecutarConsulta, setEjecutarConsulta] = useState(true)
   useEffect(() => {
@@ -43,10 +43,10 @@ const Ventas = () => {
 
   useEffect(() => {
     if (MostrarTabla) {
-      setTextoBoton("Crear nuevo diseño 3D");
+      setTextoBoton("Crear Nueva Venta");
       setColorBoton("indigo");
     } else {
-      setTextoBoton("Mostrar todos los diseños");
+      setTextoBoton("Mostrar todas las ventas");
       setColorBoton("green");
     }
   }, [MostrarTabla]);
@@ -56,7 +56,7 @@ const Ventas = () => {
       <div className="flex flex-col w-full">
         {/* el w-full me ayuda a que la tabla tome todo el tamaño completo de la pagina*/}
         <h2 className="text-3xl font-extrabold text-gray-900 ">
-          Página de administracion de diseños 3D
+          Página de administracion de Ventas
         </h2>
         <button
           onClick={() => {
@@ -85,7 +85,7 @@ const Ventas = () => {
 const Tablaventa = ({ listaventa, setEjecutarConsulta }) => {
   useEffect(() => {
     console.log(
-      "este es el listado de vehiculos en el componente de tabla",
+      "este es el listado de ventas en el componente de tabla",
       listaventa
     );
   }, [listaventa]);
@@ -93,7 +93,7 @@ const Tablaventa = ({ listaventa, setEjecutarConsulta }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <h2 className="text-2xl font-extrabold text-gray-800">
-        Todos los diseños 3D
+        Todas  las Ventas
       </h2>
       <table className="tabla">
         <thead>
@@ -143,7 +143,7 @@ const Filaventa = ({ venta, setEjecutarConsulta }) => {
       data: {...infoNuevoventa, id:venta._id},// debo enviarle el _id y es con venta._id con el guion al piso bajo
     };
 
-    await axios.request(options).then(function (response) { console.log(response.data); toast.success("Diseno modificado con éxito"); setEdit(false); setEjecutarConsulta(true)}).catch(function (error) { toast.error("Error al modificar el vehiculo"); console.error(error)})
+    await axios.request(options).then(function (response) { console.log(response.data); toast.success("Venta modificado con éxito"); setEdit(false); setEjecutarConsulta(true)}).catch(function (error) { toast.error("Error al modificar la venta"); console.error(error)})
     // setEdit(false)= lo que hace es que cuando oprima el icono del check vuelve al estado anterior que es el lapiz de modificar
   }
 
@@ -154,7 +154,7 @@ const Filaventa = ({ venta, setEjecutarConsulta }) => {
       headers: { "Content-Type": "application/json" },
       data: { id: venta._id },
     };
-    await axios.request(options).then(function (response) { console.log(response.data); toast.success("Diseño 3D eliminado con éxito"); setEjecutarConsulta=(true) }).catch(function (error) { console.error(error); toast.error("Error al eliminar el diseño 3D")})
+    await axios.request(options).then(function (response) { console.log(response.data); toast.success("Venta eliminada con éxito"); setEjecutarConsulta=(true) }).catch(function (error) { console.error(error); toast.error("Error al eliminar la Venta")})
   }
   return (
     <tr>
@@ -243,49 +243,49 @@ const FormularioCreacionventa = ({
     //El codigo async = Es para dar a entender que es asincrono es decir que debo esperar a que de parte del BACKEND me envien una respuesta y para ayudar al usuario a esperar colocamos un logo que esta cargando hasta obtener una respuesta despues le pasamos las opciones a axios.request(options) generamos la respuesta con response.data y mostramos el mensaje de toast.success("El diseño fue agregado con éxito")
     e.preventDefault(); //prevedir el evento por defecto que es redirigir a alguna parte
     const fd = new FormData(form.current);
-    const nuevodiseno = {};
+    const nuevaventa = {};
     fd.forEach((value, key) => {
-      nuevodiseno[key] = value;
+        nuevaventa[key] = value;
     });
 
     const options = {
-      method: "POST", // lo que quiero crear. Este es el metodo y puede ser GET POST PUT/PATH ó DELETE en este caso se uso POST porque queremos crear un nuevo diseño 3D
+      method: "POST", // lo que quiero crear. Este es el metodo y puede ser GET POST PUT/PATH ó DELETE en este caso se uso POST porque queremos crear un nuevo registro
       url: "https://vast-waters-45728.herokuapp.com/venta/create", //Donde esta el api
       headers: { "Content-Type": "application/json" },
-      data: { name: "Renault", brand: "Sandero", model: 2020 }, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
+      data: { cliente: "Renault", factura: "FZ22458287", valor: 2020 , fecha:"10/10/2021",vendedor:"Juan"}, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
     };
 
     await axios // await = Se debe colocar con el sync para que espere una respuesta del BACKEND
       .request(options)
       .then(function (response) {
         console.log(response.data); //console.log(response.data) esta parte de codigo muestra si es satisfactorio la creacion del diseño3D
-        toast.success("El diseño fue agregado con éxito");
+        toast.success("Venta fue agregado con éxito");
       })
       .catch(function (error) {
         console.error(error);
-        toast.error("El diseño NO fue agregado con éxito");
+        toast.error("Venta NO fue agregado con éxito");
       }); // console.error(error) y esta parte de codigo muestra una ventana emergente si hay algun tipo de error en la creacion del diseño3D
     setMostrarTabla(true);
   };
   return (
     <div className="flex flex-col items-center justify-center">
       <h2 className="text-2xl font-extrabold text-gray-800 m-2">
-        Crear una
+        Crear una Venta
       </h2>
       <form ref={form} onSubmit={submitForm} className="flex flex-col">
         {/* grid grid-cols-2 Grid en 2 columnas */}
-        <label className="flex flex-col" htmlFor="nombre">
-          Cliente
+        <label className="flex flex-col" htmlFor="fecha">
+        fecha
           <input
-            name="nombre"
+            name="fecha"
             className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
             type="text"
-            placeholder="Cliente"
+            placeholder="fecha"
             required
           />
         </label>
-        <label className="flex flex-col" htmlFor="color">
-          Color del materia
+        <label className="flex flex-col" htmlFor="vendedor">
+        vendedor
           <select
             className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
             name="color"
@@ -297,35 +297,34 @@ const FormularioCreacionventa = ({
               Selecione una opcion
             </option>{" "}
             {/* disable es para que no pueda seleccionar esa opcion */}
-            <option>Amarillo</option>
-            <option>Azul</option>
-            <option>Negro</option>
-            <option>Blanco</option>
-            <option>Rojo</option>
+            <option>Juan </option>
+            <option>Mateo</option>
+            <option>Marcos</option>
+            <option>Lucas</option>
           </select>
         </label>
-        <label className="flex flex-col" htmlFor="material">
-          Material del diseño
+        <label className="flex flex-col" htmlFor="cliente">
+          Cliente
           <select
             className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
-            name="material"
+            name="cliente"
+            defaultValue={0}
             required
           >
             {/* la estructura para hacer un seleccionador es label select y despues option*/}
-            <option disabled>Selecione una opcion</option>{" "}
+            <option disabled value={0}>Selecione una opcion</option>{" "}
             {/* disable es para que no pueda seleccionar esa opcion */}
-            <option>Filamento ABS</option>
-            <option>Filamento flexible</option>
-            <option>Filamento PC</option>
-            <option>Filamentos PETG</option>
-            <option>Filamento fibra de carbono</option>
-          </select>
+            <option>Nutresa</option>
+            <option>Scotia bank</option>
+            <option>Avvillas</option>
+            </select>
         </label>
+
         <button
           type="submit"
           className="col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white m-2"
         >
-          Guardar Diseño
+          Guardar Venta
         </button>
         {/* col-span-2 para que ocupe 2 columnas el boton completo shadow-md pone una sombra abajo del boton */}
       </form>
