@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { Toast } from "react-toastify/dist/components";
 
 const Usuario = () => {
     
@@ -32,14 +35,8 @@ const Usuario = () => {
     }, [nombres]);
 
     const enviarDatosAlBackend = () => {
-        console.log("El valor de la variable Nombres es ", nombres);
-        console.log("El valor de la variable Apellidos es ", apellidos);
-        console.log("El valor de la variable dirección es ", direccion);
-        console.log("El valor de la variable teléfono es ", telefono);
-        console.log("El valor de la variable correo electrónico es ", correoE);
-        console.log("El valor de la variable contraseña es ", contrasena);
-        console.log("El valor de la variable estado es ", estado);
-        console.log("El valor de la variable rol es ", rol);
+        console.log("El valor de la variable Nombres es ", nombres, "El valor de la variable Apellidos es ", apellidos, "El valor de la variable dirección es ", direccion, "El valor de la variable teléfono es ", telefono, "El valor de la variable correo electrónico es ", correoE, "El valor de la variable contraseña es ", contrasena, "El valor de la variable estado es ", estado, "El valor de la variable rol es ", rol);
+        toast.success("Mensaje")
     };
 
     const cambioDeNombres = (e) => {
@@ -153,6 +150,11 @@ const Usuario = () => {
                         <button onClick={enviarDatosAlBackend} type="button" className="px-3 btn btn-primary">Guardar</button>   
                     </div>
                 </div>
+                <span className="text-gray-500">Usuario agregado con éxito</span>
+                <span className="text-red-500">Error al agregar usuario</span>
+
+                <ToastContainer position='bottom-center' autoClose={5000} />
+
                 <div className="my-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 my-2 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
                     <div className="">
                             <button onClick={() => setMostrarCamposAdicionales(!mostrarCamposAdicionales)} type="button" className="px-3 btn btn-primary">Listar Usuarios</button>   
