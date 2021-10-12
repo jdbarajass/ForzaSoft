@@ -1,3 +1,4 @@
+//Esto es un hook personalizado es un componente generico que se puede usar en todo el proyecto siempre que se ise reac-router-dom
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 // Hook personalizado useActiveRoute ... el archivo no es .jsx porque no tiene HTML e importante deben empezar con use para que se sepa que es un hook
