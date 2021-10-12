@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import axios from "axios";// axios es front y express es back pero son como hermanos ya que uno envia las solicitudes (axios) y el otro las recibe (express)
 //Estos import que siguen son de reac-toastify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -76,7 +76,7 @@ const Diseno3D = () => {
       ) : (
         <FormularioCreaciondiseno3D
           setMostrarTabla={setMostrarTabla}
-          listaVehiculos={diseno3D}
+          listadiseno3D={diseno3D}
           setdiseno3D={setdiseno3D}
         />
       )}
@@ -111,40 +111,42 @@ const Tabladiseno3D = ({ listadiseno3D, setEjecutarConsulta }) => {
         Todos los diseños 3D
       </h2>
       <div className="hidden md:flex w-full">
-      <table className="tabla">
-        <thead>
-          {/* los th son los headers de la tabla es decir los que estarán arriba de la misma */}
-          <tr>
-            <th>Nombre del diseño 3D</th>
-            <th>Color del materia</th>
-            <th>Material del diseño</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {diseno3DFiltrados.map((diseno3D) => {
-            /* siempre que pongamos un .map y en el haya un HTML el primer elemento padre de ese .map tiene que llevar si o  un prop que se llama key. Debo garantizar que el key sea unico dentro del parent de ese .map */
-            return (
-              <Filadiseno3D
-                key={nanoid()}
-                diseno3D={diseno3D}
-                setEjecutarConsulta={setEjecutarConsulta}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+        {" "}
+        {/* Esto es responsive y el proyecto quedo con 3 etapas que en pantallas pequeñas quedan unos cards para cada diseño 3D, en pantallas medianas queda la tabla y en pantallas grandes queda el sidebar y la tabla */}
+        <table className="tabla">
+          <thead>
+            {/* los th son los headers de la tabla es decir los que estarán arriba de la misma */}
+            <tr>
+              <th>Nombre del diseño 3D</th>
+              <th>Color del materia</th>
+              <th>Material del diseño</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {diseno3DFiltrados.map((diseno3D) => {
+              /* siempre que pongamos un .map y en el haya un HTML el primer elemento padre de ese .map tiene que llevar si o  un prop que se llama key. Debo garantizar que el key sea unico dentro del parent de ese .map */
+              return (
+                <Filadiseno3D
+                  key={nanoid()}
+                  diseno3D={diseno3D}
+                  setEjecutarConsulta={setEjecutarConsulta}
+                />
+              );
+            })}
+          </tbody>
+        </table>
       </div>
       <div className="flex flex-col w-full m-2 md:hidden">
-        {diseno3DFiltrados.map(el => {
+        {/* Esto es responsive */}
+        {diseno3DFiltrados.map((el) => {
           return (
-            
             <div className="bg-gray-400 m-2 shadow-xl flex flex-col p-2 rounded-xl">
               <span>{el.name}</span>
               <span>{el.brand}</span>
               <span>{el.model}</span>
-          </div>
-          )
+            </div>
+          );
         })}
       </div>
     </div>
@@ -180,7 +182,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
         setEjecutarConsulta(true);
       })
       .catch(function (error) {
-        toast.error("Error al modificar el vehiculo");
+        toast.error("Error al modificar el diseño 3D");
         console.error(error);
       });
     // setEdit(false)= lo que hace es que cuando oprima el icono del check vuelve al estado anterior que es el lapiz de modificar
@@ -284,7 +286,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
               {/*<></>=fragmento vacio porque todos los componentes deben tener un padre */}
               <Tooltip title="Editar Diseño 3D" arrow>
                 <i
-                  onClick={() => setEdit(!edit)} // setEdit(!edit)} se setea el edit en el estado anterior
+                  onClick={() => setEdit(!edit)} // setEdit(!edit)} se setea el edit en el estado anterior ... arrow = Es basicamente la flechita la guia del Tooltip
                   className="fas fa-edit text-yellow-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onclick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
                 />
               </Tooltip>
