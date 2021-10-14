@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { uuid } from 'uuidv4';
+import { v5 as uuidv5 } from 'uuid';
 
 const usersBackend = [
 {
@@ -198,7 +199,8 @@ const FormularioCreacionUsuarios = ( {
         //console.log("El valor de la variable Nombres es ", nombres, "El valor de la variable Apellidos es ", apellidos, "El valor de la variable dirección es ", direccion, "El valor de la variable teléfono es ", telefono, "El valor de la variable correo electrónico es ", correoE, "El valor de la variable contraseña es ", contrasena, "El valor de la variable estado es ", estado, "El valor de la variable rol es ", rol);
         toast.success("Usuario creado con éxito");
         funcionParaMostrarTabla(true);
-        funcionParaAgregarUsuario([...listaUsuarios,{id:uuid(), nombres:nombres, apellidos:apellidos, direccion: direccion, telefono: telefono, correoE: correoE, contrasena: contrasena, rol: rol, estado: estado}]);
+        const MY_NAMESPACE = 'c4f37b4d-f1f0-4d66-91a5-4e90c0df08fc';
+        funcionParaAgregarUsuario([...listaUsuarios,{id:uuidv5(nombres+apellidos+direccion+telefono+correoE, MY_NAMESPACE), nombres:nombres, apellidos:apellidos, direccion: direccion, telefono: telefono, correoE: correoE, contrasena: contrasena, rol: rol, estado: estado}]);
         console.log(listaUsuarios);
     };
 
