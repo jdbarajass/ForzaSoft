@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+//import { ToastContainer, toast } from "react-toastify";
+//import 'react-toastify/dist/ReactToastify.css';
 import { uuid } from 'uuidv4';
 import { v5 as uuidv5 } from 'uuid';
 
@@ -130,7 +130,7 @@ const Usuario = () => {
                         </Link>
                     </div>
                 </div>
-                <ToastContainer position='bottom-center' autoClose={5000} />
+                {/* <ToastContainer position='bottom-center' autoClose={5000} /> */}
             </form>
         </div>
     );
@@ -197,7 +197,7 @@ const FormularioCreacionUsuarios = ( {
     
     const enviarDatosAlBackend = () => {
         //console.log("El valor de la variable Nombres es ", nombres, "El valor de la variable Apellidos es ", apellidos, "El valor de la variable dirección es ", direccion, "El valor de la variable teléfono es ", telefono, "El valor de la variable correo electrónico es ", correoE, "El valor de la variable contraseña es ", contrasena, "El valor de la variable estado es ", estado, "El valor de la variable rol es ", rol);
-        toast.success("Usuario creado con éxito");
+        //toast.success("Usuario creado con éxito");
         funcionParaMostrarTabla(true);
         const MY_NAMESPACE = 'c4f37b4d-f1f0-4d66-91a5-4e90c0df08fc';
         funcionParaAgregarUsuario([...listaUsuarios,{id:uuidv5(nombres+apellidos+direccion+telefono+correoE, MY_NAMESPACE), nombres:nombres, apellidos:apellidos, direccion: direccion, telefono: telefono, correoE: correoE, contrasena: contrasena, rol: rol, estado: estado}]);
@@ -316,7 +316,7 @@ const FormularioCreacionUsuarios = ( {
     </div>
 
     <div className="mt-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 mb-0 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
-            <button onClick={enviarDatosAlBackend} type="button" className="px-3 btn btn-primary">Guardar</button>   
+            <button onClick={enviarDatosAlBackend} type="submit" className="px-3 btn btn-primary">Guardar</button>   
     </div>
     {/* <span className="text-gray-500">Usuario agregado con éxito</span>
     <span className="text-red-500">Error al agregar usuario</span> */}
