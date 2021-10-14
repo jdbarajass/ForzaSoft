@@ -10,7 +10,7 @@ const Usuarios = () => {
             <form className="mt-8 w-3/4">
                 <div>
                     <div>
-                        <label htmlFor="ID_usuario">
+                        <label htmlFor="ID_usuario" className="block text-gray-500 text-sm font-bold mb-2">
                         ID del usuario 
                             <input
                                 type="text"
@@ -21,7 +21,7 @@ const Usuarios = () => {
                         </label>
                     </div>                 
                     <div>
-                        <label htmlFor="rol">
+                        <label htmlFor="rol" className="block text-gray-500 text-sm font-bold mb-2">
                             Rol del usuario 
                             <select name="Rol"
                                 className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
@@ -36,7 +36,7 @@ const Usuarios = () => {
                         </label>
                     </div>
                     <div>
-                        <label htmlFor="Estado">
+                        <label htmlFor="Estado" className="block text-gray-500 text-sm font-bold mb-2">
                         Estado de aprobación
                             <select name="Estado"
                                 className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">

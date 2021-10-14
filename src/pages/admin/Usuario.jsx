@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { uuid } from 'uuidv4';
 
 const usersBackend = [
 {
-    id: 1,
+    id: uuid(),
     nombres:"Cristian",
     apellidos:"Ariza",
     direccion:"12456",
@@ -16,7 +17,7 @@ const usersBackend = [
     estado:"aprobado"
 },
 {
-    id: 2,
+    id: uuid(),
     nombres:"Usuario2",
     apellidos:"Surname2",
     direccion:"12456",
@@ -27,7 +28,7 @@ const usersBackend = [
     estado:"aprobado"                
 },
 {
-    id: 3,
+    id: uuid(),
     nombres:"Usuario3",
     apellidos:"Surname3",
     direccion:"12456",
@@ -38,7 +39,7 @@ const usersBackend = [
     estado:"aprobado"                
 },
 {
-    id: 4,
+    id: uuid(),
     nombres:"Usuario4",
     apellidos:"Surname4",
     direccion:"12456",
@@ -191,14 +192,14 @@ const FormularioCreacionUsuarios = ( {
     const [contrasena, setContrasena] = useState('');
     const [rol, setRol] = useState('');
     const [estado, setEstado] = useState('');
-    const [ID, setID] = useState('');
+    //const [id, setId] = useState('');
     
     const enviarDatosAlBackend = () => {
-        console.log("El valor de la variable Nombres es ", nombres, "El valor de la variable Apellidos es ", apellidos, "El valor de la variable dirección es ", direccion, "El valor de la variable teléfono es ", telefono, "El valor de la variable correo electrónico es ", correoE, "El valor de la variable contraseña es ", contrasena, "El valor de la variable estado es ", estado, "El valor de la variable rol es ", rol);
-        console.log(listaUsuarios);
-        toast.success("Vehiculo creado con exito");
+        //console.log("El valor de la variable Nombres es ", nombres, "El valor de la variable Apellidos es ", apellidos, "El valor de la variable dirección es ", direccion, "El valor de la variable teléfono es ", telefono, "El valor de la variable correo electrónico es ", correoE, "El valor de la variable contraseña es ", contrasena, "El valor de la variable estado es ", estado, "El valor de la variable rol es ", rol);
+        toast.success("Usuario creado con éxito");
         funcionParaMostrarTabla(true);
-        funcionParaAgregarUsuario([...listaUsuarios,{nombres:nombres, apellidos:apellidos, direccion: direccion, telefono: telefono, correoE: correoE, contrasena: contrasena, rol: rol, estado: estado}]);
+        funcionParaAgregarUsuario([...listaUsuarios,{id:uuid(), nombres:nombres, apellidos:apellidos, direccion: direccion, telefono: telefono, correoE: correoE, contrasena: contrasena, rol: rol, estado: estado}]);
+        console.log(listaUsuarios);
     };
 
     return(
