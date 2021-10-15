@@ -176,21 +176,21 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
   });
   const actualizardiseno3D = async () => {
     //enviar la info al backend
-    const options = {
+/*     const options = {
       method: "PATCH",
-      url: `http://localhost:5000/diseno3D/${diseno3D._id}/`,
+      url: `http://localhost:5000/diseno3D/editar"`,
       headers: { "Content-Type": "application/json" },
       data: { ...infoNuevodiseno3D },
-    };
-    /* const actualizarVehiculo = async () => { 
+    }; */
+    //const actualizarVehiculo = async () => { 
     console.log(infoNuevodiseno3D);
     // Con el siguiente codigo lo que me permite es enviar la informacion al backend actulizarla despues de que ya la he editado
     const options = {
       method: "PATCH",
-      url: "http://localhost:5000/diseno3D/update", // debe tener al final el update
+      url: "http://localhost:5000/diseno3D/editar", // debe tener al final el update
       headers: { "Content-Type": "application/json" },
       data: { ...infoNuevodiseno3D, id: diseno3D._id }, // debo enviarle el _id y es con diseno3D._id con el guion al piso bajo
-    }; */
+    }; 
 
     await axios
       .request(options)
@@ -278,6 +278,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
         ) : (
           <>
             <td>{diseno3D._id.slice(20)}</td>
+            {/* {diseno3D._id}=Este codigo es para poder ver el id que tiene cada producto pero muestra todo el id que es 6169ba0779fb3caf4c880642 del primer producto pero puedo colocar este codigo .slice(20) que me omite 20 caracteres ya que todo el id se parece */}
             <td>{diseno3D.name}</td>
             <td>{diseno3D.brand}</td>
             <td>{diseno3D.model}</td>
