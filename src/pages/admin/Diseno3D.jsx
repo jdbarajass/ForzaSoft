@@ -176,21 +176,14 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
   });
   const actualizardiseno3D = async () => {
     //enviar la info al backend
-    const options = {
-      method: "PATCH",
-      url: `http://localhost:5000/diseno3D/${diseno3D._id}/`,
-      headers: { "Content-Type": "application/json" },
-      data: { ...infoNuevodiseno3D },
-    };
-    /* const actualizarVehiculo = async () => { 
     console.log(infoNuevodiseno3D);
     // Con el siguiente codigo lo que me permite es enviar la informacion al backend actulizarla despues de que ya la he editado
     const options = {
       method: "PATCH",
-      url: "http://localhost:5000/diseno3D/update", // debe tener al final el update
+      url: "http://localhost:5000/diseno3D/editar", // debe tener al final el update
       headers: { "Content-Type": "application/json" },
       data: { ...infoNuevodiseno3D, id: diseno3D._id }, // debo enviarle el _id y es con diseno3D._id con el guion al piso bajo
-    }; */
+    }; 
 
     await axios
       .request(options)
