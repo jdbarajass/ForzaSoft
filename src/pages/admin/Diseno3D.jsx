@@ -1,24 +1,39 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";// axios es front y express es back pero son como hermanos ya que uno envia las solicitudes (axios) y el otro las recibe (express)
+import axios from "axios"; // axios es front y express es back pero son como hermanos ya que uno envia las solicitudes (axios) y el otro las recibe (express)
 //Estos import que siguen son de reac-toastify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { nanoid } from "nanoid"; //esta libreria es para manejar los key... yarn add nanoid
-import { Tooltip } from "@material-ui/core";
-import {Dialog} from "@material-ui/core";
+import { Dialog, Tooltip } from "@material-ui/core";
+import { obtenerdiseno3D } from "utils/api";
 
 const Diseno3D = () => {
-  const [MostrarTabla, setMostrarTabla] = useState(true); //Rendedirazion Condicional
+  const [mostrarTabla, setmostrarTabla] = useState(true); //Rendedirazion Condicional
   const [diseno3D, setdiseno3D] = useState([]);
   const [TextoBoton, setTextoBoton] = useState("Crear nuevo diseño 3D");
   const [ColorBoton, setColorBoton] = useState("indigo"); //Variable para cambiar el valor del color del boton const [ColorBoton, setColorBoton] La variable es ColorBoton y la que actualiza el estado es setColorBoton y el useState ("indigo") es el estado en el que empieza mi variable
   const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
+
   useEffect(() => {
+    console.log("consulta", ejecutarConsulta);
+    if (ejecutarConsulta) {
+      obtenerdiseno3D(setdiseno3D, setEjecutarConsulta);
+    }
+  }, [ejecutarConsulta]);
+
+  useEffect(() => {
+    //obtener lista de vehículos desde el backend
+    if (mostrarTabla) {
+      setEjecutarConsulta(true);
+    }
+  }, [mostrarTabla]);
+
+/*   useEffect(() => {
     const obtenerdiseno3D = async () => {
       // Se creo una variable para poder sincronizar los datos que entrega el Backend
       const options = {
         method: "GET",
-        url: "https://vast-waters-45728.herokuapp.com/vehicle/",
+        url: "http://localhost:5000/diseno3D",
       };
       await axios
         .request(options)
@@ -34,23 +49,17 @@ const Diseno3D = () => {
       obtenerdiseno3D();
       setEjecutarConsulta(false);
     }
-  }, [ejecutarConsulta]);
+  }, [ejecutarConsulta]); */
 
   useEffect(() => {
-    if (MostrarTabla) {
-      setEjecutarConsulta(true);
-    }
-  }, [MostrarTabla]);
-
-  useEffect(() => {
-    if (MostrarTabla) {
+    if (mostrarTabla) {
       setTextoBoton("Crear nuevo diseño 3D");
       setColorBoton("indigo");
     } else {
       setTextoBoton("Mostrar todos los diseños");
       setColorBoton("green");
     }
-  }, [MostrarTabla]);
+  }, [mostrarTabla]);
   return (
     <div className="flex h-full w-full flex-col items-center justify-start p-8">
       {/* justify-start es para que se vayan para arriba  y el p-8 es el padding que sirve para separarse del top*/}
@@ -61,42 +70,44 @@ const Diseno3D = () => {
         </h2>
         <button
           onClick={() => {
-            setMostrarTabla(!MostrarTabla);
+            setmostrarTabla(!mostrarTabla);
           }}
           className={`text-white bg-${ColorBoton}-500 p-5 rounded-full m-6 w-28 self-end`} /* w-28 self-end" = w-28 lo que hace es volver el boton un circulo y el self-end envia hacia el final ese circulo...  bg-${ColorBoton}-500 = este codigo es un STRING literal = Que la variable esta cambiando dependiendo del estado de la variable ColorBoton  */
         >
           {TextoBoton}
         </button>
       </div>
-      {MostrarTabla ? (
+      {mostrarTabla ? (
         <Tabladiseno3D
           listadiseno3D={diseno3D}
           setEjecutarConsulta={setEjecutarConsulta}
         />
       ) : (
         <FormularioCreaciondiseno3D
-          setMostrarTabla={setMostrarTabla}
+          setmostrarTabla={setmostrarTabla}
           listadiseno3D={diseno3D}
           setdiseno3D={setdiseno3D}
         />
       )}
-      <ToastContainer position="bottom-center" autoClose={5000} />{" "}
+      <ToastContainer position="bottom-center" autoClose={5000} />
       {/* es la posicion en la que quiero que aparezca el mensaje y el autoClose en cuantos milisegundos quiere que se vaya ese msn ... el contenedor es ToastContainer pero la funcion como tal es toast*/}
     </div>
   );
 };
 
 const Tabladiseno3D = ({ listadiseno3D, setEjecutarConsulta }) => {
-  const [busqueda, setBusqueda] = useState("")
-  const [diseno3DFiltrados,setDiseno3DFiltrados]= useState(listadiseno3D) // En este caso este estado tendra un estado que esta entrando como prop, es decir este estado tendra todos los diseños 3D que vienen del backend
+  const [busqueda, setBusqueda] = useState("");
+  const [diseno3DFiltrados, setDiseno3DFiltrados] = useState(listadiseno3D); // En este caso este estado tendra un estado que esta entrando como prop, es decir este estado tendra todos los diseños 3D que vienen del backend
   useEffect(() => {
     setDiseno3DFiltrados(
       listadiseno3D.filter((elemento) => {
-          return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
-        })    
+        return JSON.stringify(elemento)
+          .toLowerCase()
+          .includes(busqueda.toLowerCase());
+      })
     );
     // .filter()= es una funcion de los objetos de JavaScript, que si los objetos de esa lista coinciden de una vez va filtrando en tiempo real lo que estoy buscando. Esta funcion devuelve un array con los objetos que cumplen esa condicion, pero yo quiero buscar no por una columna en especifico sino por cualquier elemento de la tabla entonces debo convertir en donde voy a buscar convertirlo en un objeto JSONstringify para buscar mejor el elemento, en este casi se convertira con la funcion JSON en todo mis diseños 3D practicamente con JSON.stringify estoy conviertiendo el objeto en un string y con la funcion inlcudes busco en todo el objeto la coincidencia ... toLowerCase()= lo que hace es converntirme todo lo que esta en mayuscula pasarlo a minisculas
-  }, [busqueda, listadiseno3D])
+  }, [busqueda, listadiseno3D]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
@@ -111,12 +122,12 @@ const Tabladiseno3D = ({ listadiseno3D, setEjecutarConsulta }) => {
         Todos los diseños 3D
       </h2>
       <div className="hidden md:flex w-full">
-        {" "}
         {/* Esto es responsive y el proyecto quedo con 3 etapas que en pantallas pequeñas quedan unos cards para cada diseño 3D, en pantallas medianas queda la tabla y en pantallas grandes queda el sidebar y la tabla */}
         <table className="tabla">
           <thead>
             {/* los th son los headers de la tabla es decir los que estarán arriba de la misma */}
             <tr>
+              <th>Id</th>
               <th>Nombre del diseño 3D</th>
               <th>Color del materia</th>
               <th>Material del diseño</th>
@@ -156,7 +167,7 @@ const Tabladiseno3D = ({ listadiseno3D, setEjecutarConsulta }) => {
 const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
   /* Cuando necesite modificar algo que esta dentro de un .map necesito otro componente para poder modificar estas cosas porque sino se complica el code */
   const [edit, setEdit] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);// Se deja en true mientras, para ir haciendo pruebas e ir mirando de forma rapida como va quedando el mensaje, pero debe inicializar en false
+  const [openDialog, setOpenDialog] = useState(false); // Se deja en true mientras, para ir haciendo pruebas e ir mirando de forma rapida como va quedando el mensaje, pero debe inicializar en false
   const [infoNuevodiseno3D, setinfoNuevodiseno3D] = useState({
     // se coloca asi porque vamos a manejar un solo estado en todo el formulario
     name: diseno3D.name,
@@ -164,14 +175,22 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
     model: diseno3D.model,
   });
   const actualizardiseno3D = async () => {
+    //enviar la info al backend
+    const options = {
+      method: "PATCH",
+      url: `http://localhost:5000/diseno3D/${diseno3D._id}/`,
+      headers: { "Content-Type": "application/json" },
+      data: { ...infoNuevodiseno3D },
+    };
+    /* const actualizarVehiculo = async () => { 
     console.log(infoNuevodiseno3D);
     // Con el siguiente codigo lo que me permite es enviar la informacion al backend actulizarla despues de que ya la he editado
     const options = {
       method: "PATCH",
-      url: "https://vast-waters-45728.herokuapp.com/vehicle/update", // debe tener al final el update
+      url: "http://localhost:5000/diseno3D/update", // debe tener al final el update
       headers: { "Content-Type": "application/json" },
       data: { ...infoNuevodiseno3D, id: diseno3D._id }, // debo enviarle el _id y es con diseno3D._id con el guion al piso bajo
-    };
+    }; */
 
     await axios
       .request(options)
@@ -192,7 +211,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
     // Esta funcion hace que se elimine el registro que seleccione
     const options = {
       method: "DELETE",
-      url: "https://vast-waters-45728.herokuapp.com/vehicle/delete/",
+      url: "http://localhost:5000/diseno3D/eliminar",
       headers: { "Content-Type": "application/json" },
       data: { id: diseno3D._id },
     };
@@ -201,7 +220,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
       .then(function (response) {
         console.log(response.data);
         toast.success("Diseño 3D eliminado con éxito");
-        setEjecutarConsulta(true);        
+        setEjecutarConsulta(true);
       })
       .catch(function (error) {
         console.error(error);
@@ -215,6 +234,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
         // Renderizacion condicional
         edit ? (
           <>
+            <td>{infoNuevodiseno3D._id}</td>
             <td>
               <input
                 className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
@@ -257,6 +277,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
           </>
         ) : (
           <>
+            <td>{diseno3D._id.slice(20)}</td>
             <td>{diseno3D.name}</td>
             <td>{diseno3D.brand}</td>
             <td>{diseno3D.model}</td>
@@ -282,19 +303,18 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
             </>
           ) : (
             <>
-              {" "}
               {/*<></>=fragmento vacio porque todos los componentes deben tener un padre */}
               <Tooltip title="Editar Diseño 3D" arrow>
                 <i
                   onClick={() => setEdit(!edit)} // setEdit(!edit)} se setea el edit en el estado anterior ... arrow = Es basicamente la flechita la guia del Tooltip
-                  className="fas fa-edit text-yellow-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onclick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
+                  className="fas fa-edit text-yellow-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onClick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
                 />
               </Tooltip>
+              {/* Este Tooltip title = sirve para que cuando el usuario se coloque encima del icono de eliminar, aparezca el mensaje de title="Eliminar Diseño 3D" */}
               <Tooltip title="Eliminar Diseño 3D" arrow>
-                {/* Este Tooltip sirve para que cuando el usuario se coloque encima del icono de eliminar, aparezca el mensaje de title="Eliminar Diseño 3D" */}
                 <i
-                  onclick={() => setOpenDialog(true)}
-                  className="far fa-trash-alt text-red-700 hover:text-red-400"
+                  onClick={() => setOpenDialog(true)}
+                  className="far fa-trash-alt text-red-700 hover:text-red-400" //Otra canequita de basura = far fa-trash-alt o fas fa-trash
                 />
               </Tooltip>
             </>
@@ -302,12 +322,24 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
         </div>
         {/*El dialogo es una ventana emergente en este caso saldra para confirmar si de verdad queremos eliminar un registro. Los dialogos deben tener un prop que se llama open y este debe tener adentro un estado que cambie de true a false que es para que se muestre o no se quite */}
         <Dialog open={openDialog}>
-          hola mundo soy un dialogo
-          <div className="p-8 flex flex-col">{/* flex flex-1-col= para que me muestre uno debajo del otro */}
-            <h1 className="text-gray-900 text-2xl font-bold">¿Está seguro de eliminar el diseño?</h1>
+          <div className="p-8 flex flex-col">
+            {/* flex flex-1-col= para que me muestre uno debajo del otro */}
+            <h1 className="text-gray-900 text-2xl font-bold">
+              ¿Está seguro de eliminar el diseño?
+            </h1>
             <div className="flex w-full items-center justify-center my-4">
-              <button onclick={()=>eliminarDiseno3D()} className="mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md">Si</button>
-              <button onclick={()=> setOpenDialog(false)} className="mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md">No</button>
+              <button
+                onClick={() => eliminarDiseno3D()}
+                className="mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md"
+              >
+                Si
+              </button>
+              <button
+                onClick={() => setOpenDialog(false)}
+                className="mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md"
+              >
+                No
+              </button>
             </div>
           </div>
         </Dialog>
@@ -317,11 +349,12 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
 };
 
 const FormularioCreaciondiseno3D = ({
-  setMostrarTabla,
+  setmostrarTabla,
   listadiseno3D,
   setdiseno3D,
 }) => {
   const form = useRef(null);
+
   const submitForm = async (e) => {
     //Axios trae la informacion del formulario cuando damos click en y hacemos submit, la convertimos en un objeto con new FormData despues creamos las opciones del axios
     //El codigo async = Es para dar a entender que es asincrono es decir que debo esperar a que de parte del BACKEND me envien una respuesta y para ayudar al usuario a esperar colocamos un logo que esta cargando hasta obtener una respuesta despues le pasamos las opciones a axios.request(options) generamos la respuesta con response.data y mostramos el mensaje de toast.success("El diseño fue agregado con éxito")
@@ -334,9 +367,9 @@ const FormularioCreaciondiseno3D = ({
 
     const options = {
       method: "POST", // lo que quiero crear. Este es el metodo y puede ser GET POST PUT/PATH ó DELETE en este caso se uso POST porque queremos crear un nuevo diseño 3D
-      url: "https://vast-waters-45728.herokuapp.com/vehicle/create", //Donde esta el api
+      url: "http://localhost:5000/diseno3D/nuevo", //Donde esta el api
       headers: { "Content-Type": "application/json" },
-      data: { name: "Renault", brand: "Sandero", model: 2020 }, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
+      data: { name: nuevodiseno.name, brand: nuevodiseno.brand, model: nuevodiseno.model }, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
     };
 
     await axios // await = Se debe colocar con el sync para que espere una respuesta del BACKEND
@@ -349,7 +382,7 @@ const FormularioCreaciondiseno3D = ({
         console.error(error);
         toast.error("El diseño NO fue agregado con éxito");
       }); // console.error(error) y esta parte de codigo muestra una ventana emergente si hay algun tipo de error en la creacion del diseño3D
-    setMostrarTabla(true);
+    setmostrarTabla(true);
   };
   return (
     <div className="flex flex-col items-center justify-center">
@@ -361,7 +394,7 @@ const FormularioCreaciondiseno3D = ({
         <label className="flex flex-col" htmlFor="nombre">
           Nombre de su diseño 3D
           <input
-            name="nombre"
+            name="name"
             className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
             type="text"
             placeholder="Nombre del diseño 3D"
@@ -372,14 +405,14 @@ const FormularioCreaciondiseno3D = ({
           Color del materia
           <select
             className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
-            name="color"
+            name="brand"
             required
             defaultValue={0}
           >
             {/* la estructura para hacer un seleccionador es label select y despues option*/}
             <option disabled value={0}>
               Selecione una opcion
-            </option>{" "}
+            </option>
             {/* disable es para que no pueda seleccionar esa opcion */}
             <option>Amarillo</option>
             <option>Azul</option>
@@ -392,7 +425,7 @@ const FormularioCreaciondiseno3D = ({
           Material del diseño
           <select
             className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
-            name="material"
+            name="model"
             required
           >
             {/* la estructura para hacer un seleccionador es label select y despues option*/}
@@ -420,7 +453,7 @@ const FormularioCreaciondiseno3D = ({
 export default Diseno3D;
 // Renderización condicional = Es basicamente hacer lo mismo de dirigirnos a una ruta nueva como con el Roote, pero esta vez solo con un botón y no con un link como tal
 // text-2xl font-extrabold= el text-2xl lo que hace es agrandar un poco el texto y el font-extrabold lo pone en negrita
-// useEffect(() => {Ejecuta lo que haya a acá dentro}, [MostrarTabla]); = Este useEffect ejecutalo que hay dentro de los corchetes si cambia la variable MostrarTabla
+// useEffect(() => {Ejecuta lo que haya a acá dentro}, [mostrarTabla]); = Este useEffect ejecutalo que hay dentro de los corchetes si cambia la variable mostrarTabla
 //useEffect(() => {Ejecuta lo que haya a acá dentro}, []);= Este useEffect solo se ejecuta una vez en todo el programa y para que se vuelva a ejecutar debemos recargar la página
 //useEffect(() => {Ejecuta lo que haya a acá dentro}, ); = Este useEffect no es recomendable usarlo
 //      toast.success("Diseño 3D creado con éxito"); //Cuando le coloco success es que me mostrará un mensaje de que fue agregado con éxito el mensaje varia dependiendo lo que vaya dentro del parentesis, pero la forma que toma si, depende de lo que ponga despues del punto de toas. puede ser .info y en fin agregar más dependiendo la documentacion de toastify
