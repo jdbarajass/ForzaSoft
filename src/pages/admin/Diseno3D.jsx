@@ -204,7 +204,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
     // Esta funcion hace que se elimine el registro que seleccione
     const options = {
       method: "DELETE",
-      url: "http://localhost:5000/diseno3D/eliminar",
+      url: `http://localhost:5000/diseno3D/${diseno3D._id}/`,
       headers: { "Content-Type": "application/json" },
       data: { id: diseno3D._id },
     };
@@ -361,7 +361,7 @@ const FormularioCreaciondiseno3D = ({
 
     const options = {
       method: "POST", // lo que quiero crear. Este es el metodo y puede ser GET POST PUT/PATH ó DELETE en este caso se uso POST porque queremos crear un nuevo diseño 3D
-      url: "http://localhost:5000/diseno3D/nuevo", //Donde esta el api
+      url: "http://localhost:5000/diseno3D", //Donde esta el api
       headers: { "Content-Type": "application/json" },
       data: { name: nuevodiseno.name, brand: nuevodiseno.brand, model: nuevodiseno.model }, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
     };
