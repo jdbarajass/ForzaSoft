@@ -72,7 +72,7 @@ const Ventas = () => {
       ) : (
         <FormularioCreacionventa
           setMostrarTabla={setMostrarTabla}
-          listaVehiculos={venta}
+          listadiseno3D={venta}
           setventa={setventa}
         />
       )}

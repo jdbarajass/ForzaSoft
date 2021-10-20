@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios"; // axios es front y express es back pero son como hermanos ya que uno envia las solicitudes (axios) y el otro las recibe (express)
-//Estos import que siguen son de reac-toastify
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { nanoid } from "nanoid"; //esta libreria es para manejar los key... yarn add nanoid
 import { Dialog, Tooltip } from "@material-ui/core";
-import { obtenerdiseno3D } from "utils/api";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  obtenerdiseno3D,
+  creardiseno3D,
+  editardiseno3D,
+  eliminardiseno3D,
+} from "utils/api";
 
 const Diseno3D = () => {
   const [mostrarTabla, setmostrarTabla] = useState(true); //Rendedirazion Condicional
@@ -17,7 +20,15 @@ const Diseno3D = () => {
   useEffect(() => {
     console.log("consulta", ejecutarConsulta);
     if (ejecutarConsulta) {
-      obtenerdiseno3D(setdiseno3D, setEjecutarConsulta);
+      obtenerdiseno3D(
+        (response) => {
+          setdiseno3D(response.data);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+      setEjecutarConsulta(false);
     }
   }, [ejecutarConsulta]);
 
@@ -28,7 +39,7 @@ const Diseno3D = () => {
     }
   }, [mostrarTabla]);
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     const obtenerdiseno3D = async () => {
       // Se creo una variable para poder sincronizar los datos que entrega el Backend
       const options = {
@@ -170,57 +181,46 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
   const [openDialog, setOpenDialog] = useState(false); // Se deja en true mientras, para ir haciendo pruebas e ir mirando de forma rapida como va quedando el mensaje, pero debe inicializar en false
   const [infoNuevodiseno3D, setinfoNuevodiseno3D] = useState({
     // se coloca asi porque vamos a manejar un solo estado en todo el formulario
+    _id: diseno3D._id,
     name: diseno3D.name,
     brand: diseno3D.brand,
     model: diseno3D.model,
   });
   const actualizardiseno3D = async () => {
     //enviar la info al backend
-    console.log(infoNuevodiseno3D);
-    // Con el siguiente codigo lo que me permite es enviar la informacion al backend actulizarla despues de que ya la he editado
-    const options = {
-      method: "PATCH",
-      url: `http://localhost:5000/diseno3D/${diseno3D._id}/`, // debe tener al final el update
-      headers: { "Content-Type": "application/json" }, //${diseno3D._id}=lo que hace es enviar el id que necesita para modificarlo
-      data: { ...infoNuevodiseno3D }, // debo enviarle el _id y es con diseno3D._id con el guion al piso bajo
-    }; 
-
-    await axios
-      .request(options)
-      .then(function (response) {
+    await editardiseno3D(
+      diseno3D._id,
+      { name: infoNuevodiseno3D.name, brand: infoNuevodiseno3D.brand, model: infoNuevodiseno3D.model },
+      (response) => {
         console.log(response.data);
         toast.success("Diseno modificado con éxito");
-        setEdit(false);
-        setEjecutarConsulta(true);
-      })
-      .catch(function (error) {
+        setEdit(false); // Seteamos el edit en falso para que quite la edicion de la tabla
+        setEjecutarConsulta(true); // Para que se re-ejecute la consulta del inicio y vuleva y muestre todos los diseños 3D
+      },
+      (error) => {
         toast.error("Error al modificar el diseño 3D");
         console.error(error);
-      });
-    // setEdit(false)= lo que hace es que cuando oprima el icono del check vuelve al estado anterior que es el lapiz de modificar
+      }
+    );
   };
 
-  const eliminarDiseno3D = async () => {
+  const deleteDesign = async () => {
     // Esta funcion hace que se elimine el registro que seleccione
-    const options = {
-      method: "DELETE",
-      url: `http://localhost:5000/diseno3D/${diseno3D._id}/`,
-      headers: { "Content-Type": "application/json" },
-      data: { id: diseno3D._id },
-    };
-    await axios
-      .request(options)
-      .then(function (response) {
+    await eliminardiseno3D(
+      diseno3D._id,
+      (response) => {
         console.log(response.data);
         toast.success("Diseño 3D eliminado con éxito");
         setEjecutarConsulta(true);
-      })
-      .catch(function (error) {
+      },
+      (error) => {
         console.error(error);
         toast.error("Error al eliminar el diseño 3D");
-      });
+      }
+    );
     setOpenDialog(false);
   };
+
   return (
     <tr>
       {
@@ -323,7 +323,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
             </h1>
             <div className="flex w-full items-center justify-center my-4">
               <button
-                onClick={() => eliminarDiseno3D()}
+                onClick={() => deleteDesign()}
                 className="mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md"
               >
                 Si
@@ -359,23 +359,21 @@ const FormularioCreaciondiseno3D = ({
       nuevodiseno[key] = value;
     });
 
-    const options = {
-      method: "POST", // lo que quiero crear. Este es el metodo y puede ser GET POST PUT/PATH ó DELETE en este caso se uso POST porque queremos crear un nuevo diseño 3D
-      url: "http://localhost:5000/diseno3D", //Donde esta el api
-      headers: { "Content-Type": "application/json" },
-      data: { name: nuevodiseno.name, brand: nuevodiseno.brand, model: nuevodiseno.model }, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
-    };
-
-    await axios // await = Se debe colocar con el sync para que espere una respuesta del BACKEND
-      .request(options)
-      .then(function (response) {
-        console.log(response.data); //console.log(response.data) esta parte de codigo muestra si es satisfactorio la creacion del diseño3D
-        toast.success("El diseño fue agregado con éxito");
-      })
-      .catch(function (error) {
-        console.error(error);
-        toast.error("El diseño NO fue agregado con éxito");
-      }); // console.error(error) y esta parte de codigo muestra una ventana emergente si hay algun tipo de error en la creacion del diseño3D
+    await creardiseno3D(
+      {
+        name: nuevodiseno.name,
+        brand: nuevodiseno.brand,
+        model: nuevodiseno.model,
+      },
+      (response) => {
+        console.log(response.data);
+        toast.success("Diseño 3D agregardo con éxito");
+      },
+      (error) => {
+        console.log(error);
+        toast.error("Error creando diseño 3D");
+      }
+    );
     setmostrarTabla(true);
   };
   return (
@@ -456,3 +454,47 @@ export default Diseno3D;
 //}
 // Tabladiseno3D y formularioCreciondiseno3D tienen renderizacion condicional
 // /* "hidden md:block"= Este codigo lo que hace es que de pantallas medianas en adelante va a mostrarme algo */
+
+/*
+    const options = {
+      method: "POST", // lo que quiero crear. Este es el metodo y puede ser GET POST PUT/PATH ó DELETE en este caso se uso POST porque queremos crear un nuevo diseño 3D
+      url: "http://localhost:5000/diseno3D", //Donde esta el api
+      headers: { "Content-Type": "application/json" },
+      data: { name: nuevodiseno.name, brand: nuevodiseno.brand, model: nuevodiseno.model }, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
+    };
+
+    await axios // await = Se debe colocar con el sync para que espere una respuesta del BACKEND
+      .request(options)
+      .then(function (response) {
+        console.log(response.data); //console.log(response.data) esta parte de codigo muestra si es satisfactorio la creacion del diseño3D
+        toast.success("El diseño fue agregado con éxito");
+      })
+      .catch(function (error) {
+        console.error(error);
+        toast.error("El diseño NO fue agregado con éxito");
+      }); // console.error(error) y esta parte de codigo muestra una ventana emergente si hay algun tipo de error en la creacion del diseño3D
+*/
+
+/*    const options = {
+      method: "PATCH",
+      url: `http://localhost:5000/diseno3D/${diseno3D._id}/`, // debe tener al final el update
+      headers: { "Content-Type": "application/json" }, //${diseno3D._id}=lo que hace es enviar el id que necesita para modificarlo
+      data: { ...infoNuevodiseno3D }, // debo enviarle el _id y es con diseno3D._id con el guion al piso bajo
+    };  */
+
+/*
+        //enviar la info al backend
+    console.log(infoNuevodiseno3D);
+    // Con el siguiente codigo lo que me permite es enviar la informacion al backend actulizarla despues de que ya la he editado
+/*     const options = {
+      method: "PATCH",
+      url: `http://localhost:5000/diseno3D/${diseno3D._id}/`, // debe tener al final el update
+      headers: { "Content-Type": "application/json" }, //${diseno3D._id}=lo que hace es enviar el id que necesita para modificarlo
+      data: { ...infoNuevodiseno3D }, // debo enviarle el _id y es con diseno3D._id con el guion al piso bajo
+    };  */
+
+// setEdit(false)= lo que hace es que cuando oprima el icono del check vuelve al estado anterior que es el lapiz de modificar
+/*
+import axios from "axios"; // axios es front y express es back pero son como hermanos ya que uno envia las solicitudes (axios) y el otro las recibe (express)
+//Estos import que siguen son de reac-toastify
+ */

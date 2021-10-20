@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import TriggerDarkMode from "./TriggerDarkMode";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = () => {
+  const { loginWithRedirect } = useAuth0();
   return (
     <nav className="bg-red-400">
       <ul className="flex w-full justify-between my-3">
@@ -13,9 +15,17 @@ const Navbar = () => {
           <TriggerDarkMode />
         </li>
         <li className="px-3">
+          <button
+            onClick={() => loginWithRedirect()}
+            className="bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700"
+          >
+            Iniciar Sesión Con AUTH0
+          </button>
+        </li>
+        <li>
           <Link to="/login">
-            <button className="bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700">
-              Iniciar Sesión
+            <button className="bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 ">
+              Iniciar Sesión personalizado
             </button>
           </Link>
         </li>
@@ -31,4 +41,4 @@ export default Navbar;
 // text-white rounded-lg = adentro del boton el text cambia el color del texto y el rounded lo que hace es redondear los bordes del boton
 // shadow-md = lo que hace es ponerle sombra al boton
 // hover: bg-indigo-700 = cuando me posicione en el boton cambie el color a un poquito más oscuro
-  /* La funcion Link a diferencia de la etiqueda a que lleva <a ref=...> es que la etiqueta a hace nuevas peticiones, la funcion Link no, solo navega entre las mismas paginas del HTML y es mucho más rapido */
+/* La funcion Link a diferencia de la etiqueda a que lleva <a ref=...> es que la etiqueta a hace nuevas peticiones, la funcion Link no, solo navega entre las mismas paginas del HTML y es mucho más rapido */

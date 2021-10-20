@@ -2,8 +2,10 @@ import React from "react";
 import ImagenLogo from "./ImagenLogo";
 import { Link } from "react-router-dom"; // useLocation lo que hace es que si di click a un boton que me redirige a una pagina, que este boton cambie de color para que el usuario sepa en que pagina esta
 import useActiveRoute from "hooks/useActiveRoute"
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Sidebar = () => {
+  const { logout } = useAuth0();
   return (
     <nav className="hidden sm:flex sm:w-72 border border-gray-300 h-full flex-col bg-gray-200 p-2 sidebar">
       <Link to="/PagIndex">
@@ -19,7 +21,12 @@ const Sidebar = () => {
         />
         <Ruta icono="fas fa-users" ruta="/admin/usuarios" nombre="Usuarios" />
       </div>
-      <button className="button">Cerrar Sesión</button>
+      <button
+        onClick={() => logout({ returnTo: window.location.origin })}
+        className="button"
+      >
+        Cerrar Sesión
+      </button>
     </nav>
   );
 };
