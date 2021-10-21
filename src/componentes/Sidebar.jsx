@@ -6,6 +6,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const Sidebar = () => {
   const { logout } = useAuth0();
+  const cerraSesion = () => {
+    logout({ returnTo: "http://localhost:3000/admin/" });
+    localStorage.setItem("token",null)  
+  }
   return (
     <nav className="hidden sm:flex sm:w-72 border border-gray-300 h-full flex-col bg-gray-200 p-2 sidebar">
       <Link to="/PagIndex">
@@ -22,7 +26,7 @@ const Sidebar = () => {
         <Ruta icono="fas fa-users" ruta="/admin/usuarios" nombre="Usuarios" />
       </div>
       <button
-        onClick={() => logout({ returnTo: window.location.origin })}
+        onClick={() => cerraSesion()}
         className="button"
       >
         Cerrar Sesión

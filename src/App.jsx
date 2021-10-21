@@ -28,6 +28,7 @@ function App() {
       domain="misiontic-diseno3d.us.auth0.com"
       clientId="CS3VzTWZmTPByaDhKfuVuB1iPIVcSgsX"
       redirectUri={window.location.origin}
+      audience = "api-autenticacion-diseno3D"
     >
       <div className="App">
         <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>

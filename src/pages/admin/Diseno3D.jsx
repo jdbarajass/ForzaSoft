@@ -9,6 +9,7 @@ import {
   editardiseno3D,
   eliminardiseno3D,
 } from "utils/api";
+import ReactLoading from "react-loading";
 
 const Diseno3D = () => {
   const [mostrarTabla, setmostrarTabla] = useState(true); //Rendedirazion Condicional
@@ -16,19 +17,27 @@ const Diseno3D = () => {
   const [TextoBoton, setTextoBoton] = useState("Crear nuevo diseño 3D");
   const [ColorBoton, setColorBoton] = useState("indigo"); //Variable para cambiar el valor del color del boton const [ColorBoton, setColorBoton] La variable es ColorBoton y la que actualiza el estado es setColorBoton y el useState ("indigo") es el estado en el que empieza mi variable
   const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
+  const [loading, setLoading] = useState(false); // Se empieza en false para que al principio no haya ningun loading que se muestre
 
   useEffect(() => {
-    console.log("consulta", ejecutarConsulta);
-    if (ejecutarConsulta) {
-      obtenerdiseno3D(
+    const fetchdiseno3D = async () => {
+      setLoading(true);
+      await obtenerdiseno3D(
         (response) => {
+          console.log("La respuesta que se recibio fue", response);
           setdiseno3D(response.data);
+          setEjecutarConsulta(false);
+          setLoading(false);
         },
         (error) => {
-          console.error(error);
+          console.error("Salio un error", error);
+          setLoading(false);
         }
       );
-      setEjecutarConsulta(false);
+    };
+    console.log("consulta", ejecutarConsulta);
+    if (ejecutarConsulta) {
+      fetchdiseno3D();
     }
   }, [ejecutarConsulta]);
 
@@ -90,6 +99,7 @@ const Diseno3D = () => {
       </div>
       {mostrarTabla ? (
         <Tabladiseno3D
+          loading={loading}
           listadiseno3D={diseno3D}
           setEjecutarConsulta={setEjecutarConsulta}
         />
@@ -106,7 +116,7 @@ const Diseno3D = () => {
   );
 };
 
-const Tabladiseno3D = ({ listadiseno3D, setEjecutarConsulta }) => {
+const Tabladiseno3D = ({ loading, listadiseno3D, setEjecutarConsulta }) => {
   const [busqueda, setBusqueda] = useState("");
   const [diseno3DFiltrados, setDiseno3DFiltrados] = useState(listadiseno3D); // En este caso este estado tendra un estado que esta entrando como prop, es decir este estado tendra todos los diseños 3D que vienen del backend
   useEffect(() => {
@@ -134,30 +144,32 @@ const Tabladiseno3D = ({ listadiseno3D, setEjecutarConsulta }) => {
       </h2>
       <div className="hidden md:flex w-full">
         {/* Esto es responsive y el proyecto quedo con 3 etapas que en pantallas pequeñas quedan unos cards para cada diseño 3D, en pantallas medianas queda la tabla y en pantallas grandes queda el sidebar y la tabla */}
-        <table className="tabla">
-          <thead>
-            {/* los th son los headers de la tabla es decir los que estarán arriba de la misma */}
-            <tr>
-              <th>Id</th>
-              <th>Nombre del diseño 3D</th>
-              <th>Color del materia</th>
-              <th>Material del diseño</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {diseno3DFiltrados.map((diseno3D) => {
-              /* siempre que pongamos un .map y en el haya un HTML el primer elemento padre de ese .map tiene que llevar si o  un prop que se llama key. Debo garantizar que el key sea unico dentro del parent de ese .map */
-              return (
-                <Filadiseno3D
-                  key={nanoid()}
-                  diseno3D={diseno3D}
-                  setEjecutarConsulta={setEjecutarConsulta}
-                />
-              );
-            })}
-          </tbody>
-        </table>
+        {loading ? (
+          <ReactLoading type="cylon" color="#acb123" height={667} width={375} />
+        ) : (
+          <table className="tabla">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombre del diseño 3D</th>
+                <th>Color del materia</th>
+                <th>Material del diseño</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {diseno3DFiltrados.map((diseno3D) => {
+                return (
+                  <Filadiseno3D
+                    key={nanoid()}
+                    diseno3D={diseno3D}
+                    setEjecutarConsulta={setEjecutarConsulta}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+        )}
       </div>
       <div className="flex flex-col w-full m-2 md:hidden">
         {/* Esto es responsive */}
@@ -190,7 +202,11 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
     //enviar la info al backend
     await editardiseno3D(
       diseno3D._id,
-      { name: infoNuevodiseno3D.name, brand: infoNuevodiseno3D.brand, model: infoNuevodiseno3D.model },
+      {
+        name: infoNuevodiseno3D.name,
+        brand: infoNuevodiseno3D.brand,
+        model: infoNuevodiseno3D.model,
+      },
       (response) => {
         console.log(response.data);
         toast.success("Diseno modificado con éxito");
@@ -498,3 +514,12 @@ export default Diseno3D;
 import axios from "axios"; // axios es front y express es back pero son como hermanos ya que uno envia las solicitudes (axios) y el otro las recibe (express)
 //Estos import que siguen son de reac-toastify
  */
+// yarn add react-loading = Para instalar la libreria de loadings es decir de iconos que se muestran como si estuvieran cargando, mientras el servidor arroja una respuesta
+
+/*
+              {diseno3DFiltrados.map((diseno3D) => {
+                /* siempre que pongamos un .map y en el haya un HTML el primer elemento padre de ese .map tiene que llevar si o  un prop que se llama key. Debo garantizar que el key sea unico dentro del parent de ese .map 
+
+            <thead>
+              {/* los th son los headers de la tabla es decir los que estarán arriba de la misma }
+*/
