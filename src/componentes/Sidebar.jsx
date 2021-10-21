@@ -5,7 +5,7 @@ import useActiveRoute from "hooks/useActiveRoute"
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Sidebar = () => {
-  const { logout } = useAuth0();
+  const { user,logout } = useAuth0();
   const cerraSesion = () => {
     logout({ returnTo: "http://localhost:3000/admin/" });
     localStorage.setItem("token",null)  
@@ -16,7 +16,7 @@ const Sidebar = () => {
         <ImagenLogo />
       </Link>
       <div className="my-4">
-        <Ruta icono="fas fa-user" ruta="/admin/perfil" nombre="Perfil" />
+        <Ruta icono="fas fa-user" ruta="/admin/perfil" nombre="Perfil" user={ user}/>
         <Ruta icono="fas fa-cubes" ruta="/admin/Diseno3D" nombre="Diseño 3D" />
         <Ruta
           icono="fas fa-cash-register"
@@ -37,7 +37,7 @@ const Sidebar = () => {
   );
 };
 
-const Ruta = ({ icono, ruta, nombre }) => {
+const Ruta = ({ icono, ruta, nombre, user = null }) => {
   const isActive = useActiveRoute(ruta) // Me indica cual es la ruta que esta activa para cambiar de color al boton
   return (
     <Link to={ruta}>
@@ -46,9 +46,17 @@ const Ruta = ({ icono, ruta, nombre }) => {
           isActive ? "indigo" : "gray"
         }-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md`}
       >
-        <i className={`${icono} w-10`} />
-        {/*i className={`${icono} es un icono que se trae de la web de la pág fantawesone */}
-        {nombre}
+        {user ? (
+          <>
+            <img src={user.picture} className="h-5 w-5 rounded-full" />
+            {user.name}
+          </> // este codigo lo que hace es colocarme el nombre en el perfil hala el nombre de auth0
+        ) : (
+          <>
+            <i className={`${icono} w-10`} />
+            {nombre}
+          </>
+        )}
       </button>
     </Link>
   );
@@ -58,3 +66,4 @@ export default Sidebar;
 // el codigo w-72 significa w = ancho y w-72 es 18rem es decir 288 pixeles es la mitad de una pantalla mediana
 // el codigo bg-red-400 es el color de fondo que le damos al sidebar y el 400 es el color que uno haya escogido en este caso rojo que puede variar su color rojo entre 100 y 900
 // hidden sm:flex sm:w-72 = Cuando manejo tailwind el directamente ya viene por defecto para  manejar código que ya viene con responsive ( Tailwind es mobile first = es decir que todas las clases que están en Tailwind funcionan para un celular mobile) Entonces lo que hace este código es que se va a aplicar ciertas caracteristicas a un celular que tenga estas dimensiones
+//{/*i className={`${icono} es un icono que se trae de la web de la pág fantawesone */}

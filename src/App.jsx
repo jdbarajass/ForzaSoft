@@ -28,7 +28,7 @@ function App() {
     <Auth0Provider
       domain="misiontic-diseno3d.us.auth0.com"
       clientId="CS3VzTWZmTPByaDhKfuVuB1iPIVcSgsX"
-      redirectUri={window.location.origin}
+      redirectUri="http://localhost:3000/admin/"
       audience="api-autenticacion-diseno3D"
     >
       <div className="App">

@@ -145,7 +145,7 @@ const Tabladiseno3D = ({ loading, listadiseno3D, setEjecutarConsulta }) => {
       <div className="hidden md:flex w-full">
         {/* Esto es responsive y el proyecto quedo con 3 etapas que en pantallas pequeñas quedan unos cards para cada diseño 3D, en pantallas medianas queda la tabla y en pantallas grandes queda el sidebar y la tabla */}
         {loading ? (
-          <ReactLoading type="cylon" color="#acb123" height={667} width={375} />
+          <ReactLoading type="spokes" color="#acb123" height={667} width={375} />
         ) : (
           <table className="tabla">
             <thead>

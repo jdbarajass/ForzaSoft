@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
+import ReactLoading from "react-loading";
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -17,7 +18,7 @@ const PrivateRoute = ({ children }) => {
     }
   }, [isAuthenticated, getAccessTokenSilently]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <ReactLoading type="spokes" color="#acb123" height={667} width={375} />
   return isAuthenticated ? (
     <>{children}</>
   ) : (
