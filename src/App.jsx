@@ -9,6 +9,7 @@ import GestionarUsuarios from "pages/admin/GestionarUsuario";
 import Usuario from "pages/admin/Usuario";
 //import Ventas2 from "pages/admin/Ventas2";
 import Ventas from "pages/admin/Ventas";
+import AdminVentas from "pages/admin/AdminVentas";
 import PagIndex from "pages/auth/PagIndex";
 import Login from "pages/auth/Login";
 import Registro from "pages/auth/Registro";
@@ -28,7 +29,7 @@ function App() {
       domain="misiontic-diseno3d.us.auth0.com"
       clientId="CS3VzTWZmTPByaDhKfuVuB1iPIVcSgsX"
       redirectUri={window.location.origin}
-      audience = "api-autenticacion-diseno3D"
+      audience="api-autenticacion-diseno3D"
     >
       <div className="App">
         <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
@@ -40,7 +41,8 @@ function App() {
                   "/admin",
                   "/admin/Diseno3D",
                   "/admin/Clientes",
-                  "/admin/Ventas",
+                  "/admin/AdminVentas",
+                  "/admin/Clientes",
                 ]}
               >
                 <PrivateLayout>
@@ -63,6 +65,9 @@ function App() {
                   </Route> */}
                     <Route path="/admin/Ventas">
                       <Ventas />
+                    </Route>
+                    <Route path="/admin/AdminVentas">
+                      <AdminVentas />
                     </Route>
                     <Route path="/admin">
                       <Admin />

@@ -10,34 +10,33 @@ const Ventas = () => {
   const [venta, setventa] = useState([]);
   const [TextoBoton, setTextoBoton] = useState("Crear Venta");
   const [ColorBoton, setColorBoton] = useState("indigo"); //Variable para cambiar el valor del color del boton const [ColorBoton, setColorBoton] La variable es ColorBoton y la que actualiza el estado es setColorBoton y el useState ("indigo") es el estado en el que empieza mi variable
-  const [ejecutarConsulta, setEjecutarConsulta] = useState(true)
+  const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
   useEffect(() => {
-
-            const obtenerventa = async () => {
-              // Se creo una variable para poder sincronizar los datos que entrega el Backend
-              const options = {
-                method: "GET",
-                url: "https://vast-waters-45728.herokuapp.com/venta/",
-              };
-              await axios
-                .request(options)
-                .then(function (response) {
-                  setventa(response.data);
-                })
-                .catch(function (error) {
-                  console.error(error);
-                });
-            };
+    const obtenerventa = async () => {
+      // Se creo una variable para poder sincronizar los datos que entrega el Backend
+      const options = {
+        method: "GET",
+        url: "https://vast-waters-45728.herokuapp.com/venta/",
+      };
+      await axios
+        .request(options)
+        .then(function (response) {
+          setventa(response.data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    };
 
     if (ejecutarConsulta) {
       obtenerventa();
-      setEjecutarConsulta(false)
+      setEjecutarConsulta(false);
     }
   }, [ejecutarConsulta]);
-  
+
   useEffect(() => {
     if (MostrarTabla) {
-    setEjecutarConsulta(true)
+      setEjecutarConsulta(true);
     }
   }, [MostrarTabla]);
 
@@ -68,7 +67,10 @@ const Ventas = () => {
         </button>
       </div>
       {MostrarTabla ? (
-        <Tablaventa listaventa={venta} setEjecutarConsulta={setEjecutarConsulta } />
+        <Tablaventa
+          listaventa={venta}
+          setEjecutarConsulta={setEjecutarConsulta}
+        />
       ) : (
         <FormularioCreacionventa
           setMostrarTabla={setMostrarTabla}
@@ -93,7 +95,7 @@ const Tablaventa = ({ listaventa, setEjecutarConsulta }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <h2 className="text-2xl font-extrabold text-gray-800">
-        Todas  las Ventas
+        Todas las Ventas
       </h2>
       <table className="tabla">
         <thead>
@@ -126,36 +128,59 @@ const Tablaventa = ({ listaventa, setEjecutarConsulta }) => {
 const Filaventa = ({ venta, setEjecutarConsulta }) => {
   /* Cuando necesite modificar algo que esta dentro de un .map necesito otro componente para poder modificar estas cosas porque sino se complica el code */
   const [edit, setEdit] = useState(false);
-  const [infoNuevoventa, setinfoNuevoventa] = useState({// se coloca asi porque vamos a manejar un solo estado en todo el formulario
+  const [infoNuevoventa, setinfoNuevoventa] = useState({
+    // se coloca asi porque vamos a manejar un solo estado en todo el formulario
     cliente: venta.cliente,
     factura: venta.factura,
     valor: venta.valor,
     fecha: venta.fecha,
     vendedor: venta.vendedor,
-  })
-  const actualizarventa = async() => {
-    console.log(infoNuevoventa)
+  });
+  const actualizarventa = async () => {
+    console.log(infoNuevoventa);
     // Con el siguiente codigo lo que me permite es enviar la informacion al backend actulizarla despues de que ya la he editado
     const options = {
       method: "PATCH",
       url: "https://vast-waters-45728.herokuapp.com/venta/update", // debe tener al final el update
       headers: { "Content-Type": "application/json" },
-      data: {...infoNuevoventa, id:venta._id},// debo enviarle el _id y es con venta._id con el guion al piso bajo
+      data: { ...infoNuevoventa, id: venta._id }, // debo enviarle el _id y es con venta._id con el guion al piso bajo
     };
 
-    await axios.request(options).then(function (response) { console.log(response.data); toast.success("Venta modificado con éxito"); setEdit(false); setEjecutarConsulta(true)}).catch(function (error) { toast.error("Error al modificar la venta"); console.error(error)})
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success("Venta modificado con éxito");
+        setEdit(false);
+        setEjecutarConsulta(true);
+      })
+      .catch(function (error) {
+        toast.error("Error al modificar la venta");
+        console.error(error);
+      });
     // setEdit(false)= lo que hace es que cuando oprima el icono del check vuelve al estado anterior que es el lapiz de modificar
-  }
+  };
 
-  const eliminarVentas = async() => {// Esta funcion hace que se elimine el registro que seleccione
+  const eliminarVentas = async () => {
+    // Esta funcion hace que se elimine el registro que seleccione
     const options = {
       method: "DELETE",
       url: "https://vast-waters-45728.herokuapp.com/venta/delete/",
       headers: { "Content-Type": "application/json" },
       data: { id: venta._id },
     };
-    await axios.request(options).then(function (response) { console.log(response.data); toast.success("Venta eliminada con éxito"); setEjecutarConsulta=(true) }).catch(function (error) { console.error(error); toast.error("Error al eliminar la Venta")})
-  }
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success("Venta eliminada con éxito");
+        setEjecutarConsulta = true;
+      })
+      .catch(function (error) {
+        console.error(error);
+        toast.error("Error al eliminar la Venta");
+      });
+  };
   return (
     <tr>
       {
@@ -225,18 +250,17 @@ const Filaventa = ({ venta, setEjecutarConsulta }) => {
               className="fas fa-edit text-yellow-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onclick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
             />
           )}
-          <i onclick={() => eliminarVentas() } class="far fa-trash-alt text-red-700 hover:text-red-400"></i>
+          <i
+            onclick={() => eliminarVentas()}
+            class="far fa-trash-alt text-red-700 hover:text-red-400"
+          ></i>
         </div>
       </td>
     </tr>
   );
 };
 
-const FormularioCreacionventa = ({
-  setMostrarTabla,
-  listaventa,
-  setventa,
-}) => {
+const FormularioCreacionventa = ({ setMostrarTabla, listaventa, setventa }) => {
   const form = useRef(null);
   const submitForm = async (e) => {
     //Axios trae la informacion del formulario cuando damos click en y hacemos submit, la convertimos en un objeto con new FormData despues creamos las opciones del axios
@@ -245,14 +269,20 @@ const FormularioCreacionventa = ({
     const fd = new FormData(form.current);
     const nuevaventa = {};
     fd.forEach((value, key) => {
-        nuevaventa[key] = value;
+      nuevaventa[key] = value;
     });
 
     const options = {
       method: "POST", // lo que quiero crear. Este es el metodo y puede ser GET POST PUT/PATH ó DELETE en este caso se uso POST porque queremos crear un nuevo registro
       url: "https://vast-waters-45728.herokuapp.com/venta/create", //Donde esta el api
       headers: { "Content-Type": "application/json" },
-      data: { cliente: "Renault", factura: "FZ22458287", valor: 2020 , fecha:"10/10/2021",vendedor:"Juan"}, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
+      data: {
+        cliente: "Renault",
+        factura: "FZ22458287",
+        valor: 2020,
+        fecha: "10/10/2021",
+        vendedor: "Juan",
+      }, // Datos que vienen del formulario es decir datos que le vamos a enviar a la base de datos
     };
 
     await axios // await = Se debe colocar con el sync para que espere una respuesta del BACKEND
@@ -275,7 +305,7 @@ const FormularioCreacionventa = ({
       <form ref={form} onSubmit={submitForm} className="flex flex-col">
         {/* grid grid-cols-2 Grid en 2 columnas */}
         <label className="flex flex-col" htmlFor="fecha">
-        fecha
+          fecha
           <input
             name="fecha"
             className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
@@ -285,7 +315,7 @@ const FormularioCreacionventa = ({
           />
         </label>
         <label className="flex flex-col" htmlFor="vendedor">
-        vendedor
+          vendedor
           <select
             className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
             name="color"
@@ -312,12 +342,14 @@ const FormularioCreacionventa = ({
             required
           >
             {/* la estructura para hacer un seleccionador es label select y despues option*/}
-            <option disabled value={0}>Selecione una opcion</option>{" "}
+            <option disabled value={0}>
+              Selecione una opcion
+            </option>{" "}
             {/* disable es para que no pueda seleccionar esa opcion */}
             <option>Nutresa</option>
             <option>Scotia bank</option>
             <option>Avvillas</option>
-            </select>
+          </select>
         </label>
 
         <button
@@ -332,7 +364,6 @@ const FormularioCreacionventa = ({
   );
 };
 
-
 // Renderización condicional = Es basicamente hacer lo mismo de dirigirnos a una ruta nueva como con el Roote, pero esta vez solo con un botón y no con un link como tal
 // text-2xl font-extrabold= el text-2xl lo que hace es agrandar un poco el texto y el font-extrabold lo pone en negrita
 // useEffect(() => {Ejecuta lo que haya a acá dentro}, [MostrarTabla]); = Este useEffect ejecutalo que hay dentro de los corchetes si cambia la variable MostrarTabla
@@ -344,4 +375,4 @@ const FormularioCreacionventa = ({
 //}
 // Tablaventa y formularioCrecionventa tienen renderizacion condicional
 
-export default Ventas
+export default Ventas;

@@ -24,6 +24,8 @@ const Sidebar = () => {
           nombre="Ventas"
         />
         <Ruta icono="fas fa-users" ruta="/admin/usuarios" nombre="Usuarios" />
+        <Ruta icono="fas fa-users" ruta="/admin/clientes" nombre="Clientes" />
+        <Ruta icono="fas fa-cash-register" ruta="/admin/AdminVentas" nombre="Administrador Ventas" />
       </div>
       <button
         onClick={() => cerraSesion()}
