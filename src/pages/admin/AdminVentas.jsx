@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { nanoid } from 'nanoid';
 import { Dialog, Tooltip } from '@material-ui/core';
-import { obtenerClientes, crearCliente, editarCliente, eliminarCliente } from 'utils/api';
+import { obtenerVehiculosVentas, crearVehiculo, editarVehiculo, eliminarVehiculo } from 'utils/api';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Clientes = () => {
+const Vehiculos = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
-  const [vehiculos, setClientes] = useState([]);
+  const [productos, setVehiculos] = useState([]);
   const [textoBoton, setTextoBoton] = useState('Crear Nuevo Vehículo');
   const [colorBoton, setColorBoton] = useState('indigo');
   const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
@@ -15,10 +15,10 @@ const Clientes = () => {
   useEffect(() => {
     console.log('consulta', ejecutarConsulta);
     if (ejecutarConsulta) {
-      obtenerClientes(
+      obtenerVehiculosVentas(
         (response) => {
           console.log('la respuesta que se recibio fue', response);
-          setClientes(response.data);
+          setVehiculos(response.data);
         },
         (error) => {
           console.error('Salio un error:', error);
@@ -60,12 +60,12 @@ const Clientes = () => {
         </button>
       </div>
       {mostrarTabla ? (
-        <TablaClientes listaClientes={vehiculos} setEjecutarConsulta={setEjecutarConsulta} />
+        <TablaVehiculos listaVehiculos={productos} setEjecutarConsulta={setEjecutarConsulta} />
       ) : (
-        <FormularioCreacionClientes
+        <FormularioCreacionVehiculos
           setMostrarTabla={setMostrarTabla}
-          listaClientes={vehiculos}
-          setClientes={setClientes}
+          listaVehiculos={productos}
+          setVehiculos={setVehiculos}
         />
       )}
       <ToastContainer position='bottom-center' autoClose={5000} />
@@ -73,17 +73,17 @@ const Clientes = () => {
   );
 };
 
-const TablaClientes = ({ listaClientes, setEjecutarConsulta }) => {
+const TablaVehiculos = ({ listaVehiculos, setEjecutarConsulta }) => {
   const [busqueda, setBusqueda] = useState('');
-  const [vehiculosFiltrados, setClientesFiltrados] = useState(listaClientes);
+  const [productosFiltrados, setVehiculosFiltrados] = useState(listaVehiculos);
 
   useEffect(() => {
-    setClientesFiltrados(
-      listaClientes.filter((elemento) => {
+    setVehiculosFiltrados(
+      listaVehiculos.filter((elemento) => {
         return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
       })
     );
-  }, [busqueda, listaClientes]);
+  }, [busqueda, listaVehiculos]);
 
   return (
     <div className='flex flex-col items-center justify-center w-full'>
@@ -99,16 +99,17 @@ const TablaClientes = ({ listaClientes, setEjecutarConsulta }) => {
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nombre del vehículo</th>
-              <th>Marca del vehículo</th>
-              <th>Modelo del vehículo</th>
+              <th>Nombre del Vendedor</th>
+              <th>Nombre del Cliente</th>
+              <th>Valor Venta</th>
+              <th>Productos</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {vehiculosFiltrados.map((vehiculo) => {
+            {productosFiltrados.map((vehiculo) => {
               return (
-                <FilaCliente
+                <FilaVehiculo
                   key={nanoid()}
                   vehiculo={vehiculo}
                   setEjecutarConsulta={setEjecutarConsulta}
@@ -119,10 +120,12 @@ const TablaClientes = ({ listaClientes, setEjecutarConsulta }) => {
         </table>
       </div>
       <div className='flex flex-col w-full m-2 md:hidden'>
-        {vehiculosFiltrados.map((el) => {
+        {productosFiltrados.map((el) => {
           return (
             <div className='bg-gray-400 m-2 shadow-xl flex flex-col p-2 rounded-xl'>
-              <span>{el.name}</span>
+              <span>{el.vendedor.name}</span>
+              <span>{el.totalVenta}</span>
+              <span>{el.productos.model}</span>
             </div>
           );
         })}
@@ -131,23 +134,25 @@ const TablaClientes = ({ listaClientes, setEjecutarConsulta }) => {
   );
 };
 
-const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
+const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
   const [edit, setEdit] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [infoNuevoCliente, setInfoNuevoCliente] = useState({
+  const [infoNuevoVehiculo, setInfoNuevoVehiculo] = useState({
     _id: vehiculo._id,
-    name: vehiculo.name,
- 
+    name: vehiculo.vendedor.name,
+    brand: vehiculo.totalVenta,
+    model: vehiculo.productos[0].model,
   });
 
-  const actualizarCliente = async () => {
+  const actualizarVehiculo = async () => {
     //enviar la info al backend
 
-    await editarCliente(
+    await editarVehiculo(
       vehiculo._id,
       {
-        name: infoNuevoCliente.name,
-  
+        name: infoNuevoVehiculo.name,
+        brand: infoNuevoVehiculo.brand,
+        model: infoNuevoVehiculo.model,
       },
       (response) => {
         console.log(response.data);
@@ -163,7 +168,7 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
   };
 
   const deleteVehicle = async () => {
-    await eliminarCliente(
+    await eliminarVehiculo(
       vehiculo._id,
       (response) => {
         console.log(response.data);
@@ -183,22 +188,22 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
     <tr>
       {edit ? (
         <>
-          <td>{infoNuevoCliente._id}</td>
+          <td>{infoNuevoVehiculo._id}</td>
           <td>
             <input
               className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
               type='text'
-              value={infoNuevoCliente.name}
-              onChange={(e) => setInfoNuevoCliente({ ...infoNuevoCliente, name: e.target.value })}
+              value={infoNuevoVehiculo.name}
+              onChange={(e) => setInfoNuevoVehiculo({ ...infoNuevoVehiculo, name: e.target.value })}
             />
           </td>
           <td>
             <input
               className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
               type='text'
-              value={infoNuevoCliente.brand}
+              value={infoNuevoVehiculo.brand}
               onChange={(e) =>
-                setInfoNuevoCliente({ ...infoNuevoCliente, brand: e.target.value })
+                setInfoNuevoVehiculo({ ...infoNuevoVehiculo, brand: e.target.value })
               }
             />
           </td>
@@ -206,9 +211,9 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
             <input
               className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
               type='text'
-              value={infoNuevoCliente.model}
+              value={infoNuevoVehiculo.model}
               onChange={(e) =>
-                setInfoNuevoCliente({ ...infoNuevoCliente, model: e.target.value })
+                setInfoNuevoVehiculo({ ...infoNuevoVehiculo, model: e.target.value })
               }
             />
           </td>
@@ -216,8 +221,9 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
       ) : (
         <>
           <td>{vehiculo._id.slice(20)}</td>
-          <td>{vehiculo.name}</td>
-
+          <td>{vehiculo.vendedor.name}</td>
+          <td>{vehiculo.totalVenta}</td>
+          <td>{vehiculo.productos[0].model}</td>
         </>
       )}
       <td>
@@ -226,7 +232,7 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
             <>
               <Tooltip title='Confirmar Edición' arrow>
                 <i
-                  onClick={() => actualizarCliente()}
+                  onClick={() => actualizarVehiculo()}
                   className='fas fa-check text-green-700 hover:text-green-500'
                 />
               </Tooltip>
@@ -280,22 +286,23 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
   );
 };
 
-const FormularioCreacionClientes = ({ setMostrarTabla, listaClientes, setClientes }) => {
+const FormularioCreacionVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) => {
   const form = useRef(null);
 
   const submitForm = async (e) => {
     e.preventDefault();
     const fd = new FormData(form.current);
 
-    const nuevoCliente = {};
+    const nuevoVehiculo = {};
     fd.forEach((value, key) => {
-      nuevoCliente[key] = value;
+      nuevoVehiculo[key] = value;
     });
 
-    await crearCliente(
+    await crearVehiculo(
       {
-        name: nuevoCliente.name,
- 
+        name: nuevoVehiculo.name,
+        brand: nuevoVehiculo.brand,
+        model: nuevoVehiculo.model,
       },
       (response) => {
         console.log(response.data);
@@ -309,9 +316,9 @@ const FormularioCreacionClientes = ({ setMostrarTabla, listaClientes, setCliente
 
     // const options = {
     //   method: 'POST',
-    //   url: 'http://localhost:5000/vehiculos/nuevo/',
+    //   url: 'http://localhost:5000/productos/nuevo/',
     //   headers: { 'Content-Type': 'application/json' },
-    //   data: { name: nuevoCliente.name, brand: nuevoCliente.brand, model: nuevoCliente.model },
+    //   data: { name: nuevoVehiculo.name, brand: nuevoVehiculo.brand, model: nuevoVehiculo.model },
     // };
 
     // await axios
@@ -384,5 +391,4 @@ const FormularioCreacionClientes = ({ setMostrarTabla, listaClientes, setCliente
   );
 };
 
-export default Clientes;
-
+export default Vehiculos;

@@ -8,6 +8,7 @@ import Clientes from "pages/admin/Clientes";
 import GestionarUsuarios from "pages/admin/GestionarUsuario";
 import Usuario from "pages/admin/Usuario";
 import Ventas from "pages/admin/Ventas";
+import AdminVentas from "pages/admin/AdminVentas";
 import PagIndex from "pages/auth/PagIndex";
 import Login from "pages/auth/Login";
 import Registro from "pages/auth/Registro";
@@ -27,7 +28,7 @@ function App() {
         {/* El estado que quiero que se transmita a lo largo del resto de la aplicacion*/}
         <Router>
           <Switch>
-            <Route path={["/admin", "/admin/Diseno3D", "/admin/Clientes"]}>
+            <Route path={["/admin", "/admin/Diseno3D", "/admin/Clientes","/admin/AdminVentas","/admin/Clientes"]}>
               <PrivateLayout>
                 <Switch>
                   <Route path="/admin/Diseno3D">
@@ -46,7 +47,10 @@ function App() {
                   <Route path="/admin/Ventas">
                     <Ventas />
                   </Route>
-                  <Route path="/admin">
+                  <Route path="/admin/AdminVentas">
+                    <AdminVentas />
+                  </Route>
+                   <Route path="/admin">
                     <Admin />
                   </Route>
                 </Switch>
