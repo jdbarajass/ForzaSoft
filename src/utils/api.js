@@ -68,6 +68,15 @@ export const eliminarVehiculo = async (id, successCallback, errorCallback) => {
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
+export const eliminarVenta = async (id, successCallback, errorCallback) => {
+  const options = {
+    method: 'DELETE',
+    url: `http://localhost:5000/ventas/${id}/`,
+    headers: { 'Content-Type': 'application/json' },
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
 // CRUD PARA USUARIOS
 
 export const obtenerUsuarios = async (successCallback, errorCallback) => {
@@ -79,7 +88,7 @@ export const obtenerUsuarios = async (successCallback, errorCallback) => {
 export const crearCliente = async (data, successCallback, errorCallback) => {
   const options = {
     method: 'POST',
-    url: 'http://localhost:5000/diseno3D/',
+    url: 'http://localhost:5000/clientes/',
     headers: { 'Content-Type': 'application/json' },
     data,
   };
@@ -89,17 +98,28 @@ export const crearCliente = async (data, successCallback, errorCallback) => {
 export const editarCliente = async (id, data, successCallback, errorCallback) => {
   const options = {
     method: 'PATCH',
-    url: `http://localhost:5000/diseno3D/${id}/`,
+    url: `http://localhost:5000/clientes/${id}/`,
     headers: { 'Content-Type': 'application/json' },
     data,
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
+export const editarVenta = async (id, data, successCallback, errorCallback) => {
+  const options = {
+    method: 'PATCH',
+    url: `http://localhost:5000/ventas/${id}/`,
+    headers: { 'Content-Type': 'application/json' },
+    data,
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+
 export const eliminarCliente = async (id, successCallback, errorCallback) => {
   const options = {
     method: 'DELETE',
-    url: `http://localhost:5000/diseno3D/${id}/`,
+    url: `http://localhost:5000/clientes/${id}/`,
     headers: { 'Content-Type': 'application/json' },
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
@@ -111,13 +131,16 @@ export const obtenerClientes = async (successCallback, errorCallback) => {
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
+//---------------------------------------------
+
+// CRUD DE VENTAS
 
 export const obtenerUsuariosVendedor = async (successCallback, errorCallback) => {
   const options = { method: 'GET', url: 'http://localhost:5000/usuariosVendedor' };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
-// CRUD DE VENTAS
+
 
 export const crearVenta = async (data, successCallback, errorCallback) => {
   const options = {

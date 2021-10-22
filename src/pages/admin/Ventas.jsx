@@ -4,6 +4,7 @@ import { crearVenta } from 'utils/api';
 import { obtenerVehiculos } from 'utils/api';
 import { obtenerUsuariosVendedor } from 'utils/api';
 import { obtenerClientes } from 'utils/api';
+import { useLocalStorage } from 'hooks/useLocalStorage'
 
 const Ventas = () => {
   const form = useRef(null);
@@ -11,6 +12,9 @@ const Ventas = () => {
   const [clientes, setClientes] = useState([]);
   const [productos, setVehiculos] = useState([]);
   const [productosTabla, setVehiculosTabla] = useState([]);
+  const [clienteid] = useLocalStorage('clienteid', nanoid(8))
+  const [vendedorid] = useLocalStorage('vendedorid', nanoid(8))
+
 
   useEffect(() => {
     const fetchVendores = async () => {
@@ -18,9 +22,12 @@ const Ventas = () => {
         (response) => {
           console.log('respuesta de usuarios', response);
           setVendedores(response.data);
+   
+       
         },
         (error) => {
           console.error(error);
+  
         }
       );
     };
@@ -56,12 +63,15 @@ const Ventas = () => {
     e.preventDefault();
     const fd = new FormData(form.current);
 
+    
+
     const formData = {};
     fd.forEach((value, key) => {
       formData[key] = value;
     });
 
     console.log('form data', formData);
+    //window.alert(formData.cliente);
 
     const listaVehiculos = Object.keys(formData)
       .map((k) => {
@@ -82,10 +92,12 @@ const Ventas = () => {
     });
 
     console.log('lista despues de cantidad', listaVehiculos);
-
+    
     const datosVenta = {
+      
+
       cliente: clientes.filter((v) => v._id === formData.cliente)[0],
-      vendedor: vendedores.filter((v) => v._id === formData.vendedor)[0],
+      vendedor: vendedores.filter((e) => e._id === formData.vendedor)[0],
       totalVenta: formData.valor,
       productos: listaVehiculos,
     };
@@ -118,20 +130,20 @@ const Ventas = () => {
         <label className='flex flex-col' htmlFor='vendedor'>
           <span className='text-2xl font-gray-900'>Vendedor:</span>
           <select name='vendedor' className='p-2' defaultValue='' required>
-            <option disabled value=''>
+            <option disabled value='' name='vendedor'>
               Seleccione un Vendedor
             </option>
             {vendedores.map((el) => {
-              return <option key={nanoid()} value={el._id}>{`${el.name}`}</option>;
+              return <option key={vendedorid} value={el._id}>{`${el.name}`}</option>;
             })}
           </select>
           <span className='text-2xl font-gray-900'>Cliente:</span>
           <select name='cliente' className='p-2' defaultValue='' required>
-            <option disabled value=''>
+            <option disabled value='' name='cliene'>
               Seleccione el Cliente
             </option>
             {clientes.map((el) => {
-              return <option key={nanoid()} value={el._id}>{`${el.name}`}</option>;
+              return <option key={clienteid} value={el._id}>{`${el.name}`}</option>;
             })}
           </select>
         </label>
@@ -265,7 +277,7 @@ useEffect(() => {
         </label>
         <button
           type='button'
-          onClick={(e) => { 
+          onClick={() => { 
             var sel = document.getElementById("producto");
             var text= sel.options[sel.selectedIndex].text;
             if(text!=='Seleccione un producto'){agregarNuevoVehiculo();}

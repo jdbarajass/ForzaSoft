@@ -1,15 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { nanoid } from 'nanoid';
 import { Dialog, Tooltip } from '@material-ui/core';
-import { obtenerVehiculosVentas, crearVehiculo, editarVehiculo, eliminarVehiculo } from 'utils/api';
+import { obtenerVehiculosVentas, editarVenta, eliminarVenta } from 'utils/api';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 const Vehiculos = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(true);
+ // const [mostrarTabla, setMostrarTabla] = useState(true);
   const [productos, setVehiculos] = useState([]);
-  const [textoBoton, setTextoBoton] = useState('Crear Nuevo Vehículo');
-  const [colorBoton, setColorBoton] = useState('indigo');
+ // const [textoBoton, setTextoBoton] = useState('Crear Nuevo Venta');
+ // const [colorBoton, setColorBoton] = useState('indigo');
   const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
 
   useEffect(() => {
@@ -19,56 +20,47 @@ const Vehiculos = () => {
         (response) => {
           console.log('la respuesta que se recibio fue', response);
           setVehiculos(response.data);
+          setEjecutarConsulta(false);
         },
         (error) => {
           console.error('Salio un error:', error);
         }
       );
-      setEjecutarConsulta(false);
+      
     }
   }, [ejecutarConsulta]);
-
+/*
   useEffect(() => {
-    //obtener lista de vehículos desde el backend
+    //obtener lista de Ventas desde el backend
     if (mostrarTabla) {
       setEjecutarConsulta(true);
     }
   }, [mostrarTabla]);
-
+*/
+/*
   useEffect(() => {
     if (mostrarTabla) {
-      setTextoBoton('Crear Nuevo Vehículo');
-      setColorBoton('indigo');
+   //   setTextoBoton('Crear Nuevo Venta');
+   //   setColorBoton('indigo');
     } else {
-      setTextoBoton('Mostrar Todos los vehículos');
-      setColorBoton('green');
+   //   setTextoBoton('Mostrar Todos los Ventas');
+   //   setColorBoton('green');
     }
   }, [mostrarTabla]);
+
+  */
   return (
     <div className='flex h-full w-full flex-col items-center justify-start p-8'>
       <div className='flex flex-col w-full'>
         <h2 className='text-3xl font-extrabold text-gray-900'>
-          Página de administración de vehículos
+          Página de administración de Ventas
         </h2>
-        <button
-          onClick={() => {
-            setMostrarTabla(!mostrarTabla);
-          }}
-          className={`text-white bg-${colorBoton}-500 p-5 rounded-full m-6 w-28 self-end`}
-        >
-          {textoBoton}
-        </button>
-      </div>
-      {mostrarTabla ? (
+    
+        </div>
+      {
         <TablaVehiculos listaVehiculos={productos} setEjecutarConsulta={setEjecutarConsulta} />
-      ) : (
-        <FormularioCreacionVehiculos
-          setMostrarTabla={setMostrarTabla}
-          listaVehiculos={productos}
-          setVehiculos={setVehiculos}
-        />
-      )}
-      <ToastContainer position='bottom-center' autoClose={5000} />
+      }
+      <ToastContainer position='bottom-center' autoClose={1000} />
     </div>
   );
 };
@@ -93,7 +85,7 @@ const TablaVehiculos = ({ listaVehiculos, setEjecutarConsulta }) => {
         placeholder='Buscar'
         className='border-2 border-gray-700 px-3 py-1 self-start rounded-md focus:outline-none focus:border-indigo-500'
       />
-      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los vehículos</h2>
+      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los Ventas</h2>
       <div className='hidden md:flex w-full'>
         <table className='tabla'>
           <thead>
@@ -125,6 +117,7 @@ const TablaVehiculos = ({ listaVehiculos, setEjecutarConsulta }) => {
             <div className='bg-gray-400 m-2 shadow-xl flex flex-col p-2 rounded-xl'>
               <span>{el.vendedor.name}</span>
               <span>{el.totalVenta}</span>
+              <span>{el.cliente.name}</span>
               <span>{el.productos.model}</span>
             </div>
           );
@@ -140,44 +133,45 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
   const [infoNuevoVehiculo, setInfoNuevoVehiculo] = useState({
     _id: vehiculo._id,
     name: vehiculo.vendedor.name,
-    brand: vehiculo.totalVenta,
-    model: vehiculo.productos[0].model,
+    totalVenta: vehiculo.totalVenta,
+    cliente: vehiculo.cliente,
+    productos: vehiculo.productos,
   });
 
-  const actualizarVehiculo = async () => {
+    const actualizarVehiculo = async () => {
     //enviar la info al backend
 
-    await editarVehiculo(
+    await editarVenta(
       vehiculo._id,
       {
         name: infoNuevoVehiculo.name,
-        brand: infoNuevoVehiculo.brand,
-        model: infoNuevoVehiculo.model,
+        totalVenta: infoNuevoVehiculo.totalVenta,
+        cliente: infoNuevoVehiculo.cliente,
       },
       (response) => {
         console.log(response.data);
-        toast.success('Vehículo modificado con éxito');
+        toast.success('Venta modificada con éxito');
         setEdit(false);
         setEjecutarConsulta(true);
       },
       (error) => {
-        toast.error('Error modificando el vehículo');
+        toast.error('Error modificanda el Venta');
         console.error(error);
       }
     );
   };
 
   const deleteVehicle = async () => {
-    await eliminarVehiculo(
+    await eliminarVenta(
       vehiculo._id,
       (response) => {
-        console.log(response.data);
-        toast.success('vehículo eliminado con éxito');
+      //  console.log(response.data);
+        toast.success('Venta eliminado con éxito');
         setEjecutarConsulta(true);
       },
       (error) => {
-        console.error(error);
-        toast.error('Error eliminando el vehículo');
+       // console.error(error);
+        toast.error('Error eliminando el Venta');
       }
     );
 
@@ -188,7 +182,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
     <tr>
       {edit ? (
         <>
-          <td>{infoNuevoVehiculo._id}</td>
+          <td>{infoNuevoVehiculo._id.slice(20)}</td>
           <td>
             <input
               className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
@@ -197,13 +191,14 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
               onChange={(e) => setInfoNuevoVehiculo({ ...infoNuevoVehiculo, name: e.target.value })}
             />
           </td>
+         
           <td>
             <input
               className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
               type='text'
-              value={infoNuevoVehiculo.brand}
+              value={infoNuevoVehiculo.cliente.name}
               onChange={(e) =>
-                setInfoNuevoVehiculo({ ...infoNuevoVehiculo, brand: e.target.value })
+                setInfoNuevoVehiculo({ ...infoNuevoVehiculo, cliente: e.target.value })
               }
             />
           </td>
@@ -211,19 +206,56 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
             <input
               className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
               type='text'
-              value={infoNuevoVehiculo.model}
+              value={infoNuevoVehiculo.totalVenta}
               onChange={(e) =>
-                setInfoNuevoVehiculo({ ...infoNuevoVehiculo, model: e.target.value })
+                setInfoNuevoVehiculo({ ...infoNuevoVehiculo, totalVenta: e.target.value })
               }
             />
-          </td>
+          </td><td></td>
+
         </>
       ) : (
         <>
           <td>{vehiculo._id.slice(20)}</td>
           <td>{vehiculo.vendedor.name}</td>
+          <td>{vehiculo.cliente.name}</td>
           <td>{vehiculo.totalVenta}</td>
-          <td>{vehiculo.productos[0].model}</td>
+          <td>
+
+            <div className='flex h-full w-full flex-col items-center justify-start p-8'>
+              <div className='flex flex-col w-full'>
+            
+              </div><div id="divproductos" name="divproductos" style={style.ventana} >
+                <table className='tablaproductos' id='tablaproductos' name='tabla'>
+                  <thead>
+                    <tr>
+
+                      <th>Nombre</th>
+                      <th>Valor Unitario</th>
+                      <th>Cantidad</th>
+                      <th className='hidden'>Input</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {vehiculo.productos.map(item => (
+
+
+                      <tr>
+
+                        <td className="text-center">{item.name}</td>
+                        <td className="text-center">{item.costo}</td>
+                        <td className="text-center">{item.cantidad}</td>
+                      </tr>
+
+                    ))}
+
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+          </td>
+
         </>
       )}
       <td>
@@ -245,13 +277,13 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
             </>
           ) : (
             <>
-              <Tooltip title='Editar Vehículo' arrow>
+              <Tooltip title='Editar Venta' arrow>
                 <i
                   onClick={() => setEdit(!edit)}
                   className='fas fa-pencil-alt text-yellow-700 hover:text-yellow-500'
                 />
               </Tooltip>
-              <Tooltip title='Eliminar Vehículo' arrow>
+              <Tooltip title='Eliminar Venta' arrow>
                 <i
                   onClick={() => setOpenDialog(true)}
                   className='fas fa-trash text-red-700 hover:text-red-500'
@@ -263,7 +295,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
         <Dialog open={openDialog}>
           <div className='p-8 flex flex-col'>
             <h1 className='text-gray-900 text-2xl font-bold'>
-              ¿Está seguro de querer eliminar el vehículo?
+              ¿Está seguro de querer eliminar el Venta?
             </h1>
             <div className='flex w-full items-center justify-center my-4'>
               <button
@@ -286,109 +318,35 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
   );
 };
 
-const FormularioCreacionVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) => {
-  const form = useRef(null);
-
-  const submitForm = async (e) => {
-    e.preventDefault();
-    const fd = new FormData(form.current);
-
-    const nuevoVehiculo = {};
-    fd.forEach((value, key) => {
-      nuevoVehiculo[key] = value;
-    });
-
-    await crearVehiculo(
-      {
-        name: nuevoVehiculo.name,
-        brand: nuevoVehiculo.brand,
-        model: nuevoVehiculo.model,
-      },
-      (response) => {
-        console.log(response.data);
-        toast.success('Vehículo agregado con éxito');
-      },
-      (error) => {
-        console.error(error);
-        toast.error('Error creando un vehículo');
-      }
-    );
-
-    // const options = {
-    //   method: 'POST',
-    //   url: 'http://localhost:5000/productos/nuevo/',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   data: { name: nuevoVehiculo.name, brand: nuevoVehiculo.brand, model: nuevoVehiculo.model },
-    // };
-
-    // await axios
-    //   .request(options)
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //     toast.success('Vehículo agregado con éxito');
-    //   })
-    //   .catch(function (error) {
-    //     console.error(error);
-    //     toast.error('Error creando un vehículo');
-    //   });
-
-    setMostrarTabla(true);
-  };
-
-  return (
-    <div className='flex flex-col items-center justify-center'>
-      <h2 className='text-2xl font-extrabold text-gray-800'>Crear nuevo vehículo</h2>
-      <form ref={form} onSubmit={submitForm} className='flex flex-col'>
-        <label className='flex flex-col' htmlFor='nombre'>
-          Nombre del vehículo
-          <input
-            name='name'
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            type='text'
-            placeholder='Corolla'
-            required
-          />
-        </label>
-        <label className='flex flex-col' htmlFor='marca'>
-          Marca del vehículo
-          <select
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            name='brand'
-            required
-            defaultValue={0}
-          >
-            <option disabled value={0}>
-              Seleccione una opción
-            </option>
-            <option>Renault</option>
-            <option>Toyota</option>
-            <option>Ford</option>
-            <option>Mazda</option>
-            <option>Chevrolet</option>
-          </select>
-        </label>
-        <label className='flex flex-col' htmlFor='modelo'>
-          Modelo del vehículo
-          <input
-            name='model'
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            type='number'
-            min={1992}
-            max={2022}
-            placeholder='2014'
-            required
-          />
-        </label>
-
-        <button
-          type='submit'
-          className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
-        >
-          Guardar vehiculo
-        </button>
-      </form>
-    </div>
-  );
-};
 
 export default Vehiculos;
+
+const style = {
+  fondo: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    background: "black",
+    opacity: 0.5,
+  },
+  ventana: {
+    position: "relative",
+    background: "#fff",
+    border: 1,
+    boxShadow: "2px 2px 10px rgba(0,0,0,3)",
+    zIndex: 10,
+  },
+  modal: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+    opacity: 100,
+  },
+};
