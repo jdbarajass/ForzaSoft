@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { nanoid } from 'nanoid';
 import { Dialog, Tooltip } from '@material-ui/core';
-import { obtenerVehiculosVentas, editarVenta, eliminarVenta } from 'utils/api';
+import { obtenerVentas, editarVenta, eliminarVenta } from 'utils/api';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,7 +16,7 @@ const Vehiculos = () => {
   useEffect(() => {
     console.log('consulta', ejecutarConsulta);
     if (ejecutarConsulta) {
-      obtenerVehiculosVentas(
+      obtenerVentas(
         (response) => {
           console.log('la respuesta que se recibio fue', response);
           setVehiculos(response.data);

@@ -14,7 +14,7 @@ export const obtenerdiseno3D = async (setdiseno3D, setEjecutarConsulta) => {
   setEjecutarConsulta(false);
 };
 
-
+/*
 export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
   const options = { method: "GET", url: "http://localhost:5000/ventas/" };
   await axios
@@ -26,18 +26,31 @@ export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
       console.error(error);
     });
   setEjecutarConsulta(false);
-};
+};*/
 
 export const obtenerVehiculosVentas = async (successCallback, errorCallback) => {
   const options = { method: 'GET', url: 'http://localhost:5000/ventas/' };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
+export const obtenerVentas = async (successCallback, errorCallback) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/ventas/' };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
 
+/*
 export const obtenerVehiculos = async (successCallback, errorCallback) => {
   const options = { method: 'GET', url: 'http://localhost:5000/diseno3D/' };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
+*/
+
+export const obtenerProductos = async (successCallback, errorCallback) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/diseno3D/' };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+
 
 export const crearVehiculo = async (data, successCallback, errorCallback) => {
   const options = {

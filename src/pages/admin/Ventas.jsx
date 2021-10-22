@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import React, { useState, useEffect, useRef } from 'react';
 import { crearVenta } from 'utils/api';
-import { obtenerVehiculos } from 'utils/api';
+import { obtenerProductos } from 'utils/api';
 import { obtenerUsuariosVendedor } from 'utils/api';
 import { obtenerClientes } from 'utils/api';
 import { useLocalStorage } from 'hooks/useLocalStorage'
@@ -32,7 +32,7 @@ const Ventas = () => {
       );
     };
     const fetchVehiculos = async () => {
-      await obtenerVehiculos(
+      await obtenerProductos(
         (response) => {
           setVehiculos(response.data);
         },
