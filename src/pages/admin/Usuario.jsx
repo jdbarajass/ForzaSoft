@@ -220,6 +220,8 @@ const FormularioCreacionUsuarios = ( {
         setMostrarTabla(true);
         setAgregarUsuario([...listaUsuarios, nuevoUsuario]);
         console.log("datos del form enviados", nuevoUsuario  );
+        //enviar a base de datos e identificar y notificar casos de exito y casos de error mediane el toast
+        //agregar control de datos duplicados en la base de datos
         toast.success("Usuario agregado con éxito");
         
     }
