@@ -20,19 +20,14 @@ export const obtenerdiseno3D = async (successCallback, errorCallback) => {
 export const creardiseno3D = async (data, successCallback, errorCallback) => {
   const options = {
     method: "POST",
-    url: "http://localhost:5000/diseno3D",
+    url: "http://localhost:5000/diseno3D/",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
     data,
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
-export const editardiseno3D = async (
-  id,
-  data,
-  successCallback,
-  errorCallback
-) => {
+export const editardiseno3D = async ( id,data,successCallback,errorCallback) => {
   const options = {
     method: "PATCH",
     url: `http://localhost:5000/diseno3D/${id}/`,
@@ -55,18 +50,37 @@ export const eliminardiseno3D = async (id, successCallback, errorCallback) => {
 export const obtenerUsuarios = async (successCallback, errorCallback) => {
   const options = {
     method: "GET",
-    url: `http://localhost:5000/usuarios/`,
+    url: "http://localhost:5000/usuarios",
     headers: { Authorization: getToken() },
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
+
+export const obtenerDatosUsuario = async (successCallback, errorCallback) => {
+  const options = {
+    method: "GET",
+    url: "http://localhost:5000/usuarios/self/",
+    headers: { Authorization: getToken(), },// 3. Enviarle el token al backend
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+export const editarUsuario = async ( id,data,successCallback,errorCallback) => {
+  const options = {
+    method: "PATCH",
+    url: `http://localhost:5000/usuarios/${id}/`,
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+    data,
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
 //CRUD DE VENTAS JESÚS
 export const crearVenta = async (data, successCallback, errorCallback) => {
   const options = {
     method: "POST",
-    url: `http://localhost:5000/ventas/`,
-    headers: { "Content-Type": "application/json" },
-    Authorization: getToken(),
+    url: `http://localhost:5000/ventas`,
+    headers: { "Content-Type": "application/json",Authorization: getToken() },
     data,
   };
   await axios.request(options).then(successCallback).catch(errorCallback);

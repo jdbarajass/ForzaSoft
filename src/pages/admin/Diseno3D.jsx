@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { nanoid } from "nanoid"; //esta libreria es para manejar los key... yarn add nanoid
 import { Dialog, Tooltip } from "@material-ui/core";
+import PrivateComponent from "componentes/PrivateComponent";
 import "react-toastify/dist/ReactToastify.css";
 import {
   obtenerdiseno3D,
@@ -14,20 +15,20 @@ import ReactLoading from "react-loading";
 const Diseno3D = () => {
   const [mostrarTabla, setmostrarTabla] = useState(true); //Rendedirazion Condicional
   const [diseno3D, setdiseno3D] = useState([]);
-  const [TextoBoton, setTextoBoton] = useState("Crear nuevo diseño 3D");
-  const [ColorBoton, setColorBoton] = useState("indigo"); //Variable para cambiar el valor del color del boton const [ColorBoton, setColorBoton] La variable es ColorBoton y la que actualiza el estado es setColorBoton y el useState ("indigo") es el estado en el que empieza mi variable
+  const [textoBoton, setTextoBoton] = useState("Crear nuevo diseño 3D");
+  const [colorBoton, setColorBoton] = useState("indigo"); //Variable para cambiar el valor del color del boton const [ColorBoton, setColorBoton] La variable es ColorBoton y la que actualiza el estado es setColorBoton y el useState ("indigo") es el estado en el que empieza mi variable
   const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
   const [loading, setLoading] = useState(false); // Se empieza en false para que al principio no haya ningun loading que se muestre
 
   useEffect(() => {
     const fetchdiseno3D = async () => {
-      setLoading(true);
+      setLoading(true);// mientras esta pidiendo info se va a mostrar el loading
       await obtenerdiseno3D(
         (response) => {
           console.log("La respuesta que se recibio fue", response);
           setdiseno3D(response.data);
           setEjecutarConsulta(false);
-          setLoading(false);
+          setLoading(false); // cuando recibe una respuesta dejo de mostrar loading
         },
         (error) => {
           console.error("Salio un error", error);
@@ -92,9 +93,9 @@ const Diseno3D = () => {
           onClick={() => {
             setmostrarTabla(!mostrarTabla);
           }}
-          className={`text-white bg-${ColorBoton}-500 p-5 rounded-full m-6 w-28 self-end`} /* w-28 self-end" = w-28 lo que hace es volver el boton un circulo y el self-end envia hacia el final ese circulo...  bg-${ColorBoton}-500 = este codigo es un STRING literal = Que la variable esta cambiando dependiendo del estado de la variable ColorBoton  */
+          className={`text-white bg-${colorBoton}-500 p-5 rounded-full m-6 w-28 self-end`} /* w-28 self-end" = w-28 lo que hace es volver el boton un circulo y el self-end envia hacia el final ese circulo...  bg-${ColorBoton}-500 = este codigo es un STRING literal = Que la variable esta cambiando dependiendo del estado de la variable ColorBoton  */
         >
-          {TextoBoton}
+          {textoBoton}
         </button>
       </div>
       {mostrarTabla ? (
@@ -145,7 +146,12 @@ const Tabladiseno3D = ({ loading, listadiseno3D, setEjecutarConsulta }) => {
       <div className="hidden md:flex w-full">
         {/* Esto es responsive y el proyecto quedo con 3 etapas que en pantallas pequeñas quedan unos cards para cada diseño 3D, en pantallas medianas queda la tabla y en pantallas grandes queda el sidebar y la tabla */}
         {loading ? (
-          <ReactLoading type="spokes" color="#acb123" height={667} width={375} />
+          <ReactLoading
+            type="spokes"
+            color="#acb123"
+            height={667}
+            width={375}
+          />
         ) : (
           <table className="tabla">
             <thead>
@@ -154,7 +160,9 @@ const Tabladiseno3D = ({ loading, listadiseno3D, setEjecutarConsulta }) => {
                 <th>Nombre del diseño 3D</th>
                 <th>Color del materia</th>
                 <th>Material del diseño</th>
-                <th>Acciones</th>
+                  <PrivateComponent roleList={["admin"] }>
+                  <th>Acciones</th>
+                </PrivateComponent>
               </tr>
             </thead>
             <tbody>
@@ -294,66 +302,69 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
           </>
         )
       }
-      <td>
-        <div className="flex w-full justify-around">
-          {edit ? (
-            <>
-              <Tooltip title="Confirmar Edición" arrow>
-                <i
-                  onClick={() => actualizardiseno3D()}
-                  className="far fa-check-square text-green-700 hover:text-green-500"
-                />
-              </Tooltip>
-              <Tooltip title="Cancelar Edición" arrow>
-                <i
-                  onClick={() => setEdit(!edit)}
-                  className="fas fa-ban text-yellow-700 hover:text-yellow-500"
-                />
-              </Tooltip>
-            </>
-          ) : (
-            <>
-              {/*<></>=fragmento vacio porque todos los componentes deben tener un padre */}
-              <Tooltip title="Editar Diseño 3D" arrow>
-                <i
-                  onClick={() => setEdit(!edit)} // setEdit(!edit)} se setea el edit en el estado anterior ... arrow = Es basicamente la flechita la guia del Tooltip
-                  className="fas fa-edit text-yellow-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onClick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
-                />
-              </Tooltip>
-              {/* Este Tooltip title = sirve para que cuando el usuario se coloque encima del icono de eliminar, aparezca el mensaje de title="Eliminar Diseño 3D" */}
-              <Tooltip title="Eliminar Diseño 3D" arrow>
-                <i
-                  onClick={() => setOpenDialog(true)}
-                  className="far fa-trash-alt text-red-700 hover:text-red-400" //Otra canequita de basura = far fa-trash-alt o fas fa-trash
-                />
-              </Tooltip>
-            </>
-          )}
-        </div>
-        {/*El dialogo es una ventana emergente en este caso saldra para confirmar si de verdad queremos eliminar un registro. Los dialogos deben tener un prop que se llama open y este debe tener adentro un estado que cambie de true a false que es para que se muestre o no se quite */}
-        <Dialog open={openDialog}>
-          <div className="p-8 flex flex-col">
-            {/* flex flex-1-col= para que me muestre uno debajo del otro */}
-            <h1 className="text-gray-900 text-2xl font-bold">
-              ¿Está seguro de eliminar el diseño?
-            </h1>
-            <div className="flex w-full items-center justify-center my-4">
-              <button
-                onClick={() => deleteDesign()}
-                className="mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md"
-              >
-                Si
-              </button>
-              <button
-                onClick={() => setOpenDialog(false)}
-                className="mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md"
-              >
-                No
-              </button>
-            </div>
+      <PrivateComponent roleList={["admin"]}>
+        <td>
+          <div className="flex w-full justify-around">
+            {edit ? (
+              <>
+                <Tooltip title="Confirmar Edición" arrow>
+                  <i
+                    onClick={() => actualizardiseno3D()}
+                    className="far fa-check-square text-green-700 hover:text-green-500"
+                  />
+                </Tooltip>
+                <Tooltip title="Cancelar Edición" arrow>
+                  <i
+                    onClick={() => setEdit(!edit)}
+                    className="fas fa-ban text-yellow-700 hover:text-yellow-500"
+                  />
+                </Tooltip>
+              </>
+            ) : (
+              <>
+                {/*<></>=fragmento vacio porque todos los componentes deben tener un padre */}
+                <Tooltip title="Editar Diseño 3D" arrow>
+                  <i
+                    onClick={() => setEdit(!edit)} // setEdit(!edit)} se setea el edit en el estado anterior ... arrow = Es basicamente la flechita la guia del Tooltip
+                    className="fas fa-edit text-yellow-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onClick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
+                  />
+                </Tooltip>
+                {/* Este Tooltip title = sirve para que cuando el usuario se coloque encima del icono de eliminar, aparezca el mensaje de title="Eliminar Diseño 3D" */}
+                <Tooltip title="Eliminar Diseño 3D" arrow>
+                  <i
+                    onClick={() => setOpenDialog(true)}
+                    className="far fa-trash-alt text-red-700 hover:text-red-400" //Otra canequita de basura = far fa-trash-alt o fas fa-trash
+                  />
+                </Tooltip>
+              </>
+            )}
           </div>
-        </Dialog>
-      </td>
+
+          {/*El dialogo es una ventana emergente en este caso saldra para confirmar si de verdad queremos eliminar un registro. Los dialogos deben tener un prop que se llama open y este debe tener adentro un estado que cambie de true a false que es para que se muestre o no se quite */}
+          <Dialog open={openDialog}>
+            <div className="p-8 flex flex-col">
+              {/* flex flex-1-col= para que me muestre uno debajo del otro */}
+              <h1 className="text-gray-900 text-2xl font-bold">
+                ¿Está seguro de eliminar el diseño?
+              </h1>
+              <div className="flex w-full items-center justify-center my-4">
+                <button
+                  onClick={() => deleteDesign()}
+                  className="mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md"
+                >
+                  Si
+                </button>
+                <button
+                  onClick={() => setOpenDialog(false)}
+                  className="mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </Dialog>
+        </td>
+      </PrivateComponent>
     </tr>
   );
 };

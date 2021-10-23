@@ -42,3 +42,4 @@ export default Navbar;
 // shadow-md = lo que hace es ponerle sombra al boton
 // hover: bg-indigo-700 = cuando me posicione en el boton cambie el color a un poquito más oscuro
 /* La funcion Link a diferencia de la etiqueda a que lleva <a ref=...> es que la etiqueta a hace nuevas peticiones, la funcion Link no, solo navega entre las mismas paginas del HTML y es mucho más rapido */
+//const { loginWithRedirect } = useAuth0();= es una funcioni de useAuth0 y es para re dirigirse al login de la página de Auth0
