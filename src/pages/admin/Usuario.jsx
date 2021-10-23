@@ -207,6 +207,8 @@ const FormularioCreacionUsuarios = ( {
     return(
     <form className="mt-8 w-3/4">
     <div>
+        <label htmlFor="Nombres" className="block text-gray-500 text-sm font-bold mb-2">
+            Nombres
         <input
             value = {nombres}
             onChange = {(e) => {
@@ -214,11 +216,13 @@ const FormularioCreacionUsuarios = ( {
                 }}
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="text"
-            placeholder="Nombres"
+            //placeholder="Nombres"
             required
             name = "nombres"
             />
-
+        </label>
+        <label htmlFor="Apellidos" className="block text-gray-500 text-sm font-bold mb-2">
+            Apellidos
         <input 
             value = {apellidos}
             onChange = {(e) => {
@@ -226,10 +230,14 @@ const FormularioCreacionUsuarios = ( {
                 }}
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="text"
-            placeholder="Apellidos"
+            //placeholder="Apellidos"
             required
             name="apellidos"
-        />
+        />            
+        </label>
+
+        <label htmlFor="Dirección" className="block text-gray-500 text-sm font-bold mb-2">
+            Dirección
         <input
             value = {direccion}
             onChange = {(e) => {
@@ -237,10 +245,13 @@ const FormularioCreacionUsuarios = ( {
             }}                    
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="text"
-            placeholder="Dirección"
+            //placeholder="Dirección"
             required
             name = "direccion"
         />
+        </label>
+        <label htmlFor="Teléfono" className="block text-gray-500 text-sm font-bold mb-2">
+            Teléfono
         <input
             value = {telefono}
             onChange = {(e) => {
@@ -248,10 +259,13 @@ const FormularioCreacionUsuarios = ( {
             }}                      
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="text"
-            placeholder="Teléfono"
+            //placeholder="Teléfono"
             required
             name = "telefono"
         />
+        </label>
+        <label htmlFor="correo electrónico" className="block text-gray-500 text-sm font-bold mb-2">
+            Correo electrónico
         <input
             value = {correoE}
             type="email" 
@@ -259,10 +273,13 @@ const FormularioCreacionUsuarios = ( {
                 setCorreoE(e.target.value);
             }}                      
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Correo electrónico"
+            //placeholder="Correo electrónico"
             required
             name = "correoE"
             />
+        </label>
+        <label htmlFor="Contraseña" className="block text-gray-500 text-sm font-bold mb-2">
+            Contraseña
         <input
             value = {contrasena}
             type="password"
@@ -270,10 +287,11 @@ const FormularioCreacionUsuarios = ( {
                 setContrasena(e.target.value);
             }}                      
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Contraseña"
+            //placeholder="Contraseña"
             required
             name = "contrasena"
             />
+        </label>
         <label htmlFor="Rol_usuario" className="block text-gray-500 text-sm font-bold mb-2">
             Seleccionar rol del usuario
             <select
@@ -286,7 +304,8 @@ const FormularioCreacionUsuarios = ( {
                 name="Rol"
                 required                      
                 >
-                <option disabled selected hidden>Establezca el rol del usuario</option>
+                <option selected></option>
+                <option disabled>Establezca el rol del usuario</option>
                 <option value="Vendedor">Vendedor</option>
                 <option value="Administrador">Administrador</option>
                 <option value="Ejecutivo">Ejecutivo</option>
@@ -308,7 +327,8 @@ const FormularioCreacionUsuarios = ( {
                 required                      
                 name="rol"
                 >
-                <option disabled>Establezca el estado del rol del usuario</option>
+                <option></option>
+                <option selected>Establezca el estado del rol del usuario</option>
                 <option value="Pendiente">Pendiente</option>
                 <option value="Aprobado">Aprobado</option>
             </select>
