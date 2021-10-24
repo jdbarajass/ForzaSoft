@@ -1,6 +1,5 @@
 import React from 'react'
 import "Styles/styles.css";
-import "Scripts/scripts.js";
 
 const Body = () => {
     return (
