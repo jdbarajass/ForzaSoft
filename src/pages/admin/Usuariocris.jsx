@@ -205,7 +205,7 @@ const FormularioCreacionUsuarios = ( {
     //     console.log(listaUsuarios);
     // };
 
-    const MY_NAMESPACE = 'c4f37b4d-f1f0-4d66-91a5-4e90c0df08fc'; //Namespace para creación de ID
+    //const MY_NAMESPACE = 'c4f37b4d-f1f0-4d66-91a5-4e90c0df08fc'; //Namespace para creación de ID
 
     const submitForm = (e) =>{
         e.preventDefault();
