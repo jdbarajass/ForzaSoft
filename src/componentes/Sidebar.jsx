@@ -35,7 +35,7 @@ const Sidebar = () => {
           <Ruta
             icono="fas fa-cash-register"
             ruta="/admin/ventas"
-            nombre="Ventas"
+            nombre="Ventas1111111111"
           />
         </PrivateComponent>
         <PrivateComponent roleList={["admin"]}>
