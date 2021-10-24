@@ -1,29 +1,53 @@
-import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
-//Estos import que siguen son de reac-toastify
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { nanoid } from "nanoid"; //esta libreria es para manejar los key... yarn add nanoid
+import { nanoid } from 'nanoid';
+import React, { useState, useEffect, useRef } from 'react';
+import { crearVenta } from 'utils/api';
+import { obtenerProductos } from 'utils/api';
+import { obtenerUsuariosVendedor } from 'utils/api';
+import { obtenerClientes } from 'utils/api';
+import { useLocalStorage } from 'hooks/useLocalStorage'
 
 const Ventas = () => {
-  const [MostrarTabla, setMostrarTabla] = useState(true); //Rendedirazion Condicional
-  const [venta, setventa] = useState([]);
-  const [TextoBoton, setTextoBoton] = useState("Crear Venta");
-  const [ColorBoton, setColorBoton] = useState("indigo"); //Variable para cambiar el valor del color del boton const [ColorBoton, setColorBoton] La variable es ColorBoton y la que actualiza el estado es setColorBoton y el useState ("indigo") es el estado en el que empieza mi variable
-  const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
+  const form = useRef(null);
+  const [vendedores, setVendedores] = useState([]);
+  const [clientes, setClientes] = useState([]);
+  const [productos, setVehiculos] = useState([]);
+  const [productosTabla, setVehiculosTabla] = useState([]);
+  const [clienteid] = useLocalStorage('clienteid', nanoid(8))
+  const [vendedorid] = useLocalStorage('vendedorid', nanoid(8))
+
+
   useEffect(() => {
-    const obtenerventa = async () => {
-      // Se creo una variable para poder sincronizar los datos que entrega el Backend
-      const options = {
-        method: "GET",
-        url: "https://vast-waters-45728.herokuapp.com/venta/",
-      };
-      await axios
-        .request(options)
-        .then(function (response) {
-          setventa(response.data);
-        })
-        .catch(function (error) {
+    const fetchVendores = async () => {
+      await obtenerUsuariosVendedor(
+        (response) => {
+          console.log('respuesta de usuarios', response);
+          setVendedores(response.data);
+   
+       
+        },
+        (error) => {
+          console.error(error);
+  
+        }
+      );
+    };
+    const fetchVehiculos = async () => {
+      await obtenerProductos(
+        (response) => {
+          setVehiculos(response.data);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    };
+
+    const fetchClientes = async () => {
+      await obtenerClientes(
+        (response) => {
+          setClientes(response.data);
+        },
+        (error) => {
           console.error(error);
         });
     };
@@ -34,9 +58,70 @@ const Ventas = () => {
     }
   }, [ejecutarConsulta]);
 
-  useEffect(() => {
-    if (MostrarTabla) {
-      setEjecutarConsulta(true);
+    fetchVendores();
+    fetchVehiculos();
+    fetchClientes();
+  }, []);
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form.current);
+
+    
+
+    const formData = {};
+    fd.forEach((value, key) => {
+      formData[key] = value;
+    });
+
+    console.log('form data', formData);
+    //window.alert(formData.cliente);
+
+    const listaVehiculos = Object.keys(formData)
+      .map((k) => {
+        if (k.includes('vehiculo')) {
+          return productosTabla.filter((v) => v._id === formData[k])[0];
+        }
+        return null;
+      })
+      .filter((v) => v);
+
+    console.log('lista antes de cantidad', listaVehiculos);
+
+    Object.keys(formData).forEach((k) => {
+      if (k.includes('cantidad')) {
+        const indice = parseInt(k.split('_')[1]);
+        listaVehiculos[indice]['cantidad'] = formData[k];
+      }
+    });
+
+    console.log('lista despues de cantidad', listaVehiculos);
+    
+    const datosVenta = {
+      
+
+      cliente: clientes.filter((v) => v._id === formData.cliente)[0],
+      vendedor: vendedores.filter((e) => e._id === formData.vendedor)[0],
+      totalVenta: formData.valor,
+      productos: listaVehiculos,
+    };
+
+    console.log('lista productos', listaVehiculos);
+
+    let val=document.getElementById('valor');
+    
+    if(val.value>0){
+    await crearVenta(
+      datosVenta,
+      (response) => {
+        console.log(response);
+        window.location.reload(false);
+        
+      },
+      (error) => {
+        console.error(error);
+      }
+    )
     }
   }, [MostrarTabla]);
 
@@ -50,13 +135,47 @@ const Ventas = () => {
     }
   }, [MostrarTabla]);
   return (
-    <div className="flex h-full w-full flex-col items-center justify-start p-8">
-      {/* justify-start es para que se vayan para arriba  y el p-8 es el padding que sirve para separarse del top*/}
-      <div className="flex flex-col w-full">
-        {/* el w-full me ayuda a que la tabla tome todo el tamaño completo de la pagina*/}
-        <h2 className="text-3xl font-extrabold text-gray-900 ">
-          Página de administracion de Ventas
-        </h2>
+    <div className='flex h-full w-full items-center justify-center'>
+      <form ref={form} onSubmit={submitForm} className='flex flex-col h-full'>
+        <h1 className='text-3xl font-extrabold text-gray-900 my-3'>Crear una nueva venta</h1>
+        <label className='flex flex-col' htmlFor='vendedor'>
+          <span className='text-2xl font-gray-900'>Vendedor:</span>
+          <select name='vendedor' className='p-2' defaultValue='' required>
+            <option disabled value='' name='vendedor'>
+              Seleccione un Vendedor
+            </option>
+            {vendedores.map((el) => {
+              return <option key={vendedorid} value={el._id}>{`${el.name}`}</option>;
+            })}
+          </select>
+          <span className='text-2xl font-gray-900'>Cliente:</span>
+          <select name='cliente' className='p-2' defaultValue='' required>
+            <option disabled value='' name='cliene'>
+              Seleccione el Cliente
+            </option>
+            {clientes.map((el) => {
+              return <option key={clienteid} value={el._id}>{`${el.name}`}</option>;
+            })}
+          </select>
+        </label>
+        <span className='text-2xl font-gray-900'>Productos:</span>
+        <TablaVehiculos
+          productos={productos}
+          setVehiculos={setVehiculos}
+          setVehiculosTabla={setVehiculosTabla}
+        />
+
+        <label className='flex flex-col'>
+          <span className='text-2xl font-gray-900'>Valor Total Venta</span>
+          <input
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2 '
+            type='number'
+            name='valor'
+            id='valor'
+            readOnly
+            required
+          />
+        </label>
         <button
           onClick={() => {
             setMostrarTabla(!MostrarTabla);
@@ -93,11 +212,46 @@ const Tablaventa = ({ listaventa, setEjecutarConsulta }) => {
   }, [listaventa]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
-      <h2 className="text-2xl font-extrabold text-gray-800">
-        Todas las Ventas
-      </h2>
-      <table className="tabla">
+    <div>
+      <div className='flex '>
+        <label className='flex flex-col' htmlFor='vehiculo'>
+          <select
+            className='p-2'
+            name='producto'
+            id='producto'
+            value={vehiculoAAgregar._id ?? ''}
+            onChange={(e) => setVehiculoAAgregar(productos.filter((v) => v._id === e.target.value)[0])
+            }
+          >
+            <option disabled value='' >
+              Seleccione un producto
+            </option>
+            {productos.map((el) => {
+              return (
+                <option
+                  required
+                  key={nanoid()}
+                  value={el._id}
+                >{`${el.name} ${el.brand} ${el.model}`}</option>
+              );
+            })}
+          </select>
+        </label>
+        <button
+          type='button'
+          onClick={() => { 
+            var sel = document.getElementById("producto");
+            var text= sel.options[sel.selectedIndex].text;
+            if(text!=='Seleccione un producto'){agregarNuevoVehiculo();}
+                     
+          
+          }}
+          className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
+        >
+          Agregar Producto
+        </button>
+      </div>
+      <table className='tabla' id='tabla' name='tabla'>
         <thead>
           {/* los th son los headers de la tabla es decir los que estarán arriba de la misma */}
           <tr>

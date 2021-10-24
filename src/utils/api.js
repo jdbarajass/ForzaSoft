@@ -14,8 +14,43 @@ export const obtenerdiseno3D = async (successCallback, errorCallback) => {
       Authorization: getToken(),
     },
   };
+/*
+export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
+  const options = { method: "GET", url: "http://localhost:5000/ventas/" };
+  await axios
+    .request(options)
+    .then(function (response) {
+      setVentas(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+  setEjecutarConsulta(false);
+};*/
+
+export const obtenerVehiculosVentas = async (successCallback, errorCallback) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/ventas/' };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
+
+export const obtenerVentas = async (successCallback, errorCallback) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/ventas/' };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+/*
+export const obtenerVehiculos = async (successCallback, errorCallback) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/diseno3D/' };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+*/
+
+export const obtenerProductos = async (successCallback, errorCallback) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/diseno3D/' };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+
 
 export const creardiseno3D = async (data, successCallback, errorCallback) => {
   const options = {
@@ -46,21 +81,33 @@ export const eliminardiseno3D = async (id, successCallback, errorCallback) => {
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
-// CRUD PARA USUARIOS... un vendedor es un usuario en esta plataforma
+export const eliminarVenta = async (id, successCallback, errorCallback) => {
+  const options = {
+    method: 'DELETE',
+    url: `http://localhost:5000/ventas/${id}/`,
+    headers: { 'Content-Type': 'application/json' },
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+// CRUD PARA USUARIOS
+
 export const obtenerUsuarios = async (successCallback, errorCallback) => {
   const options = {
-    method: "GET",
-    url: "http://localhost:5000/usuarios",
-    headers: { Authorization: getToken() },
+    method: 'POST',
+    url: 'http://localhost:5000/clientes/',
+    headers: { 'Content-Type': 'application/json' },
+    data,
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
 export const obtenerDatosUsuario = async (successCallback, errorCallback) => {
   const options = {
-    method: "GET",
-    url: "http://localhost:5000/usuarios/self/",
-    headers: { Authorization: getToken(), },// 3. Enviarle el token al backend
+    method: 'PATCH',
+    url: `http://localhost:5000/clientes/${id}/`,
+    headers: { 'Content-Type': 'application/json' },
+    data,
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
@@ -71,11 +118,43 @@ export const editarUsuario = async ( id,data,successCallback,errorCallback) => {
     url: `http://localhost:5000/usuarios/${id}/`,
     headers: { "Content-Type": "application/json", Authorization: getToken() },
     data,
+export const editarVenta = async (id, data, successCallback, errorCallback) => {
+  const options = {
+    method: 'PATCH',
+    url: `http://localhost:5000/ventas/${id}/`,
+    headers: { 'Content-Type': 'application/json' },
+    data,
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
-//CRUD DE VENTAS JESÚS
+
+export const eliminarCliente = async (id, successCallback, errorCallback) => {
+  const options = {
+    method: 'DELETE',
+    url: `http://localhost:5000/clientes/${id}/`,
+    headers: { 'Content-Type': 'application/json' },
+  };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+
+export const obtenerClientes = async (successCallback, errorCallback) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/clientes' };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+//---------------------------------------------
+
+// CRUD DE VENTAS
+
+export const obtenerUsuariosVendedor = async (successCallback, errorCallback) => {
+  const options = { method: 'GET', url: 'http://localhost:5000/usuariosVendedor' };
+  await axios.request(options).then(successCallback).catch(errorCallback);
+};
+
+
+
 export const crearVenta = async (data, successCallback, errorCallback) => {
   const options = {
     method: "POST",

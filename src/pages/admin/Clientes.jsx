@@ -1,4 +1,4 @@
-/* import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { nanoid } from 'nanoid';
 import { Dialog, Tooltip } from '@material-ui/core';
@@ -19,12 +19,13 @@ const Clientes = () => {
         (response) => {
           console.log('la respuesta que se recibio fue', response);
           setClientes(response.data);
+          setEjecutarConsulta(false);
         },
         (error) => {
           console.error('Salio un error:', error);
         }
       );
-      setEjecutarConsulta(false);
+     
     }
   }, [ejecutarConsulta]);
 
@@ -37,10 +38,10 @@ const Clientes = () => {
 
   useEffect(() => {
     if (mostrarTabla) {
-      setTextoBoton('Crear Nuevo Vehículo');
+      setTextoBoton('Crear Nuevo Cliente');
       setColorBoton('indigo');
     } else {
-      setTextoBoton('Mostrar Todos los vehículos');
+      setTextoBoton('Mostrar Todos los Cliente');
       setColorBoton('green');
     }
   }, [mostrarTabla]);
@@ -48,7 +49,7 @@ const Clientes = () => {
     <div className='flex h-full w-full flex-col items-center justify-start p-8'>
       <div className='flex flex-col w-full'>
         <h2 className='text-3xl font-extrabold text-gray-900'>
-          Página de administración de vehículos
+          Administración de Cliente
         </h2>
         <button
           onClick={() => {
@@ -68,7 +69,7 @@ const Clientes = () => {
           setClientes={setClientes}
         />
       )}
-      <ToastContainer position='bottom-center' autoClose={5000} />
+      <ToastContainer position='bottom-center' autoClose={1000} />
     </div>
   );
 };
@@ -93,15 +94,13 @@ const TablaClientes = ({ listaClientes, setEjecutarConsulta }) => {
         placeholder='Buscar'
         className='border-2 border-gray-700 px-3 py-1 self-start rounded-md focus:outline-none focus:border-indigo-500'
       />
-      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los vehículos</h2>
+      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los Clientes</h2>
       <div className='hidden md:flex w-full'>
         <table className='tabla'>
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nombre del vehículo</th>
-              <th>Marca del vehículo</th>
-              <th>Modelo del vehículo</th>
+              <th>Nombre del Cliente</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -156,7 +155,7 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
         setEjecutarConsulta(true);
       },
       (error) => {
-        toast.error('Error modificando el vehículo');
+        toast.error('Error modificando el Cliente');
         console.error(error);
       }
     );
@@ -167,12 +166,12 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
       vehiculo._id,
       (response) => {
         console.log(response.data);
-        toast.success('vehículo eliminado con éxito');
+        toast.success('Cliente eliminado con éxito');
         setEjecutarConsulta(true);
       },
       (error) => {
         console.error(error);
-        toast.error('Error eliminando el vehículo');
+        toast.error('Error eliminando el Cliente');
       }
     );
 
@@ -192,26 +191,8 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
               onChange={(e) => setInfoNuevoCliente({ ...infoNuevoCliente, name: e.target.value })}
             />
           </td>
-          <td>
-            <input
-              className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-              type='text'
-              value={infoNuevoCliente.brand}
-              onChange={(e) =>
-                setInfoNuevoCliente({ ...infoNuevoCliente, brand: e.target.value })
-              }
-            />
-          </td>
-          <td>
-            <input
-              className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-              type='text'
-              value={infoNuevoCliente.model}
-              onChange={(e) =>
-                setInfoNuevoCliente({ ...infoNuevoCliente, model: e.target.value })
-              }
-            />
-          </td>
+
+      
         </>
       ) : (
         <>
@@ -239,13 +220,13 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
             </>
           ) : (
             <>
-              <Tooltip title='Editar Vehículo' arrow>
+              <Tooltip title='Editar Cliente' arrow>
                 <i
                   onClick={() => setEdit(!edit)}
                   className='fas fa-pencil-alt text-yellow-700 hover:text-yellow-500'
                 />
               </Tooltip>
-              <Tooltip title='Eliminar Vehículo' arrow>
+              <Tooltip title='Eliminar Cliente' arrow>
                 <i
                   onClick={() => setOpenDialog(true)}
                   className='fas fa-trash text-red-700 hover:text-red-500'
@@ -257,7 +238,7 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
         <Dialog open={openDialog}>
           <div className='p-8 flex flex-col'>
             <h1 className='text-gray-900 text-2xl font-bold'>
-              ¿Está seguro de querer eliminar el vehículo?
+              ¿Está seguro de querer eliminar el Cliente?
             </h1>
             <div className='flex w-full items-center justify-center my-4'>
               <button
@@ -303,7 +284,7 @@ const FormularioCreacionClientes = ({ setMostrarTabla, listaClientes, setCliente
       },
       (error) => {
         console.error(error);
-        toast.error('Error creando un vehículo');
+        toast.error('Error creando un Cliente');
       }
     );
 
@@ -330,10 +311,10 @@ const FormularioCreacionClientes = ({ setMostrarTabla, listaClientes, setCliente
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      <h2 className='text-2xl font-extrabold text-gray-800'>Crear nuevo vehículo</h2>
+      <h2 className='text-2xl font-extrabold text-gray-800'>Crear nuevo Cliente</h2>
       <form ref={form} onSubmit={submitForm} className='flex flex-col'>
         <label className='flex flex-col' htmlFor='nombre'>
-          Nombre del vehículo
+          Nombre del Cliente
           <input
             name='name'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
@@ -342,42 +323,11 @@ const FormularioCreacionClientes = ({ setMostrarTabla, listaClientes, setCliente
             required
           />
         </label>
-        <label className='flex flex-col' htmlFor='marca'>
-          Marca del vehículo
-          <select
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            name='brand'
-            required
-            defaultValue={0}
-          >
-            <option disabled value={0}>
-              Seleccione una opción
-            </option>
-            <option>Renault</option>
-            <option>Toyota</option>
-            <option>Ford</option>
-            <option>Mazda</option>
-            <option>Chevrolet</option>
-          </select>
-        </label>
-        <label className='flex flex-col' htmlFor='modelo'>
-          Modelo del vehículo
-          <input
-            name='model'
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            type='number'
-            min={1992}
-            max={2022}
-            placeholder='2014'
-            required
-          />
-        </label>
-
-        <button
+               <button
           type='submit'
           className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
         >
-          Guardar vehiculo
+          Guardar Cliente
         </button>
       </form>
     </div>
@@ -385,5 +335,3 @@ const FormularioCreacionClientes = ({ setMostrarTabla, listaClientes, setCliente
 };
 
 export default Clientes;
-
- */
