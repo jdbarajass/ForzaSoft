@@ -8,6 +8,7 @@ import Diseno3D from "pages/admin/Diseno3D";
 import Clientes from "pages/admin/Clientes";
 import GestionarUsuarios from "pages/admin/GestionarUsuario";
 import Usuarios from "pages/admin/Usuarios";
+import Usuarioscris from "pages/admin/Usuariocris";
 import Ventas from "pages/admin/Ventas";
 import AdminVentas from "pages/admin/AdminVentas";
 import Login from "pages/auth/Login";
@@ -48,6 +49,7 @@ function App() {
                     "/admin/AdminVentas",
                     "/admin/Usuarios",
                     "/admin/Ventas",
+                    "/admin/Usuarioscris",
                   ]}
                 >
                   <PrivateLayout>
@@ -60,6 +62,11 @@ function App() {
                       <Route path="/admin/Usuarios">
                         <PrivateRoute roleList={["admin"]}>
                           <Usuarios />
+                        </PrivateRoute>
+                      </Route>
+                      <Route path="/admin/Usuarioscris">
+                        <PrivateRoute roleList={["admin"]}>
+                          <Usuarioscris />
                         </PrivateRoute>
                       </Route>
                       <Route path="/admin/GestionarUsuarios">

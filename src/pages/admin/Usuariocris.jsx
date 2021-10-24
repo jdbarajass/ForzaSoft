@@ -51,7 +51,7 @@ const usersBackend = [
     estado:"aprobado",                
 }]
 
-const Usuario = () => {
+const Usuariocris = () => {
 
     const [mostrarCamposAdicionales, setMostrarCamposAdicionales] = useState(false);
     const [users, setUsers] = useState([]);
@@ -324,4 +324,4 @@ const FormularioCreacionUsuarios = ( {
     )
 }
 
-export default Usuario;
+export default Usuariocris;
