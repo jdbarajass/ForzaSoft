@@ -160,7 +160,8 @@ const Tabladiseno3D = ({ loading, listadiseno3D, setEjecutarConsulta }) => {
                 <th>Nombre del diseño 3D</th>
                 <th>Color del materia</th>
                 <th>Material del diseño</th>
-                  <PrivateComponent roleList={["admin"] }>
+                <th>Precio</th>
+                <PrivateComponent roleList={["admin"]}>
                   <th>Acciones</th>
                 </PrivateComponent>
               </tr>
@@ -187,6 +188,7 @@ const Tabladiseno3D = ({ loading, listadiseno3D, setEjecutarConsulta }) => {
               <span>{el.name}</span>
               <span>{el.brand}</span>
               <span>{el.model}</span>
+              <span>{el.costo}</span>
             </div>
           );
         })}
@@ -205,6 +207,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
     name: diseno3D.name,
     brand: diseno3D.brand,
     model: diseno3D.model,
+    costo: diseno3D.costo,
   });
   const actualizardiseno3D = async () => {
     //enviar la info al backend
@@ -214,6 +217,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
         name: infoNuevodiseno3D.name,
         brand: infoNuevodiseno3D.brand,
         model: infoNuevodiseno3D.model,
+        costo: infoNuevodiseno3D.costo,
       },
       (response) => {
         console.log(response.data);
@@ -291,6 +295,19 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
                 }
               />
             </td>
+            <td>
+              <input
+                className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
+                type="text"
+                value={infoNuevodiseno3D.costo}
+                onChange={(e) =>
+                  setinfoNuevodiseno3D({
+                    ...infoNuevodiseno3D,
+                    costo: e.target.value,
+                  })
+                }
+              />
+            </td>
           </>
         ) : (
           <>
@@ -299,6 +316,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
             <td>{diseno3D.name}</td>
             <td>{diseno3D.brand}</td>
             <td>{diseno3D.model}</td>
+            <td>{diseno3D.costo}</td>
           </>
         )
       }
@@ -391,6 +409,7 @@ const FormularioCreaciondiseno3D = ({
         name: nuevodiseno.name,
         brand: nuevodiseno.brand,
         model: nuevodiseno.model,
+        costo: nuevodiseno.costo,
       },
       (response) => {
         console.log(response.data);
@@ -457,6 +476,17 @@ const FormularioCreaciondiseno3D = ({
             <option>Filamento fibra de carbono</option>
           </select>
         </label>
+        <label className="flex flex-col" htmlFor="costo">
+           Precio
+          <input
+            name="costo"
+            className="bg-gray-50 border border-gray-600 p-2 rounded-lg m-2"
+            type="text"
+            placeholder="Precio"
+            required
+          />
+        </label>
+
         <button
           type="submit"
           className="col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white m-2"
