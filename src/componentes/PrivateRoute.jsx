@@ -1,5 +1,6 @@
 import { useUser } from "context/userContext";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PrivateRoute = ({ roleList, children }) => {
   const { userData } = useUser();
@@ -7,8 +8,13 @@ const PrivateRoute = ({ roleList, children }) => {
     return children;
   }
   return (
-    <div className="text-9xl text-red-500">
-      No, estas autorizado para ver este sitio web
+    <div>
+      <div className=" button text-2xl ">
+        No, estas autorizado para ver este sitio web
+      </div>
+      <Link to="/">
+        <span className="text-blue-500 font-bold">Llevame a la página de inicio</span>
+      </Link>
     </div>
   );
 };
