@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
-//import { ToastContainer, toast } from "react-toastify";
-//import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState, useRef } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { uuid } from 'uuidv4';
 import { v5 as uuidv5 } from 'uuid';
 
@@ -85,9 +85,9 @@ const Usuario = () => {
             </h2>
 
             <FormularioCreacionUsuarios 
-                    funcionParaMostrarTabla={setMostrarCamposAdicionales}
                     listaUsuarios={users}
-                    funcionParaAgregarUsuario={setUsers}
+                    setMostrarTabla={setMostrarCamposAdicionales}
+                    setAgregarUsuario={setUsers}
                 />        
 
             <form className="w-3/4">        
@@ -130,7 +130,7 @@ const Usuario = () => {
                         </Link>
                     </div>
                 </div>
-                {/* <ToastContainer position='bottom-center' autoClose={5000} /> */}
+                <ToastContainer position='bottom-center' autoClose={5000} />
             </form>
         </div>
     );
@@ -180,113 +180,151 @@ const TablaUsuarios = ({ listaUsuarios }) =>{
 }
 
 const FormularioCreacionUsuarios = ( {
-    funcionParaMostrarTabla,
-    funcionParaAgregarUsuario,
+    setMostrarTabla,
+    setAgregarUsuario,
     listaUsuarios,
     }) => {
     
-    const [nombres, setNombres] = useState('');
-    const [apellidos, setApellidos] = useState('');
-    const [direccion, setDireccion] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [correoE, setCorreoE] = useState('');
-    const [contrasena, setContrasena] = useState('');
-    const [rol, setRol] = useState('');
-    const [estado, setEstado] = useState('');
+    const form = useRef(null);
+    // const [nombres, setNombres] = useState('');
+    // const [apellidos, setApellidos] = useState('');
+    // const [direccion, setDireccion] = useState('');
+    // const [telefono, setTelefono] = useState('');
+    // const [correoE, setCorreoE] = useState('');
+    // const [contrasena, setContrasena] = useState('');
+    // const [rol, setRol] = useState('');
+    // const [estado, setEstado] = useState('');
     //const [id, setId] = useState('');
     
-    const enviarDatosAlBackend = () => {
-        //console.log("El valor de la variable Nombres es ", nombres, "El valor de la variable Apellidos es ", apellidos, "El valor de la variable dirección es ", direccion, "El valor de la variable teléfono es ", telefono, "El valor de la variable correo electrónico es ", correoE, "El valor de la variable contraseña es ", contrasena, "El valor de la variable estado es ", estado, "El valor de la variable rol es ", rol);
-        //toast.success("Usuario creado con éxito");
-        funcionParaMostrarTabla(true);
-        const MY_NAMESPACE = 'c4f37b4d-f1f0-4d66-91a5-4e90c0df08fc';
-        funcionParaAgregarUsuario([...listaUsuarios,{id:uuidv5(nombres+apellidos+direccion+telefono+correoE, MY_NAMESPACE), nombres:nombres, apellidos:apellidos, direccion: direccion, telefono: telefono, correoE: correoE, contrasena: contrasena, rol: rol, estado: estado}]);
-        console.log(listaUsuarios);
-    };
+    // const enviarDatosAlBackend = () => {
+    //     //console.log("El valor de la variable Nombres es ", nombres, "El valor de la variable Apellidos es ", apellidos, "El valor de la variable dirección es ", direccion, "El valor de la variable teléfono es ", telefono, "El valor de la variable correo electrónico es ", correoE, "El valor de la variable contraseña es ", contrasena, "El valor de la variable estado es ", estado, "El valor de la variable rol es ", rol);
+    //     //toast.success("Usuario creado con éxito");
+    //     funcionParaMostrarTabla(true);
+    //     const MY_NAMESPACE = 'c4f37b4d-f1f0-4d66-91a5-4e90c0df08fc';
+    //     funcionParaAgregarUsuario([...listaUsuarios,{id:uuidv5(nombres+apellidos+direccion+telefono+correoE, MY_NAMESPACE), nombres:nombres, apellidos:apellidos, direccion: direccion, telefono: telefono, correoE: correoE, contrasena: contrasena, rol: rol, estado: estado}]);
+    //     console.log(listaUsuarios);
+    // };
 
+    const MY_NAMESPACE = 'c4f37b4d-f1f0-4d66-91a5-4e90c0df08fc'; //Namespace para creación de ID
+
+    const submitForm = (e) =>{
+        e.preventDefault();
+        const fd = new FormData(form.current);
+        const nuevoUsuario = {};
+
+        fd.forEach((value, key) => {
+            //console.log(key, value);
+            nuevoUsuario[key] = value;
+        });
+        nuevoUsuario['id'] = uuidv5(nuevoUsuario['nombres']+nuevoUsuario['apellidos']+nuevoUsuario['direccion']+nuevoUsuario['telefono'], MY_NAMESPACE);
+        setMostrarTabla(true);
+        setAgregarUsuario([...listaUsuarios, nuevoUsuario]);
+        console.log("datos del form enviados", nuevoUsuario  );
+        //enviar a base de datos e identificar y notificar casos de exito y casos de error mediane el toast
+        //agregar control de datos duplicados en la base de datos
+        toast.success("Usuario agregado con éxito");
+        
+    }
     return(
-    <form className="mt-8 w-3/4">
-    <div>
+    <form ref = {form} onSubmit={submitForm} className="mt-8 w-3/4">
+        <label htmlFor="Nombres" className="block text-gray-500 text-sm font-bold mb-2">
+            Nombres
         <input
-            value = {nombres}
-            onChange = {(e) => {
-                setNombres(e.target.value);
-                }}
+            // value = {nombres}
+            // onChange = {(e) => {
+            //     setNombres(e.target.value);
+            //     }}
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="text"
-            placeholder="Nombres"
+            //placeholder="Nombres"
             required
             name = "nombres"
             />
-
+        </label>
+        <label htmlFor="Apellidos" className="block text-gray-500 text-sm font-bold mb-2">
+            Apellidos
         <input 
-            value = {apellidos}
-            onChange = {(e) => {
-                setApellidos(e.target.value);
-                }}
+            // value = {apellidos}
+            // onChange = {(e) => {
+            //     setApellidos(e.target.value);
+            //     }}
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="text"
-            placeholder="Apellidos"
+            //placeholder="Apellidos"
             required
             name="apellidos"
-        />
+        />            
+        </label>
+        <label htmlFor="Dirección" className="block text-gray-500 text-sm font-bold mb-2">
+            Dirección
         <input
-            value = {direccion}
-            onChange = {(e) => {
-                setDireccion(e.target.value);
-            }}                    
+            // value = {direccion}
+            // onChange = {(e) => {
+            //     setDireccion(e.target.value);
+            // }}                    
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="text"
-            placeholder="Dirección"
+            //placeholder="Dirección"
             required
             name = "direccion"
         />
+        </label>
+        <label htmlFor="Teléfono" className="block text-gray-500 text-sm font-bold mb-2">
+            Teléfono
         <input
-            value = {telefono}
-            onChange = {(e) => {
-                setTelefono(e.target.value);
-            }}                      
+            // value = {telefono}
+            // onChange = {(e) => {
+            //     setTelefono(e.target.value);
+            // }}                      
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             type="text"
-            placeholder="Teléfono"
+            //placeholder="Teléfono"
             required
             name = "telefono"
         />
+        </label>
+        <label htmlFor="correo electrónico" className="block text-gray-500 text-sm font-bold mb-2">
+            Correo electrónico
         <input
-            value = {correoE}
-            type="email" 
-            onChange = {(e) => {
-                setCorreoE(e.target.value);
-            }}                      
+            // value = {correoE}
+            // onChange = {(e) => {
+                //     setCorreoE(e.target.value);
+                // }}                      
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Correo electrónico"
+            type="email" 
+            //placeholder="Correo electrónico"
             required
             name = "correoE"
             />
+        </label>
+        <label htmlFor="Contraseña" className="block text-gray-500 text-sm font-bold mb-2">
+            Contraseña
         <input
-            value = {contrasena}
+            // value = {contrasena}
+            // onChange = {(e) => {
+            //     setContrasena(e.target.value);
+            // }}                      
             type="password"
-            onChange = {(e) => {
-                setContrasena(e.target.value);
-            }}                      
             className="mb-4 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Contraseña"
+            //placeholder="Contraseña"
             required
             name = "contrasena"
             />
+        </label>
         <label htmlFor="Rol_usuario" className="block text-gray-500 text-sm font-bold mb-2">
             Seleccionar rol del usuario
             <select
-                value = {rol}
-                onChange = {(e) => {
-                    setRol(e.target.value);
-                }}
+                // value = {rol}
+                // onChange = {(e) => {
+                //     setRol(e.target.value);
+                // }}
                 type="text"
                 className="cursor-pointer mb-4 rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                name="Rol"
-                required                      
+                name="rol"
+                required
                 >
-                <option disabled selected hidden>Establezca el rol del usuario</option>
+                <option selected></option>
+                {/* <option disabled>Establezca el rol del usuario</option> */}
                 <option value="Vendedor">Vendedor</option>
                 <option value="Administrador">Administrador</option>
                 <option value="Ejecutivo">Ejecutivo</option>
@@ -295,28 +333,31 @@ const FormularioCreacionUsuarios = ( {
                 <option value="Gerente comercial">Gerente comercial</option>
             </select>            
         </label>
-
         <label htmlFor="Estado_usuario" className="block text-gray-500 text-sm font-bold mb-2">
             Seleccionar estado del usuario
             <select
-                value = {estado}
-                onChange = {(e) => {
-                    setEstado(e.target.value);
-                }}
+                // value = {estado}
+                // onChange = {(e) => {
+                //     setEstado(e.target.value);
+                // }}
                 type="text"
                 className="cursor-pointer mb-4 rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 required                      
-                name="rol"
+                name="estado"
                 >
-                <option disabled>Establezca el estado del rol del usuario</option>
+                <option selected></option>
+                {/* <option disabled>Establezca el estado del rol del usuario</option> */}
                 <option value="Pendiente">Pendiente</option>
                 <option value="Aprobado">Aprobado</option>
             </select>
         </label>
-    </div>
-
     <div className="mt-6 flex space-x-3 justify-center bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700 p-1 mb-0 bg-indigo-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md">
-            <button onClick={enviarDatosAlBackend} type="submit" className="px-3 btn btn-primary">Guardar</button>   
+            <button 
+            //onClick={enviarDatosAlBackend} 
+            type="submit" 
+            className="flex space-x-3 px-3 btn btn-primary">
+                Guardar
+            </button>   
     </div>
     {/* <span className="text-gray-500">Usuario agregado con éxito</span>
     <span className="text-red-500">Error al agregar usuario</span> */}
