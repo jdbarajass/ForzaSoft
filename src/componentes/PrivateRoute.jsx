@@ -8,8 +8,8 @@ const PrivateRoute = ({ roleList, children }) => {
     return children;
   }
   return (
-    <div>
-      <div className=" button text-2xl ">
+    <div className=" text-2xl flex flex-col items-center justify-center ">
+      <div className=" button text-2xl flex flex-col items-center justify-center ">
         No, estas autorizado para ver este sitio web
       </div>
       <Link to="/">
