@@ -21,10 +21,10 @@ const Usuarios = () => {
     fetchUsuarios();
   }, []);
   return (
-    <div>
-      <div>Admin usuarios</div>
+    <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center m-6 button">Roles Para Los Usuarios</div>
       <PrivateComponent roleList={["admin", "vendedor"]}>
-        <button className="bg-red-400">Hola RBAC</button>
+        <button className="button2">!!!Eres Administrador¡¡¡</button>
       </PrivateComponent>
       <table className="tabla">
         <thead>
