@@ -9,7 +9,7 @@ import PrivateComponent from "./PrivateComponent";
 const Sidebar = () => {
   const { user, logout } = useAuth0();
   const cerraSesion = () => {
-    logout({ returnTo: "http://localhost:3000/admin" }); // se borra el token despues de que se termina la ejecucion es decir despues de que le doy en cerrar sesion
+    logout({ returnTo: "https://thawing-island-88634.herokuapp.com/admin" }); // se borra el token despues de que se termina la ejecucion es decir despues de que le doy en cerrar sesion
     localStorage.setItem("token", null);
   };
   return (
