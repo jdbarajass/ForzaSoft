@@ -8,7 +8,7 @@ import { obtenerDatosUsuario } from "utils/api";
 import { useUser } from "context/userContext";
 
 const PrivateLayout = ({ children }) => {
-  const { isAuthenticated, isLoading,loginWithRedirect, getAccessTokenSilently,logout } =useAuth0();
+  const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0();
   const [loadingUserInformation,setLoadingUserInformation]=useState(false);
   const { setUserData } = useUser();
   useEffect(() => {
@@ -20,17 +20,18 @@ const PrivateLayout = ({ children }) => {
       });
       // 2. Recibir token de Auth0
       localStorage.setItem("token", accessToken); // este codigo me guarda el token en el localStorage
-      console.log("Este es el token", accessToken);
+      console.log("Este es el token respuesta de backend", accessToken);
       // 3. enviarle el token al BackEnd
       //Con este codigo le estoy diciendo al BackEnd que con este token que se le envio de obtenerDatosUsuario en la api cree o envieme los datos de ese usuario
       await obtenerDatosUsuario(
-        (response) => {
-          console.log("response con datos del usuario", response);
+        (response) => { console.log("response con datos del usuario", response);
+        console.log("ya tengo los datos del usuario")
           setUserData(response.data);
           setLoadingUserInformation(false);
         },
         (err) => {
           // console.error("error", err);
+          console.log("ya tengo los datos del usuario");
           console.log("err", err);
           setLoadingUserInformation(false);
           logout({ returnTo: "http://localhost:3000/admin" });
@@ -39,6 +40,7 @@ const PrivateLayout = ({ children }) => {
     };
     if (isAuthenticated) {
       // cada vez que la persona se autentica envia un nuevo token
+      console.log("LLego hasta acá");
       fetchAuth0Token();
     }
   }, [isAuthenticated, getAccessTokenSilently,logout,setUserData]);
@@ -75,3 +77,4 @@ export default PrivateLayout;
 // overflow-y-scroll =Este codigo sirve para que el sidebar se quede quieto y mi contenido  //sea el que se mueva de lado a lado
 // md:flex-row = Lo que hace es que ubica el icono de hamburger en la parte superior cuando es menor a una pantalla mediana
 // para bloquear la ruta uso PrivateLayout y para el elemento digamos como los botones de editar borrar y demas uso el PrivateComponent
+ 
