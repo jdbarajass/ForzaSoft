@@ -63,6 +63,30 @@
   box-shadow: 0 5px #666;
   transform: translateY(3px);
 }
+ .button2 {
+  display: inline-block;
+  padding: 5px 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #1c3003;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px #999;
+}
+
+.button2:hover {
+  background-color: #007cca;
+  color: white;
+}
+.button2:active {
+  background-color: #06fd06;
+  box-shadow: 0 5px #666;
+  transform: translateY(3px);
+}
 
 .espacios {
   margin: 10px;
