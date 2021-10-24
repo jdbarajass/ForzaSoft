@@ -114,14 +114,14 @@ export const eliminarVenta = async (id, successCallback, errorCallback) => {
 
 
 export const obtenerProductos = async (successCallback, errorCallback) => {
-  const options = { method: 'GET', url: '${baseURL}/diseno3D/' ,
+  const options = { method: 'GET', url: `${baseURL}/diseno3D/` ,
   headers: { "Content-Type": "application/json",Authorization: getToken() },
   };
   await axios.request(options).then(successCallback).catch(errorCallback);
 };
 
 export const obtenerUsuariosVendedor = async (successCallback, errorCallback) => {
-  const options = { method: 'GET', url: '${baseURL}/usuariosVendedor' ,
+  const options = { method: 'GET', url: `${baseURL}/usuariosVendedor` ,
   headers: { "Content-Type": "application/json",Authorization: getToken() },
 };
   await axios.request(options).then(successCallback).catch(errorCallback);
@@ -129,7 +129,7 @@ export const obtenerUsuariosVendedor = async (successCallback, errorCallback) =>
 
 
 export const obtenerVentas = async (successCallback, errorCallback) => {
-  const options = { method: 'GET', url: '${baseURL}/ventas/' ,
+  const options = { method: 'GET', url: `${baseURL}/ventas/` ,
   headers: { "Content-Type": "application/json",Authorization: getToken() },
  };
   await axios.request(options).then(successCallback).catch(errorCallback);
@@ -160,7 +160,7 @@ export const eliminarCliente = async (id, successCallback, errorCallback) => {
 
 
 export const obtenerClientes = async (successCallback, errorCallback) => {
-  const options = { method: 'GET', url: '${baseURL}/clientes' ,
+  const options = { method: 'GET', url: `${baseURL}/clientes` ,
   headers: { "Content-Type": "application/json",Authorization: getToken() },
 
 }
