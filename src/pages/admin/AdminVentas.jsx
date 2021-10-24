@@ -52,10 +52,7 @@ const Vehiculos = () => {
   return (
     <div className='flex h-full w-full flex-col items-center justify-start p-8'>
       <div className='flex flex-col w-full'>
-        <h2 className='text-3xl font-extrabold text-gray-900'>
-          Página de administración de Ventas
-        </h2>
-    
+        <h1 class="text-6xl font-bold tracking-tight text-gray-700">Página de administración de Ventas</h1>   
         </div>
       {
         <TablaVehiculos listaVehiculos={productos} setEjecutarConsulta={setEjecutarConsulta} />
@@ -78,20 +75,20 @@ const TablaVehiculos = ({ listaVehiculos, setEjecutarConsulta }) => {
   }, [busqueda, listaVehiculos]);
 
   return (
-    <div className='flex flex-col items-center justify-center w-full'>
-      <input
+    <div className='flex flex-col items-center justify-center w-full mt-10 font-semibold '>
+      <input 
         value={busqueda}
         onChange={(e) => setBusqueda(e.target.value)}
         placeholder='Buscar'
-        className='border-2 border-gray-700 px-3 py-1 self-start rounded-md focus:outline-none focus:border-indigo-500'
+        className='border-2 border-gray-700 px-5 py-2 self-start rounded-md focus:outline-none focus:border-gray-600 font-bold '
       />
-      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los Ventas</h2>
+      <h2 className='text-4xl font-extrabold text-gray-800'>Todos los Ventas</h2>
       <div className='hidden md:flex w-full'>
         <table className='tabla'>
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nombre del Vendedor</th>
+              <th >Nombre del Vendedor</th>
               <th>Nombre del Cliente</th>
               <th>Valor Venta</th>
               <th>Productos</th>
@@ -280,7 +277,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
               <Tooltip title='Editar Venta' arrow>
                 <i
                   onClick={() => setEdit(!edit)}
-                  className='fas fa-pencil-alt text-yellow-700 hover:text-yellow-500'
+                  className='fas fa-pencil-alt text-green-700 hover:text-green-500'
                 />
               </Tooltip>
               <Tooltip title='Eliminar Venta' arrow>
@@ -300,7 +297,7 @@ const FilaVehiculo = ({ vehiculo, setEjecutarConsulta }) => {
             <div className='flex w-full items-center justify-center my-4'>
               <button
                 onClick={() => deleteVehicle()}
-                className='mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md'
+                className='mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md font-bold'
               >
                 Sí
               </button>

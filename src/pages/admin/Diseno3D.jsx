@@ -75,10 +75,10 @@ const Diseno3D = () => {
   useEffect(() => {
     if (mostrarTabla) {
       setTextoBoton("Crear nuevo diseño 3D");
-      setColorBoton("indigo");
+      setColorBoton("gray");
     } else {
       setTextoBoton("Mostrar todos los diseños");
-      setColorBoton("green");
+      setColorBoton("indigo");
     }
   }, [mostrarTabla]);
   return (
@@ -86,9 +86,7 @@ const Diseno3D = () => {
       {/* justify-start es para que se vayan para arriba  y el p-8 es el padding que sirve para separarse del top*/}
       <div className="flex flex-col w-full">
         {/* el w-full me ayuda a que la tabla tome todo el tamaño completo de la pagina*/}
-        <h2 className="text-3xl font-extrabold text-gray-900 ">
-          Página de administracion de diseños 3D
-        </h2>
+        <a class="text-6xl font-bold tracking-tight text-gray-800">Página de administracion de diseños 3D</a>
         <button
           onClick={() => {
             setmostrarTabla(!mostrarTabla);
@@ -157,7 +155,7 @@ const Tabladiseno3D = ({ loading, listadiseno3D, setEjecutarConsulta }) => {
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Nombre del diseño 3D</th>
+                <th >Nombre del diseño 3D</th>
                 <th>Color del materia</th>
                 <th>Material del diseño</th>
                   <PrivateComponent roleList={["admin"] }>
@@ -326,7 +324,7 @@ const Filadiseno3D = ({ diseno3D, setEjecutarConsulta }) => {
                 <Tooltip title="Editar Diseño 3D" arrow>
                   <i
                     onClick={() => setEdit(!edit)} // setEdit(!edit)} se setea el edit en el estado anterior ... arrow = Es basicamente la flechita la guia del Tooltip
-                    className="fas fa-edit text-yellow-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onClick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
+                    className="fas fa-edit text-green-700 hover:text-yellow-500" // Este código me sirve para colocar el lapicito de editar en la columna de acciones, y text-yellow-700 hover:text-yellow-500 Este codigo sirve para poner el icono de un color y que cuando el mouse pase por ese lado lo coloque de otro color y el onClick lo que sirve es que cuando haga click el icono lo pueda cambiar por otro
                   />
                 </Tooltip>
                 {/* Este Tooltip title = sirve para que cuando el usuario se coloque encima del icono de eliminar, aparezca el mensaje de title="Eliminar Diseño 3D" */}

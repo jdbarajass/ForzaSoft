@@ -17,7 +17,7 @@ const Sidebar = () => {
       <Link to="/PagIndex">
         <ImagenLogo />
       </Link>
-      <div className="my-4">
+      <div className="my-2 justify-center">
         <Ruta
           icono="fas fa-user"
           ruta="/admin/perfil"
@@ -48,7 +48,7 @@ const Sidebar = () => {
           nombre="Administrador Ventas"
         />
       </div>
-      <button onClick={() => cerraSesion()} className="button">
+      <button onClick={() => cerraSesion()} className="bg-gray-700 p-2 text-white rounded-lg shadow-md hover:bg-gray-400">
         Cerrar Sesión
       </button>
     </nav>
@@ -62,7 +62,7 @@ const Ruta = ({ icono, ruta, nombre, usuario = null }) => {
       <button
         className={`p-1 my-2 bg-${
           isActive ? "indigo" : "gray"
-        }-700 hover:bg-indigo-900 flex w-full items-center text-white rounded-md`}
+        }-700 hover:bg-gray-400 flex w-full items-center text-white rounded-md`}
       >
         {usuario ? (
           <>

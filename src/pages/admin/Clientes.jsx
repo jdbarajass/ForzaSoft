@@ -48,7 +48,7 @@ const Clientes = () => {
   return (
     <div className='flex h-full w-full flex-col items-center justify-start p-8'>
       <div className='flex flex-col w-full'>
-        <h2 className='text-3xl font-extrabold text-gray-900'>
+        <h2 className='text-6xl font-bold tracking-tight text-gray-800'>
           Administración de Cliente
         </h2>
         <button
@@ -223,7 +223,7 @@ const FilaCliente = ({ vehiculo, setEjecutarConsulta }) => {
               <Tooltip title='Editar Cliente' arrow>
                 <i
                   onClick={() => setEdit(!edit)}
-                  className='fas fa-pencil-alt text-yellow-700 hover:text-yellow-500'
+                  className='fas fa-pencil-alt text-green-700 hover:text-yellow-500'
                 />
               </Tooltip>
               <Tooltip title='Eliminar Cliente' arrow>

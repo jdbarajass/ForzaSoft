@@ -6,7 +6,7 @@ const Navbar = () => {
   const { loginWithRedirect } = useAuth0();
   return (
     <nav class="bg-gray-700 shadow-lg">
-      <div class="container mx-auto PX-4">
+      <div class="container mx-auto px-4">
         <div class="sm:flex justify-around">
           <a href="/home" class="text-white text-3xl font-bold p-3">ARTMOTICS</a>
 
